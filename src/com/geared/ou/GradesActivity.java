@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import java.util.ArrayList;
@@ -31,7 +42,12 @@ import com.geared.ou.GradesData.Grade;
 
 /**
  *
- * @author david
+ * The GradesActivity is accessed from the ClassHomeActivity, and displays all
+ * of the grades for the selected class from D2L. It is supported by the 
+ * GradesData class. When calling an Intent for this class it must be passed an
+ * integer id specifying which class. (note: this can only pull grades if the 
+ * given class ID belongs to the user that is currently logged in).
+ * 
  */
 
 public class GradesActivity extends Activity implements OnClickListener {

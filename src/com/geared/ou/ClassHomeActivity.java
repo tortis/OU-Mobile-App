@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import android.app.Activity;
@@ -14,9 +25,12 @@ import android.widget.TextView;
 import com.geared.ou.ClassesData.Course;
 
 /**
- *
- * @author David
+ * 
+ * This is the generic home activity of a course. From this page the user can
+ * rech the grades, content, and roster activite. This activity should also
+ * display class info/news in the future.
  */
+
 public class ClassHomeActivity extends Activity {
     private TextView titleBar;
     int classId;

@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import android.content.Context;
@@ -11,7 +22,12 @@ import android.provider.BaseColumns;
 
 /**
  *
- * @author David
+ * This class manages the local sqlite database where data that is pulled from
+ * D2L is stored. The use of this database allows the Application to run more
+ * smoothly. If a user opens an activity that should display data from D2L, first
+ * the data found in this database should be loaded. Then if this data is old, or
+ * if the user manually requests it, D2L will be queried for up-to-date data.
+ * 
  */
 public class DbHelper extends SQLiteOpenHelper {
     Context context;

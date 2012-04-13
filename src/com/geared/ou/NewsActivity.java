@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import android.os.Bundle;
@@ -15,7 +26,10 @@ import java.util.List;
 
 /**
  *
- * @author David
+ * This is a top level activity that displays News that is read from oudaily.com
+ * to the user. Currently this is just a framework, and none of the real
+ * functionality has been implemented.
+ * 
  */
 public class NewsActivity extends MapActivity {
     private LinearLayout buttonClasses;

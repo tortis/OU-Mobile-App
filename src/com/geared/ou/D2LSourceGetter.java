@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import java.io.BufferedReader;
@@ -30,7 +41,10 @@ import android.util.Log;
 
 /**
  *
- * @author David
+ * This activity interfaces with D2L. It has features to allow download
+ * page sources and files from D2L. User D2L credentials must be set for these features
+ * to work
+ * 
  */
 public class D2LSourceGetter {
     private static final String BAD_LOGIN_STRING = "Invalid Username\\/Password";

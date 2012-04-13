@@ -1,3 +1,18 @@
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
+ */
+
 package com.geared.ou;
 
 import java.util.ArrayList;
@@ -24,6 +39,12 @@ import android.widget.Toast;
 import com.geared.ou.ClassesData.Course;
 import com.geared.ou.D2LSourceGetter.SGError;
 
+/**
+ * 
+ * This is the main entry point Activity. It displays a list of the users courses.
+ * If no D2L credentials are found in preferences, then it will kick the user
+ * to the preferences activity.
+ */
 
 public class ClassesActivity extends Activity implements OnClickListener
 {

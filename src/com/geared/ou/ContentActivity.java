@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import java.io.File;
@@ -43,7 +54,11 @@ import com.geared.ou.D2LSourceGetter.SGError;
 
 /**
  *
- * @author david
+ * This is a sub Activity of the ClassHomeActivity that displays a list of all
+ * the content for a specified class. The class is specified with the IntentExtraInt
+ * that is an ID for one of the courses of the active user. This Activity supports
+ * downloading a selected content file to the SD card and attempting to open it 
+ * 
  */
 public class ContentActivity extends Activity implements OnClickListener {
     private TextView titleBar;

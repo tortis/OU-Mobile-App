@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import android.app.Activity;
@@ -14,7 +25,10 @@ import android.widget.LinearLayout;
 
 /**
  *
- * @author David
+ * This is a top level Activity that would pull the users OU exchange email.
+ * This is a tentatively planned release feature, but it is not included in
+ * Beta features.
+ * 
  */
 public class EmailActivity extends Activity implements OnClickListener {
     private LinearLayout buttonClasses;

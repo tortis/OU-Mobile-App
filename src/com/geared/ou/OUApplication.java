@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import android.app.Application;
@@ -13,7 +24,10 @@ import com.geared.ou.D2LSourceGetter.SGError;
 
 /**
  *
- * @author David
+ * This is the Application object. This class is critical to the function of
+ * the application. All of the applications persistant data that activities use
+ * is stored in this object. When this object is created, many of the applications
+ * primary data structures are created.
  */
 public class OUApplication extends Application {
     private ClassesData classes;

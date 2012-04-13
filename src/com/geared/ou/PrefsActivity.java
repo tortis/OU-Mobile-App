@@ -1,7 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author David Findley (ThinksInBits)
+ * 
+ * The source for this application may be found in its entirety at 
+ * https://github.com/ThinksInBits/OU-Mobile-App
+ * 
+ * This application is published on the Google Play Store under
+ * the title: OU Mobile Alpha:
+ * https://play.google.com/store/apps/details?id=com.geared.ou
+ * 
+ * Please email me at: thefindley@gmail.com with questions.
+ * 
  */
+
 package com.geared.ou;
 
 import android.content.DialogInterface;
@@ -12,8 +23,11 @@ import android.preference.PreferenceActivity;
 import android.view.View;
 
 /**
- *
- * @author David
+ * 
+ * Most of the work done by this prefs activity is handled in XML. This activity
+ * allows the user to set his D2L username and password so that the application
+ * will remember them. Currently they are stored in shared prefs, and this
+ * probably isn't very secure. Consider securing credentials.
  */
 public class PrefsActivity extends PreferenceActivity implements OnClickListener{
 
