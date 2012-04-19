@@ -1,4 +1,4 @@
-# About
+# About ![OU Android Application Icon](https://github.com/ThinksInBits/OU-Mobile-App/raw/master/res/drawable-hdpi/ic_launcher.png)
 
 An Android Application for students at the University of Oklahoma. Gives quick access to D2L features, a campus map, and more.
 
