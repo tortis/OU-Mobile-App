@@ -1,1 +1,22 @@
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">OU Mobile Alpha</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://play.google.com/store/apps/details?id=com.geared.ou" property="cc:attributionName" rel="cc:attributionURL">David Findley</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/ThinksInBits/OU-Mobile-App" rel="dct:source">github.com</a>.
+# About
+
+An Android Application for students at the University of Oklahoma. Gives quick access to D2L features, a campus map, and more.
+
++ Download the app from [Google Play](https://play.google.com/store/apps/details?id=com.geared.ou "OU Mobile Alpha on Google Play")
++ Pull the source at [github](https://github.com/ThinksInBits/OU-Mobile-App "Github Repository")
++ Follow development on [Trello](https://trello.com/board/ou-app/4f1f697a28390abb75008a97)
+
+# Features
+
++ Course List
++ Course Grades
++ Download Course Content
++ Campus Map (rough)
++ Class Schedule (soon)
++ Course Roster (soon)
++ Campus News (soon)
+
+# License
+
+![Creative Commons License Image](http://i.creativecommons.org/l/by-nc/3.0/88x31.png) OU Mobile Alpha by [David Findley](mailto:thefindley@gmail.com) is licensed under a [Creative Commons Attribution-NonCommercial 3.0 Unported License](http://creativecommons.org/licenses/by-nc/3.0/).
+Based on a work at [github.com](https://github.com/ThinksInBits/OU-Mobile-App).
