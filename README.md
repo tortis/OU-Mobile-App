@@ -1,6 +1,6 @@
 # About ![OU Android Application Icon](https://github.com/ThinksInBits/OU-Mobile-App/raw/master/res/drawable-hdpi/ic_launcher.png)
 
-An Android Application for students at the University of Oklahoma. Gives quick access to D2L features, a campus map, and more.
+This is an Android Application for students at the University of Oklahoma. Gives quick access to D2L features, a campus map, and more.
 
 + Download the app from [Google Play](https://play.google.com/store/apps/details?id=com.geared.ou "OU Mobile Alpha on Google Play")
 + Pull the source at [github](https://github.com/ThinksInBits/OU-Mobile-App "Github Repository")
