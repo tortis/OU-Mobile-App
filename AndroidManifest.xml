@@ -21,6 +21,5 @@
         <activity android:name="ClassHomeActivity" android:theme="@android:style/Theme.NoTitleBar" ></activity>
         <activity android:name="ContentActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
         <activity android:name="GradesActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name="Gitsux2" android:theme="@android:style/Theme.NoTitleBar"></activity>
     </application>
 </manifest>
