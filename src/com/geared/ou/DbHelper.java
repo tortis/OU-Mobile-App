@@ -9,6 +9,10 @@
  * the title: OU Mobile Alpha:
  * https://play.google.com/store/apps/details?id=com.geared.ou
  * 
+ * If you want to follow the official development of this application
+ * then check out my Trello board for the project at:
+ * https://trello.com/board/ou-app/4f1f697a28390abb75008a97
+ * 
  * Please email me at: thefindley@gmail.com with questions.
  * 
  */
@@ -108,6 +112,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + T_CLASSES);
         db.execSQL("drop table if exists " + T_CONTENT);
         db.execSQL("drop table if exists " + T_GRADES);
+        db.execSQL("drop table if exists " + T_COURSENEWS);
         this.onCreate(db);
     }
     

@@ -9,6 +9,10 @@
  * the title: OU Mobile Alpha:
  * https://play.google.com/store/apps/details?id=com.geared.ou
  * 
+ * If you want to follow the official development of this application
+ * then check out my Trello board for the project at:
+ * https://trello.com/board/ou-app/4f1f697a28390abb75008a97
+ * 
  * Please email me at: thefindley@gmail.com with questions.
  * 
  */
@@ -47,8 +51,11 @@ public class ClassesData {
         private String name;
         private String link;
         private String namePrefix;
+        
         private ContentData content;
         private GradesData grades;
+        private ClassHomeData news;
+        
         private int id;
         private int ouId;
 
@@ -58,6 +65,7 @@ public class ClassesData {
             this.id = id;
             content = new ContentData(app, this);
             grades = new GradesData(app, this);
+            news = new ClassHomeData(app, this);
         }
 
         public String getName() {
@@ -101,6 +109,10 @@ public class ClassesData {
         
         public GradesData getGrades() {
             return grades;
+        }
+        
+        public ClassHomeData getNews() {
+            return news;
         }
 
         protected void splitPrefixFromName() {
@@ -153,6 +165,11 @@ public class ClassesData {
         courses.clear();
         Document doc = Jsoup.parse(homeSource);
         homeSource = null;
+        
+        /***********************************************************************
+         *                      START specialized code
+         **********************************************************************/
+        
         Elements es = doc.getElementsContainingOwnText("Spring 2012"); //MAKE THIS DYNAMICCC!!!!!
         Element mainDiv;
         Element subDivOfInterest;
@@ -178,6 +195,11 @@ public class ClassesData {
             }
 	}
         cleanCourseNames();
+        
+        /***********************************************************************
+         *                       END specialized code
+         **********************************************************************/
+        
         if (courses.isEmpty()) {
             return false;
         }

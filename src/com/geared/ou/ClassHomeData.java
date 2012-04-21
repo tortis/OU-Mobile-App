@@ -110,7 +110,7 @@ public class ClassHomeData {
             return false;
         Element newsTable = results.first();
         Elements newsList = newsTable.children();
-        if (newsList.size() < 3) // The first two elemts are not news items. So start on the third.
+        if (newsList.size() < 3) // The first two elemts are not news items. So start on the third. <3
             return false;
         // Loop through each newsTr
         for (int i = 2; i < newsList.size(); i+=2) {

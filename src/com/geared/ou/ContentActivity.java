@@ -9,21 +9,15 @@
  * the title: OU Mobile Alpha:
  * https://play.google.com/store/apps/details?id=com.geared.ou
  * 
+ * If you want to follow the official development of this application
+ * then check out my Trello board for the project at:
+ * https://trello.com/board/ou-app/4f1f697a28390abb75008a97
+ * 
  * Please email me at: thefindley@gmail.com with questions.
  * 
  */
 
 package com.geared.ou;
-
-import java.io.File;
-import java.net.FileNameMap;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Map;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -47,10 +41,17 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.geared.ou.ClassesData.Course;
 import com.geared.ou.ContentData.ContentItem;
 import com.geared.ou.D2LSourceGetter.SGError;
+import java.io.File;
+import java.net.FileNameMap;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Map;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 /**
  *
@@ -79,18 +80,19 @@ public class ContentActivity extends Activity implements OnClickListener {
         setContentView(R.layout.content);
         busy = false;
         
+        /* Get context */
         classId = getIntent().getIntExtra("classId", 0);
-        Log.d("OU", "get classid: "+classId);
         app = (OUApplication) this.getApplication();
         classes = app.getClasses();
         course = classes.getCourse(classId);
+        content = course.getContent();
         
+        /* XML Poop */
         titleBar = (TextView) findViewById(R.id.classHomeTitle);
         titleBar.setText(course.getName()+" ("+course.getPrefix()+")");
         layoutContent = (LinearLayout) findViewById(R.id.content);
         
-        content = course.getContent();
-        
+        /* Pull content from D2L or DB and display. */
         if (content.needsUpdate()) {
             updateDisplay(false);
             setStatusTextViewToUpdating();
@@ -256,7 +258,10 @@ public class ContentActivity extends Activity implements OnClickListener {
         }
     }
     
-    private String getDirectLink(ContentItem ci) {       
+    private String getDirectLink(ContentItem ci) {
+        /***********************************************************************
+         *                      START specialized code
+         **********************************************************************/
         String src;
         String r = "=-1";
         SGError e = app.getSourceGetter().pullSource("http://learn.ou.edu/d2l/m/le/content/"+ci.getOuId()+"/topic/view/"+ci.getId());
@@ -276,6 +281,9 @@ public class ContentActivity extends Activity implements OnClickListener {
         }
         r = r.replaceAll(" ", "%20");
         return r;
+        /***********************************************************************
+         *                       END specialized code
+         **********************************************************************/
     }
     
     private String getFileNameFromDirectLink(String dLink) {

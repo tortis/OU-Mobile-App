@@ -9,27 +9,28 @@
  * the title: OU Mobile Alpha:
  * https://play.google.com/store/apps/details?id=com.geared.ou
  * 
+ * If you want to follow the official development of this application
+ * then check out my Trello board for the project at:
+ * https://trello.com/board/ou-app/4f1f697a28390abb75008a97
+ * 
  * Please email me at: thefindley@gmail.com with questions.
  * 
  */
 
 package com.geared.ou;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.geared.ou.D2LSourceGetter.SGError;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  *
@@ -146,6 +147,11 @@ public class GradesData {
     private Boolean pullGrades() {
         Document doc = Jsoup.parse(gradesSource);
         gradesSource = null;
+        
+        /***********************************************************************
+         *                      START specialized code
+         **********************************************************************/
+        
         Elements results = doc.getElementsContainingOwnText("Grade Items");
         if (results.size() != 1)
             return false;
@@ -170,6 +176,11 @@ public class GradesData {
             }
             categories.add(c);
         }
+        
+        /***********************************************************************
+         *                       END specialized code
+         **********************************************************************/
+        
         lastUpdate = new Date();
         writeToDb();
         return true;

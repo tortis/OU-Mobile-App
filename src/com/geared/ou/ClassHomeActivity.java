@@ -9,6 +9,10 @@
  * the title: OU Mobile Alpha:
  * https://play.google.com/store/apps/details?id=com.geared.ou
  * 
+ * If you want to follow the official development of this application
+ * then check out my Trello board for the project at:
+ * https://trello.com/board/ou-app/4f1f697a28390abb75008a97
+ * 
  * Please email me at: thefindley@gmail.com with questions.
  * 
  */
@@ -34,6 +38,7 @@ public class ClassHomeActivity extends Activity {
     private TextView titleBar;
     int classId;
     Course course;
+    ClassHomeData news;
     
     /** Called when the activity is first created. */
     @Override
@@ -41,14 +46,18 @@ public class ClassHomeActivity extends Activity {
         super.onCreate(icicle);
         setContentView(R.layout.class_home);
         
-        
+        /* Get context. */
         classId = getIntent().getIntExtra("classId", 0);
-        Log.d("OU", "get classid: "+classId);
         OUApplication app = (OUApplication) this.getApplication();
         course = app.getClasses().getCourse(classId);
+        news = course.getNews();
         
+        /* XML Poop */
         titleBar = (TextView) findViewById(R.id.classHomeTitle);
         titleBar.setText(course.getName()+" ("+course.getPrefix()+")");
+        
+        /* Pull news from D2L or database and display */
+            //DO IT
     }
     
     public void onClick(View v) {

@@ -9,13 +9,15 @@
  * the title: OU Mobile Alpha:
  * https://play.google.com/store/apps/details?id=com.geared.ou
  * 
+ * If you want to follow the official development of this application
+ * then check out my Trello board for the project at:
+ * https://trello.com/board/ou-app/4f1f697a28390abb75008a97
+ * 
  * Please email me at: thefindley@gmail.com with questions.
  * 
  */
 
 package com.geared.ou;
-
-import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,10 +37,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.geared.ou.ClassesData.Course;
 import com.geared.ou.GradesData.Category;
 import com.geared.ou.GradesData.Grade;
+import java.util.ArrayList;
 
 /**
  *
@@ -65,18 +67,19 @@ public class GradesActivity extends Activity implements OnClickListener {
         super.onCreate(icicle);
         setContentView(R.layout.grades);
         
-        classId = getIntent().getIntExtra("classId", 0);
-        Log.d("OU", "get classid: "+classId);
-        app = (OUApplication) this.getApplication();
-        classes = app.getClasses();
-        course = classes.getCourse(classId);
+        /* Get the context */
+        classId = getIntent().getIntExtra("classId", 0); // The class id that was passed in the intent.
+        app = (OUApplication) this.getApplication(); // Get the Application object.
+        classes = app.getClasses(); // Get the classes list from the app object.
+        course = classes.getCourse(classId); // From the classes list get this course.
+        grades = course.getGrades(); //From the course get the grades object.. phew
         
+        /* Modify XML crap */
         titleBar = (TextView) findViewById(R.id.classHomeTitle);
-        
         titleBar.setText(course.getName()+" ("+course.getPrefix()+")");
         layoutContent = (LinearLayout) findViewById(R.id.content);
         
-        grades = course.getGrades();
+        /* Pull grades data from D2L or database and then display it. */
         if (grades.needsUpdate()) {
             updateDisplay(false);
             setStatusTextViewToUpdating();

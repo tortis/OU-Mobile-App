@@ -9,14 +9,15 @@
  * the title: OU Mobile Alpha:
  * https://play.google.com/store/apps/details?id=com.geared.ou
  * 
+ * If you want to follow the official development of this application
+ * then check out my Trello board for the project at:
+ * https://trello.com/board/ou-app/4f1f697a28390abb75008a97
+ * 
  * Please email me at: thefindley@gmail.com with questions.
  * 
  */
 
 package com.geared.ou;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,9 +36,10 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.geared.ou.ClassesData.Course;
 import com.geared.ou.D2LSourceGetter.SGError;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * 
@@ -65,16 +67,16 @@ public class ClassesActivity extends Activity implements OnClickListener
         setContentView(R.layout.classes);
         a = ClassesActivity.this;
         
-        // Get Action Buttons
+        /* XML Poop */
         buttonNews = (LinearLayout) findViewById(R.id.newsbutton);
         buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
         layoutContent = (LinearLayout) findViewById(R.id.content);
         buttonNews.setOnClickListener(this);
         buttonEmail.setOnClickListener(this);
         
+        /* SharedPrefs Poop */
         SharedPreferences prefs = ((OUApplication)this.getApplication()).getPrefs();
         classes = ((OUApplication)this.getApplication()).getClasses();
-
         username = prefs.getString("username", "");
         password = prefs.getString("password", "");
 
@@ -82,10 +84,10 @@ public class ClassesActivity extends Activity implements OnClickListener
         if (password.isEmpty() || username.isEmpty()) {
             startActivity(new Intent(this, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             Toast.makeText(this, R.string.msgSetupPrefs, Toast.LENGTH_SHORT).show();
-            return;
         }
         else
         {
+            /* Pull classes from D2L or DB and display them. */
             if(classes.needUpdate()) {
                 displayClassData(false);
                 setStatusTextViewToUpdating();

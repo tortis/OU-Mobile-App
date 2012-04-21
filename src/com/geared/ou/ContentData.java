@@ -9,28 +9,29 @@
  * the title: OU Mobile Alpha:
  * https://play.google.com/store/apps/details?id=com.geared.ou
  * 
+ * If you want to follow the official development of this application
+ * then check out my Trello board for the project at:
+ * https://trello.com/board/ou-app/4f1f697a28390abb75008a97
+ * 
  * Please email me at: thefindley@gmail.com with questions.
  * 
  */
 
 package com.geared.ou;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.geared.ou.D2LSourceGetter.SGError;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  *
@@ -150,6 +151,11 @@ public class ContentData {
     private Boolean pullContent() {
         Document doc = Jsoup.parse(contentSource);
         contentSource = null;
+        
+        /***********************************************************************
+         *                      START specialized code
+         **********************************************************************/
+        
         // Get the element which is the table containing the content.
         Elements tables = doc.getElementsByAttributeValue("summary", "Course Content");
         if (tables.size() != 1)
@@ -177,8 +183,12 @@ public class ContentData {
                 content.get(categories.get(categories.size()-1)).add(ci);
             }
 	}
-        
         cleanContent();
+        
+        /***********************************************************************
+         *                       END specialized code
+         **********************************************************************/
+        
         lastUpdate = new Date();
         if (!writeToDb())
             return false;
