@@ -236,7 +236,7 @@ public class GradesData {
                 values.put(DbHelper.C_GRA_USER, app.getUser());
                 values.put(DbHelper.C_GRA_CATEGORY, c.getName());
                 values.put(DbHelper.C_GRA_OUID, course.getOuId());
-                values.put(DbHelper.C_GRA_LAST_UPDATE, (int)((new Date().getTime())/1000));
+                values.put(DbHelper.C_GRA_LAST_UPDATE, (int)((lastUpdate.getTime())/1000));
                 values.put(DbHelper.C_GRA_SCORE, g.getScore());
                 db.insert(DbHelper.T_GRADES, null, values);
             }
