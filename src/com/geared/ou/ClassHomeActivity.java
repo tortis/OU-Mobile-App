@@ -21,10 +21,18 @@ package com.geared.ou;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.geared.ou.ClassesData.Course;
 
 /**
@@ -39,6 +47,7 @@ public class ClassHomeActivity extends Activity {
     int classId;
     Course course;
     ClassHomeData news;
+    LinearLayout layoutContent;
     
     /** Called when the activity is first created. */
     @Override
@@ -55,9 +64,44 @@ public class ClassHomeActivity extends Activity {
         /* XML Poop */
         titleBar = (TextView) findViewById(R.id.classHomeTitle);
         titleBar.setText(course.getName()+" ("+course.getPrefix()+")");
+        layoutContent = (LinearLayout) findViewById(R.id.content);
         
         /* Pull news from D2L or database and display */
-            //DO IT
+        if (news.needsUpdate()) {
+            updateDisplay(false);
+            setStatusTextViewToUpdating();
+            new update().execute();
+        } else {
+            Log.d("OU", "Doesn't need update. displaying.");
+            updateDisplay(false);
+        }
+    }
+    
+    private class update extends AsyncTask<Integer, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Integer... s) {
+            return news.update();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            // Update percentage
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            setStatusTextViewToNormal();
+            if (result) {
+                updateDisplay(false);
+            }
+            else {
+                Log.d("OU", "Update failed?");
+                updateDisplay(true);
+                Toast.makeText(ClassHomeActivity.this, R.string.failedSourceUpdate, Toast.LENGTH_LONG).show();
+            }
+        }
     }
     
     public void onClick(View v) {
@@ -75,6 +119,83 @@ public class ClassHomeActivity extends Activity {
             myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(myIntent);
         }
+    }
+    
+    private void updateDisplay(Boolean updateFailed) {
+        
+    }
+    
+    protected void setStatusTextViewToUpdating() {
+        final AnimationDrawable img = new AnimationDrawable();
+        img.addFrame(getResources().getDrawable(R.drawable.loading1), 150);
+        img.addFrame(getResources().getDrawable(R.drawable.loading2), 150);
+        img.addFrame(getResources().getDrawable(R.drawable.loading3), 150);
+        img.addFrame(getResources().getDrawable(R.drawable.loading4), 150);
+        img.setBounds(0, 0, 30, 30);
+        img.setOneShot(false);
+        final AnimationDrawable img2 = new AnimationDrawable();
+        img2.addFrame(getResources().getDrawable(R.drawable.loading1), 150);
+        img2.addFrame(getResources().getDrawable(R.drawable.loading2), 150);
+        img2.addFrame(getResources().getDrawable(R.drawable.loading3), 150);
+        img2.addFrame(getResources().getDrawable(R.drawable.loading4), 150);
+        img2.setBounds(0, 0, 30, 30);
+        img2.setOneShot(false);
+        TextView updateTV = (TextView)findViewById(R.id.updateTextView);
+        TextView TitleTV = (TextView) findViewById(R.id.classHomeTitle);
+        TitleTV.setCompoundDrawables(img2, null, null, null);
+        if (updateTV == null) {
+            updateTV = new TextView(this);
+            updateTV.setText(" Updating...");
+            updateTV.setCompoundDrawables(img, null, null, null);
+            updateTV.setGravity(Gravity.TOP);
+            updateTV.setWidth(layoutContent.getWidth());
+            updateTV.setPadding(15, 3, 3, 3);
+            updateTV.setTextColor(Color.BLACK);
+            updateTV.setTextSize(13);
+            updateTV.setId(R.id.updateTextView);
+            layoutContent.addView(updateTV);
+        } else {
+            updateTV.setCompoundDrawables(img, null, null, null);
+            updateTV.setText(" Updating...");
+            updateTV.setTextColor(Color.BLACK);
+        }
+        updateTV.post(new Runnable() {
+            @Override
+            public void run() {
+                img.start();
+            }
+        });
+        TitleTV.post(new Runnable() {
+            @Override public void run() {
+                img2.start();
+            }
+        });
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.classes_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.itemPrefs:
+                startActivity(new Intent(this, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+                break;
+            case R.id.refreshClasses:
+                news.forceNextUpdate();
+                setStatusTextViewToUpdating();
+                new update().execute();
+                break;
+        }
+        return true;
+    }
+    
+    protected void setStatusTextViewToNormal() {
+        TextView TitleTV = (TextView) findViewById(R.id.classHomeTitle);
+        TitleTV.setCompoundDrawables(null, null, null, null);
     }
     
     public void goToGrades(View v)

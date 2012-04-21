@@ -279,6 +279,10 @@ public class ContentData {
         return true;
     }
     
+    public void forceNextUpdate() {
+        force = true;
+    }
+    
     //TMP
     public String getSource() {
         return contentSource;

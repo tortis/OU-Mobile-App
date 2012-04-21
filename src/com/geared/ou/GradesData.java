@@ -256,6 +256,10 @@ public class GradesData {
         return true;
     }
     
+    public void forceNextUpdate() {
+        force = true;
+    }
+    
     public String gradeDump() {
         return dump;
     }

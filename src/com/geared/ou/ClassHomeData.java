@@ -183,6 +183,10 @@ public class ClassHomeData {
         return true;
     }
     
+    public void forceNextUpdate() {
+        force = true;
+    }
+    
     public ArrayList<NewsItem> getNewsItems() {
         return newsItems;
     }

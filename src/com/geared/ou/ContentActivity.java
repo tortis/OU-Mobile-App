@@ -156,7 +156,7 @@ public class ContentActivity extends Activity implements OnClickListener {
                 startActivity(new Intent(this, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                 break;
             case R.id.refreshClasses:
-                classes.forceNextUpdate();
+                content.forceNextUpdate();
                 setStatusTextViewToUpdating();
                 new update().execute();
                 break;

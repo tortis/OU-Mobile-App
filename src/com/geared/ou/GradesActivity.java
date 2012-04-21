@@ -117,7 +117,7 @@ public class GradesActivity extends Activity implements OnClickListener {
         }
     }
     
-        @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.classes_menu, menu);
         return true;
@@ -130,7 +130,7 @@ public class GradesActivity extends Activity implements OnClickListener {
                 startActivity(new Intent(this, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                 break;
             case R.id.refreshClasses:
-                classes.forceNextUpdate();
+                grades.forceNextUpdate();
                 setStatusTextViewToUpdating();
                 new update().execute();
                 break;
