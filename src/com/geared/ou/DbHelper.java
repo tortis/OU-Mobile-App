@@ -32,7 +32,7 @@ import android.provider.BaseColumns;
 public class DbHelper extends SQLiteOpenHelper {
     Context context;
     private static final String DB_NAME = "userdata.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     
     public static final String T_CLASSES = "classes";
     public static final String C_ID = BaseColumns._ID;
