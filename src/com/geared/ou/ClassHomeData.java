@@ -19,21 +19,16 @@
 
 package com.geared.ou;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import com.geared.ou.D2LSourceGetter.SGError;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import com.geared.ou.D2LSourceGetter.SGError;
 
 /**
  *
