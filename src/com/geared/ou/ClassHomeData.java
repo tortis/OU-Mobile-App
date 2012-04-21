@@ -110,28 +110,20 @@ public class ClassHomeData {
         /***********************************************************************
          *                      START specialized code
          **********************************************************************/
-        Elements results = doc.getElementsByAttributeValueMatching("summary", "")
+        Elements results = doc.getElementsByAttributeValueMatching("summary", ".*news.*");
         if (results.size() != 1)
             return false;
-        Element gradesDiv = results.first().nextElementSibling().child(0);
-        Elements categoryList = gradesDiv.children();
-        // Loop through each category
-        int counter = 0;
-        for (Element categoryLi : categoryList) {
-            String categoryName = categoryLi.children().first().children().first().children().first().text();
-            Category c = new Category(categoryName);
-            // Loop through each item:
-            if (categoryLi.children().size() > 1) {
-                for (Element itemLi : categoryLi.child(1).children()) {
-                    String itemName = itemLi.children().first().children().first().text();
-                    String itemGrade = itemLi.children().first().child(1).text();
-                    Grade g = new Grade(itemName, itemGrade, (course.getOuId()+counter));
-                    Log.d("OU", ""+course.getId());
-                    c.addGrade(g);
-                    counter++;
-                }
-            }
-            newsItems.add(c);
+        Element newsTable = results.first();
+        Elements newsList = newsTable.children();
+        if (newsList.size() < 3) // The first two elemts are not news items. So start on the third.
+            return false;
+        // Loop through each newsTr
+        for (int i = 2; i < newsList.size(); i+=2) {
+            String name = newsList.get(i).text();
+            String content = newsList.get(i+1).text();
+            
+            NewsItem n = new NewsItem(name, content, i+course.getOuId());
+            newsItems.add(n);
         }
         /***********************************************************************
          *                     END specialized code
@@ -188,7 +180,7 @@ public class ClassHomeData {
             values.put(DbHelper.C_CN_NAME, n.getName());
             values.put(DbHelper.C_CN_USER, app.getUser());
             values.put(DbHelper.C_CN_OUID, course.getOuId());
-            values.put(DbHelper.C_GRA_LAST_UPDATE, (int)((new Date().getTime())/1000));
+            values.put(DbHelper.C_GRA_LAST_UPDATE, (int)((lastUpdate.getTime())/1000));
             values.put(DbHelper.C_CN_CONTENT, n.getContent());
             db.insert(DbHelper.T_COURSENEWS, null, values);
         }
