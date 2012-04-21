@@ -62,6 +62,14 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String C_GRA_OUID = "ou_id";
     public static final String C_GRA_LAST_UPDATE = "last_update";
     
+    public static final String T_COURSENEWS = "course_news";
+    public static final String C_CN_ID = "id";
+    public static final String C_CN_USER = "user";
+    public static final String C_CN_NAME = "name";
+    public static final String C_CN_OUID = "ou_id";
+    public static final String C_CN_CONTENT = "content";
+    public static final String C_CN_LAST_UPDATE = "last_update";
+    
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
@@ -83,9 +91,16 @@ public class DbHelper extends SQLiteOpenHelper {
                 C_GRA_USER, C_GRA_NAME,
                 C_GRA_CATEGORY, C_GRA_SCORE,
                 C_GRA_OUID, C_GRA_LAST_UPDATE);
+        String sqlCreateCourseNewsTable = String.format(context.getString(R.string.sqlSetupCourseNews),
+                T_COURSENEWS, C_CN_ID,
+                C_CN_USER, C_CN_NAME,
+                C_CN_OUID, C_CN_CONTENT,
+                C_CN_LAST_UPDATE);
+        
         db.execSQL(sqlCreateClassTable);
         db.execSQL(sqlCreateContentTable);
         db.execSQL(sqlCreateGradesTable);
+        db.execSQL(sqlCreateCourseNewsTable);
     }
 
     @Override
