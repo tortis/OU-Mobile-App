@@ -22,6 +22,7 @@ package com.geared.ou;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import com.geared.ou.D2LSourceGetter.SGError;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,7 +68,7 @@ public class ClassHomeData {
     private String classNewsSource;
     protected Date lastUpdate;
     protected Boolean force;
-    protected static final String GRADES_URL_PRE = "http://learn.ou.edu/d2l/lp/homepage/home.d2l?ou=";
+    protected static final String NEWS_URL_PRE = "http://learn.ou.edu/d2l/lp/homepage/home.d2l?ou=";
     protected ClassesData.Course course;
     protected OUApplication app;
     private static final long UPDATE_INTERVAL = 86400000L; // 24 Hours
@@ -88,7 +89,7 @@ public class ClassHomeData {
         if (force) {
             force = false;
         }
-        SGError result = sg.pullSource(GRADES_URL_PRE+course.getOuId());
+        SGError result = sg.pullSource(NEWS_URL_PRE+course.getOuId());
         if (result != SGError.NO_ERROR)
             return false;
         classNewsSource = sg.getPulledSource();
@@ -109,9 +110,15 @@ public class ClassHomeData {
         if (results.size() != 1)
             return false;
         Element newsTable = results.first();
-        Elements newsList = newsTable.children();
+        Elements newsList = newsTable.children().first().children();
         if (newsList.size() < 3) // The first two elemts are not news items. So start on the third. <3
-            return false;
+        {
+            if (newsList.size() == 1) { // Assuming that the 1 tr is saying 0 news items.
+                newsItems.add(new NewsItem("No News", "There are no news items for this course", 0));
+            }
+            else
+                return false;
+        }
         // Loop through each newsTr
         for (int i = 2; i < newsList.size(); i+=2) {
             String name = newsList.get(i).text();

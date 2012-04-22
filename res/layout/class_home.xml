@@ -114,14 +114,15 @@
         android:layout_weight="1"
         android:padding="5dp">
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/content_bg"
                 android:id="@+id/content"
                 android:textColor="#000000"
-                android:paddingLeft="7dp"
+                android:paddingLeft="5
+                dp"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp">

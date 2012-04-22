@@ -22,6 +22,7 @@ package com.geared.ou;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -121,8 +123,46 @@ public class ClassHomeActivity extends Activity {
         }
     }
     
+    public void addSpacer(LinearLayout l, int color, int height) {
+        TextView t = new TextView(this);
+        t.setWidth(l.getWidth());
+        t.setHeight(height);
+        t.setBackgroundColor(color);
+        l.addView(t);
+    }
+    
     private void updateDisplay(Boolean updateFailed) {
-        
+        layoutContent.removeViews(1, layoutContent.getChildCount()-1);
+        for (ClassHomeData.NewsItem n: news.getNewsItems()) {
+            addSpacer(layoutContent, Color.BLACK, 2);
+            
+            /* Title of n Item */
+            LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+            TextView t = new TextView(this);
+            t.setLayoutParams(lparams);
+            t.setText(n.getName());
+            t.setGravity(Gravity.CENTER_VERTICAL);
+            t.setTextColor(Color.DKGRAY);
+            t.setTextSize(13);
+            t.setTypeface(null, Typeface.BOLD);
+            t.setPadding(10, 4, 10, 4);
+            t.setHorizontalFadingEdgeEnabled(true);
+            t.setFadingEdgeLength(35);
+            t.setSingleLine(true);
+            layoutContent.addView(t);
+            
+            addSpacer(layoutContent, Color.BLACK, 2);
+            
+            /* Content of news item */
+            TextView tv = new TextView(this);
+            tv.setLayoutParams(lparams);
+            tv.setText(n.getContent());
+            tv.setGravity(Gravity.TOP | Gravity.LEFT);
+            tv.setTextColor(Color.argb(255, 75, 25, 25));
+            tv.setTextSize(11);
+            tv.setPadding(10, 5, 10, 5);
+            layoutContent.addView(tv);
+        }
     }
     
     protected void setStatusTextViewToUpdating() {
