@@ -121,8 +121,7 @@
                 android:background="@drawable/content_bg"
                 android:id="@+id/content"
                 android:textColor="#000000"
-                android:paddingLeft="5
-                dp"
+                android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp">
