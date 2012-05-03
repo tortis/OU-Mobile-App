@@ -36,7 +36,7 @@ import android.provider.BaseColumns;
 public class DbHelper extends SQLiteOpenHelper {
     Context context;
     private static final String DB_NAME = "userdata.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
     
     public static final String T_CLASSES = "classes";
     public static final String C_ID = BaseColumns._ID;
@@ -74,6 +74,15 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String C_CN_CONTENT = "content";
     public static final String C_CN_LAST_UPDATE = "last_update";
     
+    public static final String T_ROSTER = "roster";
+    public static final String C_ROS_ID = "id";
+    public static final String C_ROS_USER = "user";
+    public static final String C_ROS_OUID = "ou_id";
+    public static final String C_ROS_FIRST_NAME = "first_name";
+    public static final String C_ROS_LAST_NAME = "last_name";
+    public static final String C_ROS_ROLE = "role";
+    public static final String C_ROS_LAST_UPDATE = "last_update";
+    
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
@@ -100,11 +109,17 @@ public class DbHelper extends SQLiteOpenHelper {
                 C_CN_USER, C_CN_NAME,
                 C_CN_OUID, C_CN_CONTENT,
                 C_CN_LAST_UPDATE);
+        String sqlCreateRosterTable = String.format(context.getString(R.string.sqlSetupRoster),
+                T_ROSTER, C_ROS_ID,
+                C_ROS_OUID, C_ROS_USER,
+                C_ROS_FIRST_NAME, C_ROS_LAST_NAME,
+                C_ROS_ROLE, C_ROS_LAST_UPDATE);
         
         db.execSQL(sqlCreateClassTable);
         db.execSQL(sqlCreateContentTable);
         db.execSQL(sqlCreateGradesTable);
         db.execSQL(sqlCreateCourseNewsTable);
+        db.execSQL(sqlCreateRosterTable);
     }
 
     @Override

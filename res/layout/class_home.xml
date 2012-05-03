@@ -161,6 +161,7 @@
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
                 android:clickable="true"
+                android:onClick="goToRoster"
                 android:background="@drawable/class_home_nav_bg_selector"
                 android:text="Roster"
                 android:gravity="center"

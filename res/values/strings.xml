@@ -24,6 +24,7 @@
     <string name="sqlSetupContent" formatted="false">create table %s(%s int primary key, %s text, %s text, %s text, %s text, %s int, %s int, %s text)</string>
     <string name="sqlSetupGrades" formatted="false">create table %s(%s int primary key, %s text, %s text, %s text, %s text, %s int, %s int)</string>
     <string name="sqlSetupCourseNews" formatted="false">create table %s (%s int primary key, %s text, %s text, %s int, %s text, %s int)</string>
+    <string name="sqlSetupRoster" formatted="false">create table %s (%s int primary key, %s int, %s text, %s text, %s text, %s text, %s int)</string>
     <string name="msgSetupPrefs">Please enter your login information</string>
     <string name="noAppToOpenFile">No suitable app to open this file</string>
     <string name="downloadFailed">Download failed</string>
