@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -163,6 +164,22 @@ public class ClassHomeActivity extends Activity {
             tv.setPadding(10, 5, 10, 5);
             layoutContent.addView(tv);
         }
+        addSpacer(layoutContent, Color.BLACK, 1);
+        TextView t = new TextView(this);
+         if (news.needsUpdate() || updateFailed) {
+             Drawable img = getResources().getDrawable(R.drawable.ic_small_alert);
+             img.setBounds(0, 0, 30, 25);
+             t.setCompoundDrawables(img, null, null, null);
+         }
+        LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        t.setText(getString(R.string.lastUpdateTitle)+" "+news.getLastUpdate().toLocaleString());
+        t.setGravity(Gravity.TOP);
+        t.setLayoutParams(lparams);
+        t.setPadding(7, 3, 3, 3);
+        t.setTextColor(Color.GRAY);
+        t.setTextSize(12);
+        t.setId(R.id.updateTextView);
+        layoutContent.addView(t);
     }
     
     protected void setStatusTextViewToUpdating() {
