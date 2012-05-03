@@ -271,6 +271,8 @@ public class ClassHomeActivity extends Activity {
     
     public void goToRoster(View v)
     {
-        
+        Intent myIntent = new Intent(this, RosterActivity.class);
+        myIntent.putExtra("classId", classId);
+        startActivity(myIntent);
     }
 }

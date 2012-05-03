@@ -55,6 +55,7 @@ public class ClassesData {
         private ContentData content;
         private GradesData grades;
         private ClassHomeData news;
+        private RosterData roster;
         
         private int id;
         private int ouId;
@@ -66,6 +67,7 @@ public class ClassesData {
             content = new ContentData(app, this);
             grades = new GradesData(app, this);
             news = new ClassHomeData(app, this);
+            roster = new RosterData(app, this);
         }
 
         public String getName() {
@@ -113,6 +115,10 @@ public class ClassesData {
         
         public ClassHomeData getNews() {
             return news;
+        }
+        
+        public RosterData getRoster() {
+            return roster;
         }
 
         protected void splitPrefixFromName() {

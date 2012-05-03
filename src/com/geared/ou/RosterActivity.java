@@ -22,9 +22,7 @@ package com.geared.ou;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,20 +30,16 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.geared.ou.ClassesData.Course;
-import com.geared.ou.GradesData.Category;
-import com.geared.ou.GradesData.Grade;
-import java.util.ArrayList;
 
 /**
  *
- * The GradesActivity is accessed from the ClassHomeActivity, and displays all
- * of the grades for the selected class from D2L. It is supported by the 
- * GradesData class. When calling an Intent for this class it must be passed an
+ * The RosterActivity is accessed from the ClassHomeActivity, and displays all
+ * of the students and teachers for the selected class from D2L. It is supported by the 
+ * RosterData class. When calling an Intent for this class it must be passed an
  * integer id specifying which class. (note: this can only pull grades if the 
  * given class ID belongs to the user that is currently logged in).
  * 
@@ -69,7 +63,7 @@ public class RosterActivity extends Activity {
         classId = getIntent().getIntExtra("classId", 0); // The class id that was passed in the intent.
         app = (OUApplication) this.getApplication(); // Get the Application object.
         course = app.getClasses().getCourse(classId); // From the classes list get this course.
-        roster = course.getRoster(); //From the course get the grades object.. phew
+        roster = course.getRoster(); //From the course get the roster object.. phew
         
         /* Modify XML crap */
         titleBar = (TextView) findViewById(R.id.classHomeTitle);
@@ -138,7 +132,7 @@ public class RosterActivity extends Activity {
     
     private void updateDisplay(Boolean updateFailed) {
         // Remove all elements from the content layout, except the first one.
-        layoutContent.removeViews(1, layoutContent.getChildCount()-1);
+        /*layoutContent.removeViews(1, layoutContent.getChildCount()-1);
         ArrayList<Category> g = grades.getGrades();
         if (g == null)
             return;
@@ -202,7 +196,7 @@ public class RosterActivity extends Activity {
         t.setTextColor(Color.GRAY);
         t.setTextSize(13);
         t.setId(R.id.updateTextView);
-        layoutContent.addView(t);
+        layoutContent.addView(t);*/
     }
     
     protected void setStatusTextViewToUpdating() {
