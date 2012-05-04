@@ -20,9 +20,12 @@
 package com.geared.ou;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.geared.ou.D2LSourceGetter.SGError;
+import com.geared.ou.GradesData.Category;
+import com.geared.ou.GradesData.Grade;
 import java.util.ArrayList;
 import java.util.Date;
 import org.jsoup.Jsoup;
@@ -108,14 +111,13 @@ public class RosterData {
             return false;
         
         /* Now use the IDs to get the full roster. */
-        //Build Roster URL
-        String ROSTER_URL = "http://learn.ou.edu/d2l/common/popup/popup.d2l?ou="+<CLASSID>+"&queryString=ou%3D"+<CLASSID>+"%26tabid%3D2%26tabname%3DAll%26isalltab%3D1%26gc%3D%26gn%3D%26sort%3DLastName%26sortdir%3Dasc%26ulst%3D"+<IDLIST>+"&footerMsg=&popBodySrc=/d2l/lms/classlist/admin/classlist_print.d2l&popFooterSrc=footer.d2l&width=550&height=580&hasStatusBar=false&hasAutoScroll=false";
-        //result = sg.pullSource(ROSTER_URL);
-        //if (result != SGError.NO_ERROR)
-        //    return false;
-        //rosterSource = sg.getPulledSource();
-        //if (!pullRoster())
-        //    return false;
+        String ROSTER_URL = "http://learn.ou.edu/d2l/lms/classlist/admin/classlist_print.d2l?ou="+course.getOuId()+"&tabid=2&tabname=All&isalltab=1&gc=&gn=&sort=LastName&sortdir=asc&ulst="+allTabIds+"&d2l_body_type=4";
+        result = sg.pullSource(ROSTER_URL);
+        if (result != SGError.NO_ERROR)
+            return false;
+        rosterSource = sg.getPulledSource();
+        if (!pullRoster())
+            return false;
         return true;
     }
     
@@ -124,58 +126,61 @@ public class RosterData {
         preRosterSource = null;
         Elements es = doc.getElementsByAttributeValueMatching("name", "HDN_tabUserIds"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LITERAL
         allTabIds = es.first().attr("value"); //!!!!!!!!!!!!!!!!!!!! LITERAL
-        Log.d("OU", allTabIds);
         if (allTabIds == null)
             return false;
         return true;
     }
     
     private Boolean pullRoster() {
-        /*Document doc = Jsoup.parse(rosterSource);
-        rosterSource = null;*/
+        Document doc = Jsoup.parse(rosterSource);
+        rosterSource = null;
+        people.clear();
         
         /***********************************************************************
          *                      START specialized code
          **********************************************************************/
         
-        /*Elements results = doc.getElementsContainingOwnText("Grade Items");
-        if (results.size() != 1)
-            return false;
-        Element gradesDiv = results.first().nextElementSibling().child(0);
-        Elements categoryList = gradesDiv.children();
-        categories.clear();
-        // Loop through each category
-        int counter = 0;
-        for (Element categoryLi : categoryList) {
-            String categoryName = categoryLi.children().first().children().first().children().first().text();
-            Category c = new Category(categoryName);
-            // Loop through each item:
-            if (categoryLi.children().size() > 1) {
-                for (Element itemLi : categoryLi.child(1).children()) {
-                    String itemName = itemLi.children().first().children().first().text();
-                    String itemGrade = itemLi.children().first().child(1).text();
-                    Grade g = new Grade(itemName, itemGrade, (course.getOuId()+counter));
-                    Log.d("OU", ""+course.getId());
-                    c.addGrade(g);
-                    counter++;
-                }
+        Elements results = doc.getElementsByAttributeValueMatching("summary", ".*class participants.*");
+        if (results.size() != 1) {
+            return false; // There should only be one table with this summary.
+        }
+        Elements studentTrs = results.first().children().first().children();
+                Log.d("OU", "test: "+studentTrs.size());
+        if (studentTrs.size() < 3) // The first two elemts are not people.
+        {
+            if (studentTrs.size() > 0) { // If there are less than 3 elements, empty roster.
+                people.add(new Person("The roster for this course appears to be empty. That's weird...", "", "Student", 0));
             }
-            categories.add(c);
+            else // Something went wrong.
+                return false;
+        }
+        
+        for (int i = 2; i < studentTrs.size(); i++) {
+            Elements studentDataTds = studentTrs.get(i).children();
+            if (studentDataTds.size() < 3)
+                return false;
+            String n = studentDataTds.get(1).text();
+            String r = studentDataTds.get(2).text();
+            String[] fnln = n.split(",");
+            if (fnln.length != 2)
+                return false;
+            Person p = new Person(fnln[1].trim(), fnln[0].trim(), r, course.getOuId()+i);
+            people.add(p);
         }
         
         /***********************************************************************
          *                       END specialized code
          **********************************************************************/
         
-        /*lastUpdate = new Date();
-        writeToDb();*/
+        lastUpdate = new Date();
+        writeToDb();
         return true;
     }
     
     private Boolean populateFromDb() {
         people.clear();
-        /*SQLiteDatabase db = app.getDb();
-        Cursor result = db.rawQuery("select * from grades where user='"+app.getUser()+"' and ou_id="+course.getOuId(), null);
+        SQLiteDatabase db = app.getDb();
+        Cursor result = db.rawQuery("select * from roster where user='"+app.getUser()+"' and ou_id="+course.getOuId(), null);
         if (result.getCount() < 1) {
             return false;
         }
@@ -183,29 +188,17 @@ public class RosterData {
         while(result.moveToNext())
         {
             if(counter == 0)        
-                lastUpdate.setTime(((long)(result.getInt(result.getColumnIndex(DbHelper.C_GRA_LAST_UPDATE))))*1000);
-            String name = result.getString(result.getColumnIndex(DbHelper.C_GRA_NAME));
-            String grade = result.getString(result.getColumnIndex(DbHelper.C_GRA_SCORE));
-            String category = result.getString(result.getColumnIndex(DbHelper.C_GRA_CATEGORY));
-            int id = result.getInt(result.getColumnIndex(DbHelper.C_GRA_ID));
-            Log.d("OU", "item name: "+name);
-            Grade g = new Grade(name, grade, id);
-            
-            // If no categories are loaded yet, aka this is the first row, then add category:
-            if (categories.isEmpty()) {
-                categories.add(new Category(category));
-            }
-            // If the category of the current row does not equal the most recently
-            // added category, then create the new category.
-            else if (!categories.get(categories.size()-1).getName().equals(category)) {
-                categories.add(new Category(category));
-            }
-            // Finially add the ContentItem to the current category:
-            categories.get(categories.size()-1).addGrade(g);
+                lastUpdate.setTime(((long)(result.getInt(result.getColumnIndex(DbHelper.C_ROS_LAST_UPDATE))))*1000);
+            String firstName = result.getString(result.getColumnIndex(DbHelper.C_ROS_FIRST_NAME));
+            String lastName = result.getString(result.getColumnIndex(DbHelper.C_ROS_LAST_NAME));
+            String role = result.getString(result.getColumnIndex(DbHelper.C_ROS_ROLE));
+            int id = result.getInt(result.getColumnIndex(DbHelper.C_ROS_ID));
+            Person p = new Person(firstName, lastName, role, id);
+            people.add(p);
             counter++;
         }
         
-        db.close();*/
+        db.close();
         return true;
     }
     
