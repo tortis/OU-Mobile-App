@@ -3,8 +3,8 @@
     <string name="app_name">OU</string>
     <string name="textTestString">This text is centered</string>
     <string name="button1">Classes</string>
-    <string name="button2">Events</string>
-    <string name="button3">Email</string>
+    <string name="button2">News</string>
+    <string name="button3">Map</string>
     <string name="failedSourceUpdate">Failed to get content from D2L.</string>
     <string name="noCoursesFound">Failed to find any courses.</string>
     <string name="badLogin">Incorrect username or password.</string>

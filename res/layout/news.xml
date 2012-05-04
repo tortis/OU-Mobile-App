@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -8,9 +8,9 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="48dp"> -->
+        android:layout_height="48dp">
             <!-- Button 1 -->
-            <!-- <LinearLayout
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -30,14 +30,14 @@
                         android:textSize="14dp"
                         android:text="@string/button1"
                         android:paddingLeft="3dp"/>
-            </LinearLayout> -->
+            </LinearLayout>
             <!-- Spacer -->
-            <!-- <ImageView
+            <ImageView
                     android:background="#cccccc"
                     android:layout_width="1px"
-                    android:layout_height="fill_parent"/> -->
+                    android:layout_height="fill_parent"/>
             <!-- Button 2 -->
-            <!-- <LinearLayout
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -57,14 +57,14 @@
                         android:textSize="14dp"
                         android:text="@string/button2"
                         android:paddingLeft="3dp"/>
-            </LinearLayout> -->
+            </LinearLayout>
             <!-- Spacer -->
-            <!-- <ImageView
+            <ImageView
                     android:background="#cccccc"
                     android:layout_width="1px"
-                    android:layout_height="fill_parent"/> -->
+                    android:layout_height="fill_parent"/>
             <!-- Button 3 -->
-            <!-- <LinearLayout
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -85,9 +85,9 @@
                         android:text="@string/button3"
                         android:paddingLeft="3dp"/>
             </LinearLayout>
-    </LinearLayout> -->
+    </LinearLayout>
     <!-- Bottom Spacer -->
-    <!-- <ImageView
+    <ImageView
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#efefef" 
@@ -97,11 +97,31 @@
         android:layout_height="1dp"
         android:background="#bfbfbf" 
         android:layout_gravity="top" />
-</LinearLayout> -->
-<com.google.android.maps.MapView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/mapview"
+    <ScrollView android:id="@+id/content_scroll"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:clickable="true"
-        android:apiKey="0Z4bcHWH4mxxi6O69Ny7vTYFCH9CemuLE9phijg" />
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/content_bg"
+                android:id="@+id/content"
+                android:textColor="#000000"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="15dp">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textColor="#222222"
+                        android:text="News" />
+            </LinearLayout>
+     </ScrollView>
+</LinearLayout>
