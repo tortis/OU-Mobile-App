@@ -145,8 +145,8 @@ public class ClassesActivity extends Activity implements OnClickListener
         }
         else if (v.getId() == R.id.emailbutton)
         {
-            Log.d("OU", "Email button pressed.");
-            Intent myIntent = new Intent(this, EmailActivity.class);
+            Log.d("OU", "Map button pressed.");
+            Intent myIntent = new Intent(this, MapActivity.class);
             myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(myIntent);
         }

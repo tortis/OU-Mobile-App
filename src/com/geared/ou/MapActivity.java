@@ -34,7 +34,7 @@ import android.widget.LinearLayout;
  * Beta features.
  * 
  */
-public class EmailActivity extends Activity implements OnClickListener {
+public class MapActivity extends Activity implements OnClickListener {
     private LinearLayout buttonClasses;
     private LinearLayout buttonNews;
     /** Called when the activity is first created. */
