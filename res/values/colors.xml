@@ -4,5 +4,6 @@
     <drawable name="transparent_black">#bb000000</drawable>
     <drawable name="transparent">#00000000</drawable>
     <drawable name="transparent_red">#66cc1d1d</drawable>
+    <drawable name="transparent_gold">#bbcfb53b</drawable>
     <drawable name="crimson">#80100e</drawable>
 </resources>

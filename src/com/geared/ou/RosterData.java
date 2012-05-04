@@ -24,8 +24,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.geared.ou.D2LSourceGetter.SGError;
-import com.geared.ou.GradesData.Category;
-import com.geared.ou.GradesData.Grade;
 import java.util.ArrayList;
 import java.util.Date;
 import org.jsoup.Jsoup;
@@ -34,8 +32,8 @@ import org.jsoup.select.Elements;
 
 /**
  *
- * This is a data wrapper class that supports the GradesActivity class. It is
- * initialized in the Application object. It stores all of the grade data that
+ * This is a data wrapper class that supports the RosterActivity class. It is
+ * initialized in the Application object. It stores all of the roster data that
  * is either pulled from D2L or the local database.
  * 
  */

@@ -22,7 +22,9 @@ package com.geared.ou;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,10 +32,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.geared.ou.ClassesData.Course;
+import java.util.ArrayList;
 
 /**
  *
@@ -132,58 +136,33 @@ public class RosterActivity extends Activity {
     
     private void updateDisplay(Boolean updateFailed) {
         // Remove all elements from the content layout, except the first one.
-        /*layoutContent.removeViews(1, layoutContent.getChildCount()-1);
-        ArrayList<Category> g = grades.getGrades();
-        if (g == null)
+        layoutContent.removeViews(1, layoutContent.getChildCount()-1);
+        ArrayList<RosterData.Person> people = roster.getRoster();
+        if (people == null)
             return;
         
-        for (Category c : g) {
-            addSpacer(layoutContent, Color.BLACK, 2);
+        for (RosterData.Person p : people) {
+            addSpacer(layoutContent, Color.BLACK, 1);
             TextView t = new TextView(this);
-            t.setText(c.getName());
-            Log.d("OU", "c.getName(): "+c.getName());
-            t.setWidth(layoutContent.getWidth());
+            LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+            t.setText(p.getFirstName()+" "+p.getLastName());
+            t.setLayoutParams(lparams);
             t.setGravity(Gravity.CENTER_VERTICAL);
             t.setTextColor(Color.argb(255, 75, 25, 25));
             t.setTextSize(15);
+            if (p.getRole().equals("Instructor"))
+                t.setBackgroundColor(R.drawable.transparent_gold);
             t.setTypeface(null, Typeface.BOLD);
             t.setPadding(10, 6, 10, 6);
             t.setHorizontalFadingEdgeEnabled(true);
             t.setFadingEdgeLength(35);
             t.setSingleLine(true);
             layoutContent.addView(t);
-            addSpacer(layoutContent, Color.BLACK, 1);
-            for (Grade x : c.getGrades()) {
-                addSpacer(layoutContent, Color.BLACK, 1);
-                //LinearLayout l = new LinearLayout(this);
-                //l.setLayoutParams(new LayoutParams(layoutContent.getWidth(), LayoutParams.WRAP_CONTENT));
-                TextView tl = new TextView(this);
-                TextView tr = new TextView(this);
-                tl.setText(x.getName()+": "+x.getScore());
-                tl.setWidth(layoutContent.getWidth());
-                tl.setHeight(LayoutParams.WRAP_CONTENT);
-                tl.setGravity(Gravity.CENTER_VERTICAL);
-                tl.setTextColor(Color.DKGRAY);
-                tl.setTextSize(15);
-                tl.setPadding(12, 15, 10, 15);
-                tl.setHorizontalFadingEdgeEnabled(true);
-                tl.setFadingEdgeLength(35);
-                tl.setSingleLine(true);
-                tr.setText(x.getScore());
-                tr.setWidth(layoutContent.getWidth()*2/3);
-                tr.setHeight(LayoutParams.WRAP_CONTENT);
-                tr.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-                tr.setTextColor(Color.DKGRAY);
-                tr.setTextSize(15);
-                tr.setPadding(12, 15, 10, 15);
-                tr.setHorizontalFadingEdgeEnabled(true);
-                tr.setFadingEdgeLength(35);
-                tr.setSingleLine(true);
-                layoutContent.addView(tl);
-            }
         }
         addSpacer(layoutContent, Color.BLACK, 1);
         TextView t = new TextView(this);
+        LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        t.setLayoutParams(lparams);
          if (roster.needsUpdate() || updateFailed) {
              Drawable img = getResources().getDrawable(R.drawable.ic_small_alert);
              img.setBounds(0, 0, 30, 25);
@@ -191,12 +170,11 @@ public class RosterActivity extends Activity {
          }
         t.setText(getString(R.string.lastUpdateTitle)+" "+roster.getLastUpdate().toLocaleString());
         t.setGravity(Gravity.TOP);
-        t.setWidth(layoutContent.getWidth());
         t.setPadding(7, 3, 3, 3);
         t.setTextColor(Color.GRAY);
         t.setTextSize(13);
         t.setId(R.id.updateTextView);
-        layoutContent.addView(t);*/
+        layoutContent.addView(t);
     }
     
     protected void setStatusTextViewToUpdating() {
