@@ -19,13 +19,26 @@
 
 package com.geared.ou;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import java.util.ArrayList;
+import android.widget.TextView;
+import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndEntryImpl;
+import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
+import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FeedFetcher;
+import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FetcherException;
+import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.impl.HttpURLFeedFetcher;
+import com.google.code.rome.android.repackaged.com.sun.syndication.io.FeedException;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -35,74 +48,82 @@ import java.util.List;
  * functionality has been implemented.
  * 
  */
-public class NewsActivity extends MapActivity {
+public class NewsActivity extends Activity implements View.OnClickListener {
     private LinearLayout buttonClasses;
     private LinearLayout buttonEmail;
+    private LinearLayout layoutContent;
+    List items;
+    SyndFeed feed;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         
         setContentView(R.layout.news);
-        
-        MapView mapView = (MapView) findViewById(R.id.mapview);
-        mapView.setBuiltInZoomControls(true);
-        List<GeoPoint> points = new ArrayList<GeoPoint>();
-        points.add(new GeoPoint(35211098, -97447894));
-        points.add(new GeoPoint(35203866, -97441263));
-        setMapBoundsToPois(points,0.0,0.0,mapView);
-        
-        
+
         // Get Action Buttons
-        //buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
-        //buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
-        //buttonClasses.setOnClickListener(this);
-        //buttonEmail.setOnClickListener(this);
-    }
-    
-    public void setMapBoundsToPois(List<GeoPoint> items, double hpadding, double vpadding, MapView mv) {
-        MapController mapController = mv.getController();
-        // If there is only on one result
-        // directly animate to that location
-
-        if (items.size() == 1) { // animate to the location
-            mapController.animateTo(items.get(0));
-        } else {
-            // find the lat, lon span
-            int minLatitude = Integer.MAX_VALUE;
-            int maxLatitude = Integer.MIN_VALUE;
-            int minLongitude = Integer.MAX_VALUE;
-            int maxLongitude = Integer.MIN_VALUE;
-
-            // Find the boundaries of the item set
-            for (GeoPoint item : items) {
-                int lat = item.getLatitudeE6(); int lon = item.getLongitudeE6();
-
-                maxLatitude = Math.max(lat, maxLatitude);
-                minLatitude = Math.min(lat, minLatitude);
-                maxLongitude = Math.max(lon, maxLongitude);
-                minLongitude = Math.min(lon, minLongitude);
-            }
-
-            // leave some padding from corners
-            // such as 0.1 for hpadding and 0.2 for vpadding
-            maxLatitude = maxLatitude + (int)((maxLatitude-minLatitude)*hpadding);
-            minLatitude = minLatitude - (int)((maxLatitude-minLatitude)*hpadding);
-
-            maxLongitude = maxLongitude + (int)((maxLongitude-minLongitude)*vpadding);
-            minLongitude = minLongitude - (int)((maxLongitude-minLongitude)*vpadding);
-
-            // Calculate the lat, lon spans from the given pois and zoom
-            mapController.zoomToSpan(Math.abs(maxLatitude - minLatitude), Math
-    .abs(maxLongitude - minLongitude));
-
-            // Animate to the center of the cluster of points
-            mapController.animateTo(new GeoPoint(
-                  (maxLatitude + minLatitude) / 2, (maxLongitude + minLongitude) / 2));
+        buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
+        buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
+        buttonClasses.setOnClickListener(this);
+        buttonEmail.setOnClickListener(this);
+        layoutContent = (LinearLayout) findViewById(R.id.content);
+        
+        feed = getMostRecentNews("http://www.oudaily.com/rss/headlines/front/");
+        LayoutParams lparam = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        items = feed.getEntries();
+        Iterator i = items.iterator();
+        addSpacer(layoutContent, Color.BLACK, 1);
+        int counter = 0;
+        while (i.hasNext()) {
+            SyndEntryImpl entry = (SyndEntryImpl) i.next();
+            TextView tv = new TextView(this);
+            tv.setLayoutParams(lparam);
+            tv.setGravity(Gravity.CENTER_VERTICAL);
+            tv.setTextColor(Color.argb(255, 75, 25, 25));
+            tv.setTextSize(13);
+            tv.setId(counter);
+            tv.setTypeface(null, Typeface.BOLD);
+            tv.setPadding(10, 6, 10, 6);
+            tv.setHorizontalFadingEdgeEnabled(true);
+            tv.setFadingEdgeLength(35);
+            tv.setSingleLine(true);
+            tv.setText(entry.getTitle());
+            tv.setOnClickListener(this);
+            tv.setClickable(true);
+            tv.setBackgroundResource(R.drawable.content_list_button_selector);
+            layoutContent.addView(tv);
+            addSpacer(layoutContent, Color.BLACK, 1);
+            counter++;
         }
     }
-
-    /*public void onClick(View v) {
+    
+    public void addSpacer(LinearLayout l, int color, int height) {
+        TextView t = new TextView(this);
+        t.setWidth(l.getWidth());
+        t.setHeight(height);
+        t.setBackgroundColor(color);
+        l.addView(t);
+    }
+    
+    protected SyndFeed getMostRecentNews( final String feedUrl )
+    {
+        try
+        {
+            return retrieveFeed( feedUrl );
+        }
+        catch ( Exception e )
+        {
+            throw new RuntimeException( e );
+        }
+    }
+    
+    private SyndFeed retrieveFeed( final String feedUrl ) throws IOException, FeedException, FetcherException
+    {
+        FeedFetcher feedFetcher = new HttpURLFeedFetcher();
+        return feedFetcher.retrieveFeed( new URL( feedUrl ) );
+    }
+    
+    public void onClick(View v) {
         if (v.getId() == R.id.classesbutton)
         {
             Log.d("OU", "Classes button pressed.");
@@ -110,18 +131,18 @@ public class NewsActivity extends MapActivity {
             myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myIntent);
         }
-        if (v.getId() == R.id.emailbutton)
+        else if (v.getId() == R.id.emailbutton)
         {
             Log.d("OU", "Email button pressed.");
-            Intent myIntent = new Intent(this, EmailActivity.class);
+            Intent myIntent = new Intent(this, CampusMapActivity.class);
             myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myIntent);
         }
-    }*/
-    
-    @Override
-    protected boolean isRouteDisplayed() {
-        return false;
+        else {
+            SyndEntryImpl i = (SyndEntryImpl)items.get(v.getId());
+            if (i == null)
+                return;
+            items.clear();
+        }
     }
-    
 }
