@@ -19,39 +19,92 @@
 
 package com.geared.ou;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * This is a top level Activity that would pull the users OU exchange email.
- * This is a tentatively planned release feature, but it is not included in
- * Beta features.
+ * This is a top level activity that displays News that is read from oudaily.com
+ * to the user. Currently this is just a framework, and none of the real
+ * functionality has been implemented.
  * 
  */
-public class MapActivity extends Activity implements OnClickListener {
+public class CampusMapActivity extends MapActivity {
     private LinearLayout buttonClasses;
-    private LinearLayout buttonNews;
+    private LinearLayout buttonEmail;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.email);
+        
+        setContentView(R.layout.map);
+        
+        MapView mapView = (MapView) findViewById(R.id.mapview);
+        mapView.setBuiltInZoomControls(true);
+        List<GeoPoint> points = new ArrayList<GeoPoint>();
+        points.add(new GeoPoint(35211098, -97447894));
+        points.add(new GeoPoint(35203866, -97441263));
+        setMapBoundsToPois(points,0.0,0.0,mapView);
         
         
         // Get Action Buttons
-        buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
-        buttonNews = (LinearLayout) findViewById(R.id.newsbutton);
-        buttonClasses.setOnClickListener(this);
-        buttonNews.setOnClickListener(this);
+        //buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
+        //buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
+        //buttonClasses.setOnClickListener(this);
+        //buttonEmail.setOnClickListener(this);
+    }
+    
+    public void setMapBoundsToPois(List<GeoPoint> items, double hpadding, double vpadding, MapView mv) {
+        MapController mapController = mv.getController();
+        // If there is only on one result
+        // directly animate to that location
+
+        if (items.size() == 1) { // animate to the location
+            mapController.animateTo(items.get(0));
+        } else {
+            // find the lat, lon span
+            int minLatitude = Integer.MAX_VALUE;
+            int maxLatitude = Integer.MIN_VALUE;
+            int minLongitude = Integer.MAX_VALUE;
+            int maxLongitude = Integer.MIN_VALUE;
+
+            // Find the boundaries of the item set
+            for (GeoPoint item : items) {
+                int lat = item.getLatitudeE6(); int lon = item.getLongitudeE6();
+
+                maxLatitude = Math.max(lat, maxLatitude);
+                minLatitude = Math.min(lat, minLatitude);
+                maxLongitude = Math.max(lon, maxLongitude);
+                minLongitude = Math.min(lon, minLongitude);
+            }
+
+            // leave some padding from corners
+            // such as 0.1 for hpadding and 0.2 for vpadding
+            maxLatitude = maxLatitude + (int)((maxLatitude-minLatitude)*hpadding);
+            minLatitude = minLatitude - (int)((maxLatitude-minLatitude)*hpadding);
+
+            maxLongitude = maxLongitude + (int)((maxLongitude-minLongitude)*vpadding);
+            minLongitude = minLongitude - (int)((maxLongitude-minLongitude)*vpadding);
+
+            // Calculate the lat, lon spans from the given pois and zoom
+            mapController.zoomToSpan(Math.abs(maxLatitude - minLatitude), Math
+    .abs(maxLongitude - minLongitude));
+
+            // Animate to the center of the cluster of points
+            mapController.animateTo(new GeoPoint(
+                  (maxLatitude + minLatitude) / 2, (maxLongitude + minLongitude) / 2));
+        }
     }
 
-    public void onClick(View v) {
+    /*public void onClick(View v) {
         if (v.getId() == R.id.classesbutton)
         {
             Log.d("OU", "Classes button pressed.");
@@ -59,12 +112,30 @@ public class MapActivity extends Activity implements OnClickListener {
             myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myIntent);
         }
-        if (v.getId() == R.id.newsbutton)
+        if (v.getId() == R.id.emailbutton)
         {
-            Log.d("OU", "News button pressed.");
-            Intent myIntent = new Intent(this, NewsActivity.class);
+            Log.d("OU", "Email button pressed.");
+            Intent myIntent = new Intent(this, EmailActivity.class);
             myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myIntent);
         }
+    }*/
+    
+    public void gotoClasses(View v) {
+        Intent myIntent = new Intent(this, ClassesActivity.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myIntent);
     }
+    
+    public void gotoNews(View v) {
+        Intent myIntent = new Intent(this, NewsActivity.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myIntent);
+    }
+    
+    @Override
+    protected boolean isRouteDisplayed() {
+        return false;
+    }
+    
 }
