@@ -442,4 +442,14 @@ public class ContentActivity extends Activity implements OnClickListener {
         l.addView(t);
     }
     
+    public void goToMap(View v)
+    {
+        Intent myIntent = new Intent(this, CampusMapActivity.class);
+        startActivity(myIntent);
+    }
+    public void goToNews(View v)
+    {
+        Intent myIntent = new Intent(this, NewsActivity.class);
+        startActivity(myIntent);
+    }
 }

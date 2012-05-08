@@ -44,6 +44,7 @@
                 android:background="@drawable/button_background_selector"
                 android:id="@+id/newsbutton"
                 android:clickable="true"
+                android:onClick="goToNews"
                 android:gravity="center"
                 android:layout_weight="1">
                     <ImageView
@@ -71,6 +72,7 @@
                 android:background="@drawable/button_background_selector"
                 android:id="@+id/emailbutton"
                 android:clickable="true"
+                android:onClick="goToMap"
                 android:gravity="center"
                 android:layout_weight="1">
                     <ImageView

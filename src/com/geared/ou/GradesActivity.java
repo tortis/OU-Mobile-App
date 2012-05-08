@@ -52,7 +52,7 @@ import java.util.ArrayList;
  * 
  */
 
-public class GradesActivity extends Activity implements OnClickListener {
+public class GradesActivity extends Activity {
     private TextView titleBar;
     private int classId;
     protected Course course;
@@ -264,15 +264,22 @@ public class GradesActivity extends Activity implements OnClickListener {
         TitleTV.setCompoundDrawables(null, null, null, null);
     }
     
-    public void onClick(View v) {
-
-    }
-    
     public void addSpacer(LinearLayout l, int color, int height) {
         TextView t = new TextView(this);
         t.setWidth(l.getWidth());
         t.setHeight(height);
         t.setBackgroundColor(color);
         l.addView(t);
+    }
+    
+    public void goToMap(View v)
+    {
+        Intent myIntent = new Intent(this, CampusMapActivity.class);
+        startActivity(myIntent);
+    }
+    public void goToNews(View v)
+    {
+        Intent myIntent = new Intent(this, NewsActivity.class);
+        startActivity(myIntent);
     }
 }

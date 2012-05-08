@@ -106,24 +106,7 @@ public class ClassHomeActivity extends Activity {
             }
         }
     }
-    
-    public void onClick(View v) {
-        if (v.getId() == R.id.newsbutton)
-        {
-            Log.d("OU", "News button pressed.");
-            Intent myIntent = new Intent(this, NewsActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-        else if (v.getId() == R.id.emailbutton)
-        {
-            Log.d("OU", "Email button pressed.");
-            Intent myIntent = new Intent(this, CampusMapActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(myIntent);
-        }
-    }
-    
+        
     public void addSpacer(LinearLayout l, int color, int height) {
         TextView t = new TextView(this);
         t.setWidth(l.getWidth());
@@ -273,6 +256,16 @@ public class ClassHomeActivity extends Activity {
     {
         Intent myIntent = new Intent(this, RosterActivity.class);
         myIntent.putExtra("classId", classId);
+        startActivity(myIntent);
+    }
+    public void goToMap(View v)
+    {
+        Intent myIntent = new Intent(this, CampusMapActivity.class);
+        startActivity(myIntent);
+    }
+    public void goToNews(View v)
+    {
+        Intent myIntent = new Intent(this, NewsActivity.class);
         startActivity(myIntent);
     }
 }
