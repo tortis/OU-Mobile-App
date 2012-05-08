@@ -23,12 +23,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndEntryImpl;
@@ -53,6 +54,7 @@ public class NewsActivity extends Activity implements View.OnClickListener {
     private LinearLayout buttonClasses;
     private LinearLayout buttonEmail;
     private LinearLayout layoutContent;
+    private OUApplication app;
     List items;
     SyndFeed feed;
     /** Called when the activity is first created. */
@@ -69,7 +71,42 @@ public class NewsActivity extends Activity implements View.OnClickListener {
         buttonEmail.setOnClickListener(this);
         layoutContent = (LinearLayout) findViewById(R.id.content);
         
-        feed = getMostRecentNews("http://www.oudaily.com/rss/headlines/front/");
+        app = (OUApplication) this.getApplication();
+        feed = app.getFeed();
+        if (feed == null) {
+            setStatusTextViewToUpdating();
+            new Load().execute();
+        }
+        else {
+            updateDisplay();
+        }
+    }
+    
+    private class Load extends AsyncTask<Integer, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Integer... s) {
+            feed = getMostRecentNews("http://www.oudaily.com/rss/headlines/front/");
+            app.setFeed(feed);
+            if (feed == null)
+                return false;
+            return true;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            // Update percentage
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            updateDisplay();
+        }
+    }
+    
+    protected void updateDisplay() {
+        layoutContent.removeViews(1, layoutContent.getChildCount()-1);
         LayoutParams lparam = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
         items = feed.getEntries();
         Iterator i = items.iterator();
@@ -84,7 +121,7 @@ public class NewsActivity extends Activity implements View.OnClickListener {
             tv.setTextSize(13);
             tv.setId(counter);
             tv.setTypeface(null, Typeface.BOLD);
-            tv.setPadding(10, 8, 10, 8);
+            tv.setPadding(10, 12, 10, 12);
             tv.setHorizontalFadingEdgeEnabled(true);
             tv.setFadingEdgeLength(35);
             tv.setSingleLine(true);
@@ -170,5 +207,39 @@ public class NewsActivity extends Activity implements View.OnClickListener {
                 sp.setVisibility(View.GONE);
             }
         }
+    }
+    
+    protected void setStatusTextViewToUpdating() {
+        final AnimationDrawable img = new AnimationDrawable();
+        img.addFrame(getResources().getDrawable(R.drawable.loading1), 150);
+        img.addFrame(getResources().getDrawable(R.drawable.loading2), 150);
+        img.addFrame(getResources().getDrawable(R.drawable.loading3), 150);
+        img.addFrame(getResources().getDrawable(R.drawable.loading4), 150);
+        img.setBounds(0, 0, 30, 30);
+        img.setOneShot(false);
+        TextView updateTV = (TextView)findViewById(R.id.updateTextView);
+        TextView TitleTV = (TextView) findViewById(R.id.classHomeTitle);
+        if (updateTV == null) {
+            updateTV = new TextView(this);
+            updateTV.setText(" Updating...");
+            updateTV.setCompoundDrawables(img, null, null, null);
+            updateTV.setGravity(Gravity.TOP);
+            updateTV.setWidth(layoutContent.getWidth());
+            updateTV.setPadding(15, 3, 3, 3);
+            updateTV.setTextColor(Color.BLACK);
+            updateTV.setTextSize(13);
+            updateTV.setId(R.id.updateTextView);
+            layoutContent.addView(updateTV);
+        } else {
+            updateTV.setCompoundDrawables(img, null, null, null);
+            updateTV.setText(" Updating...");
+            updateTV.setTextColor(Color.BLACK);
+        }
+        updateTV.post(new Runnable() {
+            @Override
+            public void run() {
+                img.start();
+            }
+        });
     }
 }
