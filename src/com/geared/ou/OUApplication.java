@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import com.geared.ou.D2LSourceGetter.SGError;
+import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
 
 /**
  *
@@ -37,6 +38,7 @@ public class OUApplication extends Application {
     private SharedPreferences prefs;
     private D2LSourceGetter sourceGetter;
     private DbHelper dbHelper;
+    private SyndFeed feed;
     
     @Override
     public void onCreate() {
@@ -83,6 +85,14 @@ public class OUApplication extends Application {
     {
         SharedPreferences p = getPrefs();
         return p.getString("username", "");
+    }
+    
+    public SyndFeed getFeed() {
+        return feed;
+    }
+    
+    public void setFeed(SyndFeed feed) {
+        this.feed = feed;
     }
 
     @Override
