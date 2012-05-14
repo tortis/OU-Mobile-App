@@ -25,6 +25,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.geared.ou.D2LSourceGetter.SGError;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import org.jsoup.Jsoup;
@@ -326,5 +327,63 @@ public class ClassesData {
         }
         db.close();
         return false;
+    }
+    
+    private String getCurrentSemesterString() {
+        String s;
+        Calendar date = Calendar.getInstance();
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DATE);
+        switch (month) {
+            case Calendar.JANUARY:
+                s = "Spring ";
+                break;
+            case Calendar.FEBRUARY:
+                s = "Spring ";
+                break;
+            case Calendar.MARCH:
+                s = "Spring ";
+                break;
+            case Calendar.APRIL:
+                s = "Spring ";
+                break;
+            case Calendar.MAY:
+                if (day < 13)
+                    s = "Spring ";
+                else
+                    s = "Summer ";
+                break;
+            case Calendar.JUNE:
+                s = "Summer ";
+                break;
+            case Calendar.JULY:
+                s = "Summer ";
+                break;
+            case Calendar.AUGUST:
+                if (day < 13)
+                    s = "Summer ";
+                else
+                    s = "Fall ";
+                break;
+            case Calendar.SEPTEMBER:
+                s = "Fall ";
+                break;
+            case Calendar.OCTOBER:
+                s = "Fall ";
+                break;
+            case Calendar.NOVEMBER:
+                s = "Fall ";
+                break;
+            case Calendar.DECEMBER:
+                s = "Fall ";
+                break;
+            default:
+                s = "Fall ";
+                break;
+        }
+        Integer year = date.get(Calendar.YEAR);
+        s = s + year.toString();
+        Log.d("OU", s);
+        return s;
     }
 }
