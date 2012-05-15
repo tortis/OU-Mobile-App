@@ -177,7 +177,7 @@ public class ClassesData {
          *                      START specialized code
          **********************************************************************/
         
-        Elements es = doc.getElementsContainingOwnText("Spring 2012"); //MAKE THIS DYNAMICCC!!!!!
+        Elements es = doc.getElementsContainingOwnText(getCurrentSemesterString()); //MAKE THIS DYNAMICCC!!!!!
         Element mainDiv;
         Element subDivOfInterest;
         for (Element t : es) {
@@ -327,6 +327,25 @@ public class ClassesData {
         }
         db.close();
         return false;
+    }
+    
+    private String getPreviousSemesterString() {
+        Calendar date = Calendar.getInstance();
+        String cs = getCurrentSemesterString();
+        String[] t = cs.split(" ");
+        String season = t[0];
+        if (season.equals("Spring")) {
+            return "Fall "+ (date.get(Calendar.YEAR)-1);
+        }
+        else if (season.equals("Fall")) {
+            return "Summer " + date.get(Calendar.YEAR);
+        }
+        else if (season.equals("Summer")) {
+            return "Spring " + date.get(Calendar.YEAR);
+        }
+        else {
+            return "Spring " + date.get(Calendar.YEAR);
+        }
     }
     
     private String getCurrentSemesterString() {
