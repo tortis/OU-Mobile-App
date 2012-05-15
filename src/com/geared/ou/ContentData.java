@@ -162,8 +162,11 @@ public class ContentData {
             return false;
         Element table = tables.get(0);
         Elements tdsOfInterest = table.getElementsByAttributeValue("class", "d_gn");
-        if (tdsOfInterest.isEmpty())
-            return false;
+        if (tdsOfInterest.isEmpty()) {
+            categories.add("Empty");
+            content.get(categories.get(categories.size()-1)).add(new ContentItem("No content", "#", "Empty", course.getOuId()));
+            return true;
+        }
         
         content.clear();
         categories.clear();
