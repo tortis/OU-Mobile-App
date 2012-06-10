@@ -52,6 +52,7 @@ public class ClassesData {
         private String name;
         private String link;
         private String namePrefix;
+        private String semester;
         
         private ContentData content;
         private GradesData grades;
@@ -177,7 +178,7 @@ public class ClassesData {
          *                      START specialized code
          **********************************************************************/
         
-        Elements es = doc.getElementsContainingOwnText(getCurrentSemesterString()); //MAKE THIS DYNAMICCC!!!!!
+        Elements es = doc.getElementsContainingOwnText(getCurrentSemesterString());
         Element mainDiv;
         Element subDivOfInterest;
         for (Element t : es) {
@@ -201,6 +202,30 @@ public class ClassesData {
                 }
             }
 	}
+        
+        es = doc.getElementsContainingOwnText(getPreviousSemesterString());
+        for (Element t : es) {
+            if (t.tag().getName().equals("h3")) {
+                mainDiv = t.parent().parent().parent();
+                subDivOfInterest = mainDiv.getElementsByClass("dco_c").first();
+                Elements aElementsForEachClass = subDivOfInterest.getElementsByAttributeValueMatching("href", "/d2l/lp/ouHome/home.*");
+                Iterator<Element> i = aElementsForEachClass.listIterator();
+                int counter = 0;
+                while (i.hasNext()) {
+                    Element et = i.next();
+                    String link;
+                    String name;
+
+                    link = et.attr("href");
+                    name = et.html();
+
+                    Course c = new Course(name, link, counter);
+                    courses.add(c);
+                    counter++;
+                }
+            }
+	}
+        
         cleanCourseNames();
         
         /***********************************************************************
