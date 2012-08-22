@@ -151,7 +151,7 @@ public class GradesData {
         /***********************************************************************
          *                      START specialized code
          **********************************************************************/
-        
+        int test;
         Elements results = doc.getElementsContainingOwnText("Grade Items");
         if (results.size() != 1)
             return false;
