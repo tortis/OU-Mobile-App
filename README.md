@@ -3,7 +3,7 @@
 This is an Android Application for students at the University of Oklahoma. Gives quick access to D2L features, a campus map, and more.
 
 + Download the app from [Google Play](https://play.google.com/store/apps/details?id=com.geared.ou "OU Mobile Alpha on Google Play")
-+ Pull the source at [github](https://github.com/ThinksInBits/OU-Mobile-App "Github Repository")
++ Get the source at [github](https://github.com/ThinksInBits/OU-Mobile-App "Github Repository")
 + Follow development on [Trello](https://trello.com/board/ou-app/4f1f697a28390abb75008a97)
 
 # Features
