@@ -19,16 +19,17 @@
 
 package com.geared.ou;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -38,8 +39,6 @@ import java.util.List;
  * 
  */
 public class CampusMapActivity extends MapActivity {
-    private LinearLayout buttonClasses;
-    private LinearLayout buttonEmail;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
@@ -53,13 +52,6 @@ public class CampusMapActivity extends MapActivity {
         points.add(new GeoPoint(35211098, -97447894));
         points.add(new GeoPoint(35203866, -97441263));
         setMapBoundsToPois(points,0.0,0.0,mapView);
-        
-        
-        // Get Action Buttons
-        //buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
-        //buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
-        //buttonClasses.setOnClickListener(this);
-        //buttonEmail.setOnClickListener(this);
     }
     
     public void setMapBoundsToPois(List<GeoPoint> items, double hpadding, double vpadding, MapView mv) {
@@ -103,23 +95,6 @@ public class CampusMapActivity extends MapActivity {
                   (maxLatitude + minLatitude) / 2, (maxLongitude + minLongitude) / 2));
         }
     }
-
-    /*public void onClick(View v) {
-        if (v.getId() == R.id.classesbutton)
-        {
-            Log.d("OU", "Classes button pressed.");
-            Intent myIntent = new Intent(this, ClassesActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-        if (v.getId() == R.id.emailbutton)
-        {
-            Log.d("OU", "Email button pressed.");
-            Intent myIntent = new Intent(this, EmailActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-    }*/
     
     public void gotoClasses(View v) {
         Intent myIntent = new Intent(this, ClassesActivity.class);

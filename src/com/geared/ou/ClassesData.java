@@ -52,7 +52,6 @@ public class ClassesData {
         private String name;
         private String link;
         private String namePrefix;
-        private String semester;
         
         private ContentData content;
         private GradesData grades;

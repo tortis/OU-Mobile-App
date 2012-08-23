@@ -370,7 +370,6 @@ public class ContentActivity extends Activity implements OnClickListener {
         TextView TitleTV = (TextView) findViewById(R.id.classHomeTitle);
         TitleTV.setCompoundDrawables(img2, null, null, null);
         TitleTV.post(new Runnable() {
-            @Override
             public void run() {
                 img2.start();
             }
@@ -402,7 +401,6 @@ public class ContentActivity extends Activity implements OnClickListener {
             updateTV.setTextColor(Color.BLACK);
         }
         updateTV.post(new Runnable() {
-            @Override
             public void run() {
                 img.start();
             }

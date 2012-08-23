@@ -41,7 +41,7 @@ import com.geared.ou.ClassesData.Course;
 /**
  * 
  * This is the generic home activity of a course. From this page the user can
- * rech the grades, content, and roster activite. This activity should also
+ * reach the grades, content, and roster activity. This activity should also
  * display class info/news in the future.
  */
 
@@ -200,13 +200,12 @@ public class ClassHomeActivity extends Activity {
             updateTV.setTextColor(Color.BLACK);
         }
         updateTV.post(new Runnable() {
-            @Override
             public void run() {
                 img.start();
             }
         });
         TitleTV.post(new Runnable() {
-            @Override public void run() {
+            public void run() {
                 img2.start();
             }
         });

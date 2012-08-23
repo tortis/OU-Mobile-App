@@ -100,7 +100,7 @@ public class GradesData {
         
         private void recomputePoints() {
             for (Iterator<Grade> i = grades.iterator(); i.hasNext();) {
-                Grade g = i.next();
+                //Grade g = i.next();
                 // TO DO
             }
         }
@@ -151,7 +151,6 @@ public class GradesData {
         /***********************************************************************
          *                      START specialized code
          **********************************************************************/
-        int test;
         Elements results = doc.getElementsContainingOwnText("Grade Items");
         if (results.size() != 1)
             return false;

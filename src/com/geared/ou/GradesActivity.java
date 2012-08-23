@@ -247,13 +247,12 @@ public class GradesActivity extends Activity {
             updateTV.setTextColor(Color.BLACK);
         }
         updateTV.post(new Runnable() {
-            @Override
             public void run() {
                 img.start();
             }
         });
         TitleTV.post(new Runnable() {
-            @Override public void run() {
+            public void run() {
                 img2.start();
             }
         });

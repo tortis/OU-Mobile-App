@@ -257,7 +257,6 @@ public class ClassesActivity extends Activity implements OnClickListener
             updateTV.setTextColor(Color.BLACK);
         }
         updateTV.post(new Runnable() {
-            @Override
             public void run() {
                 img.start();
             }
