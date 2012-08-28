@@ -19,18 +19,20 @@
 
 package com.geared.ou;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import com.geared.ou.D2LSourceGetter.SGError;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import com.geared.ou.D2LSourceGetter.SGError;
 
 /**
  *
@@ -99,10 +101,10 @@ public class GradesData {
         }
         
         private void recomputePoints() {
-            for (Iterator<Grade> i = grades.iterator(); i.hasNext();) {
+            /*for (Iterator<Grade> i = grades.iterator(); i.hasNext();) {
                 //Grade g = i.next();
                 // TO DO
-            }
+            }*/
         }
     }
     
@@ -149,38 +151,45 @@ public class GradesData {
         gradesSource = null;
         
         /***********************************************************************
-         *                      START specialized code
-         **********************************************************************/
+         *                      START specialized code                         *
+         ***********************************************************************/
         Elements results = doc.getElementsContainingOwnText("Grade Items");
         if (results.size() != 1)
             return false;
         /* ul that contains category li's. */
-        Element gradesDiv = results.first().parent().nextElementSibling().child(0);
+        Element ulCategories = results.first().parent().nextElementSibling().child(0);
         
         /* List of li's, one for each category. */
-        Elements categoryList = gradesDiv.children();
+        Elements lisCategories = ulCategories.children();
         categories.clear();
         // Loop through each category
         int counter = 0;
-        for (Element categoryLi : categoryList) {
-            String categoryName = categoryLi.children().first().children().first().children().first().text();
+        Log.d("OU", "Num categories: "+lisCategories.size());
+        for (Element liCategory : lisCategories) 
+        {
+            String categoryName = liCategory.children().first().children().first().children().first().text();
             Category c = new Category(categoryName);
             // Loop through each item:
-            if (categoryLi.children().size() > 1) {
-                for (Element itemLi : categoryLi.child(1).children()) {
-                    String itemName = itemLi.children().first().children().first().text();
-                    String itemGrade = itemLi.children().first().child(1).text();
+            Elements lisGrades = liCategory.child(1).children();
+            Log.d("OU", "Num items: "+lisGrades.size());
+            if (lisGrades.size() > 1) {
+                for (Element liGrade : lisGrades) {
+                    String itemName = liGrade.children().first().children().first().text();
+                    String itemGrade = liGrade.children().first().child(1).text();
+                    Log.d("OU", "item name: "+itemName+", grade: "+itemGrade);
                     Log.d("OU", "Course id: "+course.getOuId());
                     c.addGrade(new Grade(itemName, itemGrade,(course.getOuId()+counter)));
+                    Log.d("OU", "dbg");
                     counter++;
                 }
+                Log.d("OU", "is outter looping?");
             }
             categories.add(c);
         }
         
         /***********************************************************************
-         *                       END specialized code
-         **********************************************************************/
+         *                       END specialized code                          *
+         ***********************************************************************/
         
         lastUpdate = new Date();
         writeToDb();
