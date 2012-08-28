@@ -154,7 +154,10 @@ public class GradesData {
         Elements results = doc.getElementsContainingOwnText("Grade Items");
         if (results.size() != 1)
             return false;
-        Element gradesDiv = results.first().nextElementSibling().child(0);
+        /* ul that contains category li's. */
+        Element gradesDiv = results.first().parent().nextElementSibling().child(0);
+        
+        /* List of li's, one for each category. */
         Elements categoryList = gradesDiv.children();
         categories.clear();
         // Loop through each category
@@ -167,9 +170,8 @@ public class GradesData {
                 for (Element itemLi : categoryLi.child(1).children()) {
                     String itemName = itemLi.children().first().children().first().text();
                     String itemGrade = itemLi.children().first().child(1).text();
-                    Grade g = new Grade(itemName, itemGrade, (course.getOuId()+counter));
-                    Log.d("OU", ""+course.getId());
-                    c.addGrade(g);
+                    Log.d("OU", "Course id: "+course.getOuId());
+                    c.addGrade(new Grade(itemName, itemGrade,(course.getOuId()+counter)));
                     counter++;
                 }
             }

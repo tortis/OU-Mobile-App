@@ -73,6 +73,7 @@ public class GradesActivity extends Activity {
         classes = app.getClasses(); // Get the classes list from the app object.
         course = classes.getCourse(classId); // From the classes list get this course.
         grades = course.getGrades(); //From the course get the grades object.. phew
+        Log.d("OU", "Course id: "+course.getId());
         
         /* Modify XML crap */
         titleBar = (TextView) findViewById(R.id.classHomeTitle);
