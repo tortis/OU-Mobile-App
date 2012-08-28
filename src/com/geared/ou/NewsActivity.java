@@ -19,6 +19,11 @@
 
 package com.geared.ou;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -32,16 +37,13 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
 import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FeedFetcher;
 import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FetcherException;
 import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.impl.HttpURLFeedFetcher;
 import com.google.code.rome.android.repackaged.com.sun.syndication.io.FeedException;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  *
@@ -55,7 +57,7 @@ public class NewsActivity extends Activity implements View.OnClickListener {
     private LinearLayout buttonEmail;
     private LinearLayout layoutContent;
     private OUApplication app;
-    List items;
+    List<?> items;
     SyndFeed feed;
     /** Called when the activity is first created. */
     @Override
@@ -109,7 +111,7 @@ public class NewsActivity extends Activity implements View.OnClickListener {
         layoutContent.removeViews(1, layoutContent.getChildCount()-1);
         LayoutParams lparam = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
         items = feed.getEntries();
-        Iterator i = items.iterator();
+        Iterator<?> i = items.iterator();
         addSpacer(layoutContent, Color.BLACK, 1, -1, View.VISIBLE);
         int counter = 0;
         while (i.hasNext()) {
@@ -218,7 +220,6 @@ public class NewsActivity extends Activity implements View.OnClickListener {
         img.setBounds(0, 0, 30, 30);
         img.setOneShot(false);
         TextView updateTV = (TextView)findViewById(R.id.updateTextView);
-        TextView TitleTV = (TextView) findViewById(R.id.classHomeTitle);
         if (updateTV == null) {
             updateTV = new TextView(this);
             updateTV.setText(" Updating...");
