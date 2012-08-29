@@ -105,21 +105,23 @@
         android:id="@+id/classHomeTitle"
         android:textSize="13dp"
         android:textColor="#000000"
-        android:paddingLeft="5px"
+        android:paddingLeft="5dp"
         android:gravity="center"
         android:background="@drawable/title_bg">
     </TextView>
-    <ScrollView android:id="@+id/content_scroll"
+
+    <ScrollView
+        android:id="@+id/content_scroll"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dip"
         android:layout_margin="5dp"
         android:layout_weight="1"
-        android:padding="5dp">
+        android:padding="5dp" >
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:background="@drawable/content_bg"
                 android:id="@+id/content"
                 android:textColor="#000000"
@@ -136,4 +138,49 @@
                         android:text="Grades" />
             </LinearLayout>
      </ScrollView>
+     <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="#000000" />
+     <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom" >
+            <TextView
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:clickable="true"
+                android:onClick="goToRoster"
+                android:background="@drawable/class_home_nav_bg_selector"
+                android:text="Roster"
+                android:gravity="center"
+                android:layout_weight="0.5"/>
+                <TextView
+                 android:layout_width="1dp"
+                 android:layout_height="fill_parent"
+                 android:background="#000000" />
+            <TextView
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:clickable="true"
+                android:background="@drawable/class_home_nav_bg_selector"
+                android:text="Content"
+                android:gravity="center"
+                android:onClick="goToContent"
+                android:layout_weight="0.5"/>
+                <TextView
+                 android:layout_width="1dp"
+                 android:layout_height="fill_parent"
+                 android:background="#000000" />
+            <TextView
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:clickable="true"
+                android:background="@drawable/class_home_nav_bg_selector"
+                android:text="Quizzes"
+                android:gravity="center"
+                android:layout_weight="0.5"/>
+     </LinearLayout>
 </LinearLayout>
