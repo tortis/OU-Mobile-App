@@ -151,7 +151,7 @@ public class GradesActivity extends Activity {
         for (Category c : g) {
             addSpacer(layoutContent, Color.BLACK, 2);
             TextView t = new TextView(this);
-            t.setText(c.getName());
+            t.setText(c.getName()+": "+c.getScore());
             Log.d("OU", "c.getName(): "+c.getName());
             t.setWidth(layoutContent.getWidth());
             t.setGravity(Gravity.CENTER_VERTICAL);
@@ -271,6 +271,20 @@ public class GradesActivity extends Activity {
         t.setHeight(height);
         t.setBackgroundColor(color);
         l.addView(t);
+    }
+    
+    public void goToContent(View v)
+    {
+        Intent myIntent = new Intent(this, ContentActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        myIntent.putExtra("classId", classId);
+        startActivity(myIntent);
+    }
+    
+    public void goToRoster(View v)
+    {
+        Intent myIntent = new Intent(this, RosterActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        myIntent.putExtra("classId", classId);
+        startActivity(myIntent);
     }
     
     public void goToMap(View v)
