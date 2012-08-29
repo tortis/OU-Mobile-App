@@ -239,21 +239,21 @@ public class ClassHomeActivity extends Activity {
     
     public void goToGrades(View v)
     {
-        Intent myIntent = new Intent(this, GradesActivity.class);
+        Intent myIntent = new Intent(this, GradesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         myIntent.putExtra("classId", classId);
         startActivity(myIntent);
     }
     
     public void goToContent(View v)
     {
-        Intent myIntent = new Intent(this, ContentActivity.class);
+        Intent myIntent = new Intent(this, ContentActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         myIntent.putExtra("classId", classId);
         startActivity(myIntent);
     }
     
     public void goToRoster(View v)
     {
-        Intent myIntent = new Intent(this, RosterActivity.class);
+        Intent myIntent = new Intent(this, RosterActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         myIntent.putExtra("classId", classId);
         startActivity(myIntent);
     }
