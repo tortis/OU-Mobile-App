@@ -29,6 +29,7 @@
     <string name="noAppToOpenFile">No suitable app to open this file</string>
     <string name="downloadFailed">Download failed</string>
     <string name="failedToGetDLink">Could not get link to file from D2L</string>
-    <string name="downloadWaitDiag">Downloading...</string>
+    <string name="downloadWaitDiag">Downloading&#8230;</string>
+    <string name="courseHomeTitle">Course Home</string>
 </resources>
 
