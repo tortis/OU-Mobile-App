@@ -76,9 +76,11 @@ public class GradesData {
         protected Float total;
         protected Float earned;
         protected Float percentage;
+        protected String grade;
         
-        public Category(String name) {
+        public Category(String name, String grade) {
             this.name = name;
+            this.grade = grade;
             grades = new ArrayList<Grade>();
         }
         
@@ -89,6 +91,11 @@ public class GradesData {
         public void addGrade(Grade g) {
             grades.add(g);
             recomputePoints();
+        }
+        
+        public String getScore()
+        {
+        	return grade;
         }
         
         public Boolean removeGrade(Grade g) {
@@ -150,7 +157,7 @@ public class GradesData {
         Document doc = Jsoup.parse(gradesSource);
         gradesSource = null;
         
-        /***********************************************************************
+        /* *********************************************************************
          *                      START specialized code                         *
          ***********************************************************************/
         Elements results = doc.getElementsContainingOwnText("Grade Items");
@@ -164,30 +171,31 @@ public class GradesData {
         categories.clear();
         // Loop through each category
         int counter = 0;
-        Log.d("OU", "Num categories: "+lisCategories.size());
         for (Element liCategory : lisCategories) 
         {
             String categoryName = liCategory.children().first().children().first().children().first().text();
-            Category c = new Category(categoryName);
-            // Loop through each item:
-            Elements lisGrades = liCategory.child(1).children();
-            Log.d("OU", "Num items: "+lisGrades.size());
-            if (lisGrades.size() > 1) {
-                for (Element liGrade : lisGrades) {
-                    String itemName = liGrade.children().first().children().first().text();
-                    String itemGrade = liGrade.children().first().child(1).text();
-                    Log.d("OU", "item name: "+itemName+", grade: "+itemGrade);
-                    Log.d("OU", "Course id: "+course.getOuId());
-                    c.addGrade(new Grade(itemName, itemGrade,(course.getOuId()+counter)));
-                    Log.d("OU", "dbg");
-                    counter++;
-                }
-                Log.d("OU", "is outter looping?");
+            String categoryGrade="";
+            if (liCategory.children().first().children().first().children().size() > 1)
+            	categoryGrade = liCategory.children().first().children().first().child(1).text();
+            Category c = new Category(categoryName,categoryGrade);
+            //If there is at least 1 item.
+            if (liCategory.children().size() > 1)
+            {
+            	// Loop through each item:
+	            Elements lisGrades = liCategory.child(1).children();
+	            if (lisGrades.size() > 1) {
+	                for (Element liGrade : lisGrades) {
+	                    String itemName = liGrade.children().first().children().first().text();
+	                    String itemGrade = liGrade.children().first().child(1).text();
+	                    c.addGrade(new Grade(itemName, itemGrade,(course.getOuId()+counter)));
+	                    counter++;
+	                }
+	            }
             }
             categories.add(c);
         }
         
-        /***********************************************************************
+        /* *********************************************************************
          *                       END specialized code                          *
          ***********************************************************************/
         
@@ -217,12 +225,12 @@ public class GradesData {
             
             // If no categories are loaded yet, aka this is the first row, then add category:
             if (categories.isEmpty()) {
-                categories.add(new Category(category));
+                categories.add(new Category(category,""));
             }
             // If the category of the current row does not equal the most recently
             // added category, then create the new category.
             else if (!categories.get(categories.size()-1).getName().equals(category)) {
-                categories.add(new Category(category));
+                categories.add(new Category(category,""));
             }
             // Finially add the ContentItem to the current category:
             categories.get(categories.size()-1).addGrade(g);
