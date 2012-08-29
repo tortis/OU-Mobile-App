@@ -243,7 +243,7 @@ public class ContentActivity extends Activity implements OnClickListener {
                 }
                 catch (ActivityNotFoundException e1) {
                     Log.d("OU", "No application found to open: "+file.toString());
-                    Toast.makeText(ContentActivity.this, R.string.noAppToOpenFile, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ContentActivity.this, R.string.noAppToOpenFile, Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -440,9 +440,23 @@ public class ContentActivity extends Activity implements OnClickListener {
         l.addView(t);
     }
     
+    public void goToGrades(View v)
+    {
+        Intent myIntent = new Intent(this, GradesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        myIntent.putExtra("classId", classId);
+        startActivity(myIntent);
+    }
+    
+    public void goToRoster(View v)
+    {
+        Intent myIntent = new Intent(this, RosterActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        myIntent.putExtra("classId", classId);
+        startActivity(myIntent);
+    }
+    
     public void goToMap(View v)
     {
-        Intent myIntent = new Intent(this, CampusMapActivity.class);
+        Intent myIntent = new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(myIntent);
     }
     public void goToNews(View v)
