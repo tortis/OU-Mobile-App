@@ -236,6 +236,20 @@ public class RosterActivity extends Activity {
         l.addView(t);
     }
     
+    public void goToGrades(View v)
+    {
+        Intent myIntent = new Intent(this, GradesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        myIntent.putExtra("classId", classId);
+        startActivity(myIntent);
+    }
+    
+    public void goToContent(View v)
+    {
+        Intent myIntent = new Intent(this, ContentActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        myIntent.putExtra("classId", classId);
+        startActivity(myIntent);
+    }
+    
     public void goToMap(View v)
     {
         Intent myIntent = new Intent(this, CampusMapActivity.class);
