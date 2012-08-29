@@ -123,7 +123,7 @@ public class ClassHomeData {
         }
         // Loop through each newsTr
         for (int i = 2; i < newsList.size(); i+=2) {
-            String name = newsList.get(i).text();
+            String name = newsList.get(i).child(0).child(0).text();
             String content = newsList.get(i+1).text();
             
             NewsItem n = new NewsItem(name, content, i+course.getOuId());
