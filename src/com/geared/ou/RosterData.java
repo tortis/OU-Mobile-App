@@ -213,7 +213,7 @@ public class RosterData {
     
     private Boolean writeToDb() {
         SQLiteDatabase db = app.getDb();
-        db.rawQuery("delete from roster where user='"+app.getUser()+"' and ou_id="+course.getOuId(), null);
+        db.delete("roster", "ou_id=?", new String[] {String.valueOf(course.getOuId())});
         ContentValues values = new ContentValues();
         
         for (Person p : people) {

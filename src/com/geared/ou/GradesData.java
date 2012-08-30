@@ -254,7 +254,7 @@ public class GradesData {
     
     private Boolean writeToDb() {
         SQLiteDatabase db = app.getDb();
-        db.rawQuery("delete from grades where user='"+app.getUser()+"' and ou_id="+course.getOuId(), null);
+        db.delete("grades", "ou_id=?", new String[] {String.valueOf(course.getOuId())});
         ContentValues values = new ContentValues();
         
         for (Category c : categories) {
