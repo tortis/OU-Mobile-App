@@ -175,9 +175,8 @@ public class ClassHomeData {
     
     private Boolean writeToDb() {
         SQLiteDatabase db = app.getDb();
-        db.rawQuery("delete from course_news where user='"+app.getUser()+"' and ou_id="+course.getOuId(), null);
+        db.delete("course_news", "ou_id=?", new String[] {String.valueOf(course.getOuId())});
         ContentValues values = new ContentValues();
-        
         for (NewsItem n : newsItems) {
             values.clear();
             values.put(DbHelper.C_CN_ID, n.getId());
