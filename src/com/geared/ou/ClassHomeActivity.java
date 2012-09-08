@@ -59,7 +59,8 @@ public class ClassHomeActivity extends Activity {
         setContentView(R.layout.class_home);
         
         /* Get context. */
-        classId = getIntent().getIntExtra("classId", 0);
+        classId = getIntent().getIntExtra("classId", -1);
+        Log.d("OU", "Class ID: "+classId);
         OUApplication app = (OUApplication) this.getApplication();
         course = app.getClasses().getCourse(classId);
         news = course.getNews();
@@ -80,7 +81,47 @@ public class ClassHomeActivity extends Activity {
         }
     }
     
-    private class update extends AsyncTask<Integer, Integer, Boolean> {
+    
+    
+    @Override
+	protected void onPause() {
+		Log.d("OU", "onPause was called");
+		if (isFinishing())
+			Log.d("OU", "The activity is finishing");
+		super.onPause();
+	}
+
+
+	@Override
+	protected void onStop() {
+		Log.d("OU", "onStop was called");
+		super.onStop();
+	}
+
+
+	@Override
+	protected void onDestroy() {
+		Log.d("OU", "onDestory was called");
+		super.onDestroy();
+	}
+
+
+	@Override
+	protected void onRestart() {
+		Log.d("OU", "onRestart was called");
+		super.onRestart();
+	}
+
+
+	@Override
+	protected void onResume() {
+		Log.d("OU", "onResume was called");
+		super.onResume();
+	}
+
+	
+
+	private class update extends AsyncTask<Integer, Integer, Boolean> {
         @Override
         protected Boolean doInBackground(Integer... s) {
             return news.update();
