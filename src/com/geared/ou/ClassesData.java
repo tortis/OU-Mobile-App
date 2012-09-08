@@ -271,7 +271,8 @@ public class ClassesData {
     }
 
     public Course getCourse(int id) {
-        if (!courses.isEmpty()) {
+        if (!courses.isEmpty())
+        {
             if (id < courses.size()) {
                 return courses.get(id);
             }
