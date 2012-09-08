@@ -27,7 +27,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#535353"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:text="@string/button1"
                         android:paddingLeft="3dp"/>
             </LinearLayout>
@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7d7d7d"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:text="@string/button2"
                         android:paddingLeft="3dp"/>
             </LinearLayout>
@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7d7d7d"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:text="@string/button3"
                         android:paddingLeft="3dp"/>
             </LinearLayout>
@@ -103,7 +103,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/classHomeTitle"
-        android:textSize="13dp"
+        android:textSize="13sp"
         android:textColor="#000000"
         android:paddingLeft="5dp"
         android:gravity="center"
@@ -133,7 +133,7 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
+                        android:textSize="17sp"
                         android:gravity="center_vertical|center_horizontal"
                         android:textColor="#222222"
                         android:text="@string/courseHomeTitle" />
