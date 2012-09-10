@@ -45,19 +45,23 @@ public class ContentData {
     
     public class ContentItem {
         
-        String name;
-        String link;
-        String category;
-        String type;
-        int ouId;
-        int id;
+        private String name;
+        private String link;
+        private String category;
+        private String type;
+        private int ouId;
+        private int id;
+        private Boolean hasLink;
         
         public ContentItem(String name, String link, String category, int ouId) {
             type = "";
+            hasLink = true;
             this.name = name;
             this.link = link;
             this.category = category;
             this.ouId = ouId;
+            if (link.equals(""))
+            	hasLink = false;
             setIdFromLink();
         }
         
@@ -95,6 +99,11 @@ public class ContentData {
         
         public int getId() {
             return id;
+        }
+        
+        public Boolean hasLink()
+        {
+        	return hasLink;
         }
         
        private void setIdFromLink() {
@@ -162,14 +171,23 @@ public class ContentData {
             return false;
         Element table = tables.get(0);
         Elements tdsOfInterest = table.getElementsByAttributeValue("class", "d_gn");
-        if (tdsOfInterest.isEmpty()) {
-            categories.add("Empty");
-            content.get(categories.get(categories.size()-1)).add(new ContentItem("No content", "0=0", "Empty", course.getOuId()));
-            return true;
-        }
         
         content.clear();
         categories.clear();
+        
+        if (tdsOfInterest.isEmpty()) {
+            categories.add("Oops");
+            ContentItem c = new ContentItem("No content found.", "0=0", "Oops", course.getOuId());
+            content.put("Oops", new ArrayList<ContentItem>());
+            content.get(categories.get(categories.size()-1)).add(c);
+            
+            lastUpdate = new Date();
+            if (!writeToDb())
+                return false;
+            
+            return true;
+        }
+        
         for (Element e : tdsOfInterest) {
             Elements as;
             // If there was no <a> tag, then td was a category, so add arraylist for it.
@@ -185,7 +203,7 @@ public class ContentData {
                 ci.setType(img.attr("alt"));
                 content.get(categories.get(categories.size()-1)).add(ci);
             }
-	}
+        }
         cleanContent();
         
         /* *********************************************************************
