@@ -60,7 +60,7 @@ public class ContentData {
             this.link = link;
             this.category = category;
             this.ouId = ouId;
-            if (link.equals(""))
+            if (link.equals("0=0") || link.equals(""))
             	hasLink = false;
             setIdFromLink();
         }
