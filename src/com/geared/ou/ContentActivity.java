@@ -328,12 +328,14 @@ public class ContentActivity extends Activity implements OnClickListener {
                 tv.setTextColor(Color.DKGRAY);
                 tv.setTextSize(15);
                 tv.setPadding(12, 15, 10, 15);
-                tv.setClickable(true);
                 tv.setHorizontalFadingEdgeEnabled(true);
                 tv.setFadingEdgeLength(35);
                 tv.setSingleLine(true);
-                tv.setOnClickListener(this);
-                tv.setClickable(true);
+                if (ci.hasLink())
+                {
+	                tv.setOnClickListener(this);
+	                tv.setClickable(true);
+                }
                 tv.setBackgroundResource(R.drawable.content_list_button_selector);
                 Drawable img = getResources().getDrawable(getIconForType(ci.getType()));
                 img.setBounds(0, 0, 45, 40);
