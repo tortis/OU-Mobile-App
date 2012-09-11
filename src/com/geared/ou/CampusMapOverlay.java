@@ -16,7 +16,7 @@ public class CampusMapOverlay extends ItemizedOverlay<OverlayItem>
 	
 	public CampusMapOverlay(Drawable defaultMarker, Context context)
 	{
-		super(defaultMarker);
+		super(boundCenterBottom(defaultMarker));
 		mContext = context;
 	}
 	

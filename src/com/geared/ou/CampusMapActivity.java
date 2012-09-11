@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -30,6 +31,8 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 /**
  *
@@ -39,6 +42,9 @@ import com.google.android.maps.MapView;
  * 
  */
 public class CampusMapActivity extends MapActivity {
+	
+	private MapView mapView;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
@@ -46,12 +52,27 @@ public class CampusMapActivity extends MapActivity {
         
         setContentView(R.layout.map);
         
-        MapView mapView = (MapView) findViewById(R.id.mapview);
+        mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         List<GeoPoint> points = new ArrayList<GeoPoint>();
         points.add(new GeoPoint(35211098, -97447894));
         points.add(new GeoPoint(35203866, -97441263));
         setMapBoundsToPois(points,0.0,0.0,mapView);
+        
+        //Overlays
+        List<Overlay> mapOverlays = mapView.getOverlays();
+        Drawable drawable = this.getResources().getDrawable(R.drawable.map_marker);
+        CampusMapOverlay itemizedoverlay = new CampusMapOverlay(drawable,this);
+        GeoPoint point = new GeoPoint(35208814,-97442315);
+        OverlayItem overlayitem = new OverlayItem(point, "Laissez les bon temps rouler!", "I'm in Louisiana!");
+
+        GeoPoint point2 = new GeoPoint(17385812,78480667);
+        OverlayItem overlayitem2 = new OverlayItem(point2, "Namashkaar!", "I'm in Hyderabad, India!");
+
+        itemizedoverlay.addOverlay(overlayitem);
+        itemizedoverlay.addOverlay(overlayitem2);
+
+        mapOverlays.add(itemizedoverlay);
     }
     
     public void setMapBoundsToPois(List<GeoPoint> items, double hpadding, double vpadding, MapView mv) {
