@@ -6,4 +6,7 @@
     <drawable name="transparent_red">#66cc1d1d</drawable>
     <drawable name="transparent_gold">#bbcfb53b</drawable>
     <drawable name="crimson">#80100e</drawable>
+    <color name="rbm_menu_background">#303030</color>
+
+    <color name="rbm_item_text_color">#ffffff</color>
 </resources>

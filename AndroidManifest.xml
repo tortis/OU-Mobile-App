@@ -15,7 +15,7 @@
             </intent-filter>
         </activity>
         <activity android:name="ClassesActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name="CampusMapActivity" android:theme="@android:style/Theme.NoTitleBar" ></activity>
+        <activity android:name="CampusMapActivity"></activity>
         <activity android:name="PrefsActivity" ></activity>
         <activity android:name="ClassHomeActivity" android:theme="@android:style/Theme.NoTitleBar" ></activity>
         <activity android:name="ContentActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
