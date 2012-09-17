@@ -19,7 +19,16 @@
 
 package com.geared.ou;
 
-import android.app.Activity;
+import java.io.File;
+import java.net.FileNameMap;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -34,24 +43,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.geared.ou.ClassesData.Course;
 import com.geared.ou.ContentData.ContentItem;
 import com.geared.ou.D2LSourceGetter.SGError;
-import java.io.File;
-import java.net.FileNameMap;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Map;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 /**
  *
@@ -61,7 +65,7 @@ import org.jsoup.select.Elements;
  * downloading a selected content file to the SD card and attempting to open it 
  * 
  */
-public class ContentActivity extends Activity implements OnClickListener {
+public class ContentActivity extends SherlockActivity implements OnClickListener {
     private TextView titleBar;
     private int classId;
     protected Course course;
@@ -143,10 +147,11 @@ public class ContentActivity extends Activity implements OnClickListener {
         return null;
     }
     
-        @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.classes_menu, menu);
-        return true;
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.classes_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -350,7 +355,7 @@ public class ContentActivity extends Activity implements OnClickListener {
              img.setBounds(0, 0, 30, 25);
              t.setCompoundDrawables(img, null, null, null);
          }
-        t.setText(getString(R.string.lastUpdateTitle)+" "+content.getLastUpdate().toLocaleString());
+        t.setText(getString(R.string.lastUpdateTitle)+" "+content.getLastUpdate().toString());
         t.setGravity(Gravity.TOP);
         t.setWidth(layoutContent.getWidth());
         t.setPadding(7, 3, 3, 3);

@@ -19,7 +19,6 @@
 
 package com.geared.ou;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -29,13 +28,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.geared.ou.ClassesData.Course;
 
 /**
@@ -45,7 +47,7 @@ import com.geared.ou.ClassesData.Course;
  * display class info/news in the future.
  */
 
-public class ClassHomeActivity extends Activity {
+public class ClassHomeActivity extends SherlockActivity {
     private TextView titleBar;
     int classId;
     Course course;
@@ -162,7 +164,7 @@ public class ClassHomeActivity extends Activity {
             addSpacer(layoutContent, Color.BLACK, 2);
             
             /* Title of n Item */
-            LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+            LayoutParams lparams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             TextView t = new TextView(this);
             t.setLayoutParams(lparams);
             t.setText(n.getName());
@@ -195,8 +197,8 @@ public class ClassHomeActivity extends Activity {
              img.setBounds(0, 0, 30, 25);
              t.setCompoundDrawables(img, null, null, null);
          }
-        LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-        t.setText(getString(R.string.lastUpdateTitle)+" "+news.getLastUpdate().toLocaleString());
+        LayoutParams lparams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        t.setText(getString(R.string.lastUpdateTitle)+" "+news.getLastUpdate().toString());
         t.setGravity(Gravity.TOP);
         t.setLayoutParams(lparams);
         t.setPadding(7, 3, 3, 3);
@@ -254,8 +256,9 @@ public class ClassHomeActivity extends Activity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.classes_menu, menu);
-        return true;
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.classes_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

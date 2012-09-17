@@ -25,11 +25,8 @@ import java.util.List;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockMapActivity;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
@@ -44,10 +41,9 @@ import com.google.android.maps.OverlayItem;
  * functionality has been implemented.
  * 
  */
-public class CampusMapActivity extends SherlockMapActivity implements iRibbonMenuCallback{
+public class CampusMapActivity extends SherlockMapActivity {
 	
 	private MapView mapView;
-	private RibbonMenuView rbmView;
 	
     /** Called when the activity is first created. */
     @Override
@@ -55,8 +51,6 @@ public class CampusMapActivity extends SherlockMapActivity implements iRibbonMen
         super.onCreate(icicle);
         
         setContentView(R.layout.map);
-        
-        ActionBar ab = getSupportActionBar();
         
         
         
@@ -81,20 +75,8 @@ public class CampusMapActivity extends SherlockMapActivity implements iRibbonMen
         itemizedoverlay.addOverlay(overlayitem2);
 
         mapOverlays.add(itemizedoverlay);
-        
-        //Side Menu
-        rbmView = (RibbonMenuView) findViewById(R.id.ribbonMenuView1);
-        rbmView.setMenuClickCallback(this);
-        rbmView.setMenuItems(R.menu.ribbon_menu);
     }
     
-    @Override
-	public void onBackPressed() {
-		if (rbmView.isMenuVisible())
-			rbmView.toggleMenu();
-		else
-			super.onBackPressed();
-	}
 
 	public void setMapBoundsToPois(List<GeoPoint> items, double hpadding, double vpadding, MapView mv) {
         MapController mapController = mv.getController();
@@ -154,10 +136,5 @@ public class CampusMapActivity extends SherlockMapActivity implements iRibbonMen
     protected boolean isRouteDisplayed() {
         return false;
     }
-
-	public void RibbonMenuItemClick(int itemId) {
-		// TODO Auto-generated method stub
-		
-	}
     
 }

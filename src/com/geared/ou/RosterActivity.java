@@ -144,7 +144,7 @@ public class RosterActivity extends Activity {
         for (RosterData.Person p : people) {
             addSpacer(layoutContent, Color.BLACK, 1);
             TextView t = new TextView(this);
-            LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+            LayoutParams lparams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             t.setText(p.getFirstName()+" "+p.getLastName());
             t.setLayoutParams(lparams);
             t.setGravity(Gravity.CENTER_VERTICAL);
@@ -161,14 +161,14 @@ public class RosterActivity extends Activity {
         }
         addSpacer(layoutContent, Color.BLACK, 1);
         TextView t = new TextView(this);
-        LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams lparams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         t.setLayoutParams(lparams);
          if (roster.needsUpdate() || updateFailed) {
              Drawable img = getResources().getDrawable(R.drawable.ic_small_alert);
              img.setBounds(0, 0, 30, 25);
              t.setCompoundDrawables(img, null, null, null);
          }
-        t.setText(getString(R.string.lastUpdateTitle)+" "+roster.getLastUpdate().toLocaleString());
+        t.setText(getString(R.string.lastUpdateTitle)+" "+roster.getLastUpdate().toString());
         t.setGravity(Gravity.TOP);
         t.setPadding(7, 3, 3, 3);
         t.setTextColor(Color.GRAY);

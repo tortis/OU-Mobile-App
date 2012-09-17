@@ -19,6 +19,9 @@
 
 package com.geared.ou;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,17 +32,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.geared.ou.ClassesData.Course;
 import com.geared.ou.D2LSourceGetter.SGError;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * 
@@ -48,7 +52,7 @@ import java.util.Iterator;
  * to the preferences activity.
  */
 
-public class ClassesActivity extends Activity implements OnClickListener
+public class ClassesActivity extends SherlockActivity implements OnClickListener
 {
     private LinearLayout buttonNews;
     private LinearLayout buttonEmail;
@@ -163,8 +167,9 @@ public class ClassesActivity extends Activity implements OnClickListener
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.classes_menu, menu);
-        return true;
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.classes_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -221,7 +226,7 @@ public class ClassesActivity extends Activity implements OnClickListener
              img.setBounds(0, 0, 30, 25);
              t.setCompoundDrawables(img, null, null, null);
          }
-         t.setText(getString(R.string.lastUpdateTitle)+" "+classes.getLastSourceUpdate().toLocaleString());
+         t.setText(getString(R.string.lastUpdateTitle)+" "+classes.getLastSourceUpdate().toString());
          t.setGravity(Gravity.TOP);
          t.setWidth(layoutContent.getWidth());
          t.setPadding(7, 3, 3, 3);

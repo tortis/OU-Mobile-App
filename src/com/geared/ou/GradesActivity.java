@@ -21,7 +21,6 @@ package com.geared.ou;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -31,14 +30,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.geared.ou.ClassesData.Course;
 import com.geared.ou.GradesData.Category;
 import com.geared.ou.GradesData.Grade;
@@ -53,7 +54,7 @@ import com.geared.ou.GradesData.Grade;
  * 
  */
 
-public class GradesActivity extends Activity {
+public class GradesActivity extends SherlockActivity {
     private TextView titleBar;
     private int classId;
     protected Course course;
@@ -119,10 +120,18 @@ public class GradesActivity extends Activity {
         }
     }
     
+    
     @Override
+	public MenuInflater getSupportMenuInflater() {
+		// TODO Auto-generated method stub
+		return super.getSupportMenuInflater();
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.classes_menu, menu);
-        return true;
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.classes_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -204,7 +213,7 @@ public class GradesActivity extends Activity {
              img.setBounds(0, 0, 30, 25);
              t.setCompoundDrawables(img, null, null, null);
          }
-        t.setText(getString(R.string.lastUpdateTitle)+" "+grades.getLastUpdate().toLocaleString());
+        t.setText(getString(R.string.lastUpdateTitle)+" "+grades.getLastUpdate().toString());
         t.setGravity(Gravity.TOP);
         t.setWidth(layoutContent.getWidth());
         t.setPadding(7, 3, 3, 3);
