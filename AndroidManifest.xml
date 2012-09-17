@@ -6,20 +6,20 @@
         <uses-permission android:name="android.permission.INTERNET" />
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="15"></uses-sdk>
-    <application android:name="OUApplication" android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+    <application android:name="OUApplication" android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:theme="@style/Theme.Sherlock.Light">
         <uses-library android:name="com.google.android.maps" />
-        <activity android:name="NewsActivity" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar" >
+        <activity android:name="NewsActivity" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ClassesActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity android:name="ClassesActivity"></activity>
         <activity android:name="CampusMapActivity"></activity>
-        <activity android:name="PrefsActivity" ></activity>
-        <activity android:name="ClassHomeActivity" android:theme="@android:style/Theme.NoTitleBar" ></activity>
-        <activity android:name="ContentActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name="GradesActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name="RosterActivity" android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity android:name="PrefsActivity"></activity>
+        <activity android:name="ClassHomeActivity"></activity>
+        <activity android:name="ContentActivity"></activity>
+        <activity android:name="GradesActivity"></activity>
+        <activity android:name="RosterActivity"></activity>
     </application>
 </manifest>
