@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/crimson"
     android:gravity="top">
-    <LinearLayout 
-        android:layout_width="fill_parent"
-    	android:layout_height="fill_parent" >
 	    <LinearLayout
 	        android:orientation="horizontal"
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="48dp">
 	            <!-- Button 1 -->
 	            <LinearLayout
 	                android:orientation="horizontal"
-	                android:layout_width="fill_parent"
-	                android:layout_height="fill_parent"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
 	                android:background="@drawable/main_button_background"
 	                android:id="@+id/classesbutton"
 	                android:clickable="true"
@@ -39,12 +36,12 @@
 	            <ImageView
 	                    android:background="#cccccc"
 	                    android:layout_width="1dp"
-	                    android:layout_height="fill_parent"/>
+	                    android:layout_height="match_parent"/>
 	            <!-- Button 2 -->
 	            <LinearLayout
 	                android:orientation="horizontal"
-	                android:layout_width="fill_parent"
-	                android:layout_height="fill_parent"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
 	                android:background="@drawable/button_background_selector"
 	                android:id="@+id/newsbutton"
 	                android:clickable="true"
@@ -67,12 +64,12 @@
 	            <ImageView
 	                    android:background="#cccccc"
 	                    android:layout_width="1dp"
-	                    android:layout_height="fill_parent"/>
+	                    android:layout_height="match_parent"/>
 	            <!-- Button 3 -->
 	            <LinearLayout
 	                android:orientation="horizontal"
-	                android:layout_width="fill_parent"
-	                android:layout_height="fill_parent"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
 	                android:background="@drawable/main_button_background_a"
 	                android:id="@+id/emailbutton"
 	                android:clickable="true"
@@ -93,24 +90,19 @@
 	    </LinearLayout>
 	    <!-- Bottom Spacer -->
 	    <ImageView
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
 	        android:background="#efefef" 
 	        android:layout_gravity="top" />
 	    <ImageView
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
 	        android:background="#bfbfbf" 
 	        android:layout_gravity="top" />
 	    <com.google.android.maps.MapView
 	            android:id="@+id/mapview"
-	            android:layout_width="fill_parent"
-	            android:layout_height="fill_parent"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
 	            android:clickable="true"
 	            android:apiKey="0Z4bcHWH4mxxi6O69Ny7vTYFCH9CemuLE9phijg" />
-    </LinearLayout>
-    <com.geared.ou.RibbonMenuView
-        android:id="@+id/ribbonMenuView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+</LinearLayout>
