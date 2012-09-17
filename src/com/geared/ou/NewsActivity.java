@@ -24,7 +24,6 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -35,9 +34,17 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
 import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FeedFetcher;
@@ -52,9 +59,8 @@ import com.google.code.rome.android.repackaged.com.sun.syndication.io.FeedExcept
  * functionality has been implemented.
  * 
  */
-public class NewsActivity extends Activity implements View.OnClickListener {
-    private LinearLayout buttonClasses;
-    private LinearLayout buttonEmail;
+public class NewsActivity extends SherlockActivity  implements View.OnClickListener, OnNavigationListener {
+    
     private LinearLayout layoutContent;
     private OUApplication app;
     List<?> items;
@@ -65,12 +71,36 @@ public class NewsActivity extends Activity implements View.OnClickListener {
         super.onCreate(icicle);
         
         setContentView(R.layout.news);
+        
+        ActionBar ab = getSupportActionBar();
+        if (ab != null)
+        {
+        	Log.d("OU", "ab not null");
+        	ab.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.crimson));
+        	ab.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+        	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        	SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.action_list,
+        	          android.R.layout.simple_spinner_dropdown_item);
+        	ab.setListNavigationCallbacks(mSpinnerAdapter, this);
+        	/*ab.addTab(ab.newTab()
+        			.setText("Classes")
+        			.setIcon(getResources().getDrawable(R.drawable.grades_button_icon_a))
+        			.setTabListener(this), false);
+        	ab.addTab(ab.newTab()
+        			.setText("News")
+        			.setIcon(getResources().getDrawable(R.drawable.news_button_icon_a))
+        			.setTabListener(this), true);   
+        	ab.addTab(ab.newTab()
+        			.setText("Map")
+        			.setIcon(getResources().getDrawable(R.drawable.map_button_icon_a))
+        			.setTabListener(this), false);*/
+        }
 
-        // Get Action Buttons
-        buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
-        buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
-        buttonClasses.setOnClickListener(this);
-        buttonEmail.setOnClickListener(this);
+        //Get Action Buttons
+        //buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
+        //buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
+        //buttonClasses.setOnClickListener(this);
+        //buttonEmail.setOnClickListener(this);
         layoutContent = (LinearLayout) findViewById(R.id.content);
         
         app = (OUApplication) this.getApplication();
@@ -107,9 +137,32 @@ public class NewsActivity extends Activity implements View.OnClickListener {
         }
     }
     
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.classes_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.itemPrefs:
+                startActivity(new Intent(this, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+                break;
+            case R.id.refreshClasses:
+            	setStatusTextViewToUpdating();
+                new Load().execute();
+                break;
+            default:
+            	break;
+        }
+        return true;
+    }
+    
     protected void updateDisplay() {
-        layoutContent.removeViews(1, layoutContent.getChildCount()-1);
-        LayoutParams lparam = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        layoutContent.removeAllViews();
+        LayoutParams lparam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         items = feed.getEntries();
         Iterator<?> i = items.iterator();
         addSpacer(layoutContent, Color.BLACK, 1, -1, View.VISIBLE);
@@ -242,4 +295,9 @@ public class NewsActivity extends Activity implements View.OnClickListener {
             }
         });
     }
+
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		Log.d("OU", "item pos " + itemPosition);
+		return false;
+	}
 }
