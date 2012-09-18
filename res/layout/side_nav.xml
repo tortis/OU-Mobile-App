@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    android:orientation="vertical" >
+
+	    <TextView
+	        android:background="@drawable/content_list_button_selector"
+        	android:clickable="true"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="#ffffff"
+	        android:textSize="18dip"
+	        android:text="@string/newsButton"
+	        android:paddingBottom="8dp"
+	        android:paddingTop="10dp"
+	        android:paddingLeft="10dp"
+	        android:drawableLeft="@drawable/news_button_icon_a"
+	        android:onClick="sideNavItemSelected" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#111111" />
+    
+    <TextView
+	        android:background="@drawable/content_list_button_selector"
+        	android:clickable="true"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="#ffffff"
+	        android:textSize="18dip"
+	        android:text="@string/classesButton"
+	        android:paddingBottom="8dp"
+	        android:paddingTop="10dp"
+	        android:paddingLeft="10dp"
+	        android:drawableLeft="@drawable/grades_button_icon_a"
+	        android:onClick="sideNavItemSelected" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#111111" />
+    
+    <TextView
+	        android:background="@drawable/content_list_button_selector"
+        	android:clickable="true"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="#ffffff"
+	        android:textSize="18dip"
+	        android:text="@string/mapButton"
+	        android:paddingBottom="8dp"
+	        android:paddingTop="10dp"
+	        android:paddingLeft="10dp"
+	        android:drawableLeft="@drawable/map_button_icon_a"
+	        android:onClick="sideNavItemSelected" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#111111" />
+
+</LinearLayout>

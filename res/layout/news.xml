@@ -2,10 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/crimson"
-    android:gravity="top">
-    <ScrollView android:id="@+id/content_scroll"
+    android:layout_height="fill_parent" >
+    <!--  <ScrollView android:id="@+id/content_scroll"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_margin="5dp"
@@ -24,5 +22,11 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="15dp">
             </LinearLayout>
-     </ScrollView>
+     </ScrollView> -->
+     <fragment android:name="com.geared.ou.NewsFragment"
+		class="com.geared.ou.NewsFragment"
+		android:id="@+id/main_fragment"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" >   
+	 </fragment>
 </LinearLayout>
