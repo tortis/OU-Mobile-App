@@ -19,38 +19,16 @@
 
 package com.geared.ou;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
-
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndEntryImpl;
-import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
-import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FeedFetcher;
-import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FetcherException;
-import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.impl.HttpURLFeedFetcher;
-import com.google.code.rome.android.repackaged.com.sun.syndication.io.FeedException;
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 /**
  *
@@ -59,245 +37,62 @@ import com.google.code.rome.android.repackaged.com.sun.syndication.io.FeedExcept
  * functionality has been implemented.
  * 
  */
-public class NewsActivity extends SherlockActivity  implements View.OnClickListener, OnNavigationListener {
+public class NewsActivity extends SlidingFragmentActivity {
     
-    private LinearLayout layoutContent;
-    private OUApplication app;
-    List<?> items;
-    SyndFeed feed;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         
         setContentView(R.layout.news);
+        setBehindContentView(R.layout.side_nav);
+        
+        SlidingMenu sm = getSlidingMenu();
+        sm.setBehindWidth(300);
         
         ActionBar ab = getSupportActionBar();
         if (ab != null)
         {
         	Log.d("OU", "ab not null");
         	ab.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.crimson));
-        	ab.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-        	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        	SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.action_list,
-        	          android.R.layout.simple_spinner_dropdown_item);
-        	ab.setListNavigationCallbacks(mSpinnerAdapter, this);
-        	/*ab.addTab(ab.newTab()
-        			.setText("Classes")
-        			.setIcon(getResources().getDrawable(R.drawable.grades_button_icon_a))
-        			.setTabListener(this), false);
-        	ab.addTab(ab.newTab()
-        			.setText("News")
-        			.setIcon(getResources().getDrawable(R.drawable.news_button_icon_a))
-        			.setTabListener(this), true);   
-        	ab.addTab(ab.newTab()
-        			.setText("Map")
-        			.setIcon(getResources().getDrawable(R.drawable.map_button_icon_a))
-        			.setTabListener(this), false);*/
+        	ab.setTitle("News");
+        	ab.setDisplayHomeAsUpEnabled(true);
         }
-
-        //Get Action Buttons
-        //buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
-        //buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
-        //buttonClasses.setOnClickListener(this);
-        //buttonEmail.setOnClickListener(this);
-        layoutContent = (LinearLayout) findViewById(R.id.content);
         
-        app = (OUApplication) this.getApplication();
-        feed = app.getFeed();
-        if (feed == null) {
-            setStatusTextViewToUpdating();
-            new Load().execute();
-        }
-        else {
-            updateDisplay();
-        }
+        /*FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment newFragment = fragmentManager.findFragmentById(R.id.main_fragment);
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.replace(R.id.main_fragment, newFragment);
+		fragmentTransaction.addToBackStack(null);
+
+		// Commit the transaction
+		fragmentTransaction.commit();*/
     }
     
-    private class Load extends AsyncTask<Integer, Integer, Boolean> {
-        @Override
-        protected Boolean doInBackground(Integer... s) {
-            feed = getMostRecentNews("http://www.oudaily.com/rss/headlines/front/");
-            app.setFeed(feed);
-            if (feed == null)
-                return false;
-            return true;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            // Update percentage
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            updateDisplay();
-        }
-    }
-    
-	@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.classes_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-	
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.itemPrefs:
-                startActivity(new Intent(this, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
-                break;
-            case R.id.refreshClasses:
-            	setStatusTextViewToUpdating();
-                new Load().execute();
-                break;
+        	case android.R.id.home:
+        		Log.d("OU", "Up button pressed");
+        		toggle();
+        		break;
             default:
             	break;
         }
         return true;
     }
     
-    protected void updateDisplay() {
-        layoutContent.removeAllViews();
-        LayoutParams lparam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        items = feed.getEntries();
-        Iterator<?> i = items.iterator();
-        addSpacer(layoutContent, Color.BLACK, 1, -1, View.VISIBLE);
-        int counter = 0;
-        while (i.hasNext()) {
-            SyndEntryImpl entry = (SyndEntryImpl) i.next();
-            TextView tv = new TextView(this);
-            tv.setLayoutParams(lparam);
-            tv.setGravity(Gravity.CENTER_VERTICAL);
-            tv.setTextColor(Color.argb(255, 75, 25, 25));
-            tv.setTextSize(13);
-            tv.setId(counter);
-            tv.setTypeface(null, Typeface.BOLD);
-            tv.setPadding(10, 12, 10, 12);
-            tv.setHorizontalFadingEdgeEnabled(true);
-            tv.setFadingEdgeLength(35);
-            tv.setSingleLine(true);
-            tv.setText(entry.getTitle());
-            tv.setOnClickListener(this);
-            tv.setClickable(true);
-            tv.setBackgroundResource(R.drawable.content_list_button_selector);
-            layoutContent.addView(tv);
-            addSpacer(layoutContent, Color.BLACK, 1, -1, View.VISIBLE);
-            TextView tvc = new TextView(this);
-            tvc.setLayoutParams(lparam);
-            tvc.setGravity(Gravity.CENTER_VERTICAL);
-            tvc.setTextColor(Color.argb(255, 75, 25, 25));
-            tvc.setTextSize(13);
-            tvc.setId(counter+100);
-            tvc.setPadding(10, 5, 10, 5);
-            tvc.setVisibility(View.GONE);
-            tvc.setText(entry.getDescription().getValue());
-            layoutContent.addView(tvc);
-            addSpacer(layoutContent, Color.BLACK, 1, counter+200, View.GONE);
-            counter++;
-        }
-    }
-    
-    public void addSpacer(LinearLayout l, int color, int height, int id, int vis) {
-        TextView t = new TextView(this);
-        t.setWidth(l.getWidth());
-        t.setHeight(height);
-        t.setId(id);
-        t.setVisibility(vis);
-        t.setBackgroundColor(color);
-        l.addView(t);
-    }
-    
-    protected SyndFeed getMostRecentNews( final String feedUrl )
+    public void sideNavItemSelected(View v)
     {
-        try
-        {
-            return retrieveFeed( feedUrl );
-        }
-        catch ( Exception e )
-        {
-            throw new RuntimeException( e );
-        }
-    }
-    
-    private SyndFeed retrieveFeed( final String feedUrl ) throws IOException, FeedException, FetcherException
-    {
-        FeedFetcher feedFetcher = new HttpURLFeedFetcher();
-        return feedFetcher.retrieveFeed( new URL( feedUrl ) );
-    }
-    
-    public void onClick(View v) {
-        Log.d("OU", "Something was clicked");
-        if (v.getId() == R.id.classesbutton)
-        {
-            Log.d("OU", "Classes button pressed.");
-            Intent myIntent = new Intent(this, ClassesActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-        else if (v.getId() == R.id.emailbutton)
-        {
-            Log.d("OU", "Email button pressed.");
-            Intent myIntent = new Intent(this, CampusMapActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-        else {
-            SyndEntryImpl i = (SyndEntryImpl)items.get(v.getId());
-            if (i == null) {
-                Log.d("OU", "Could not get the clicked view.");
-                return;
-            }
-            TextView tv = (TextView)findViewById(v.getId()+100);
-            TextView sp = (TextView)findViewById(v.getId()+200);
-            if (tv.getVisibility() == View.GONE) {
-                tv.setVisibility(View.VISIBLE);
-                sp.setVisibility(View.VISIBLE);
-            }
-            else {
-                tv.setVisibility(View.GONE);
-                sp.setVisibility(View.GONE);
-            }
-        }
-    }
-    
-    protected void setStatusTextViewToUpdating() {
-        final AnimationDrawable img = new AnimationDrawable();
-        img.addFrame(getResources().getDrawable(R.drawable.loading1), 150);
-        img.addFrame(getResources().getDrawable(R.drawable.loading2), 150);
-        img.addFrame(getResources().getDrawable(R.drawable.loading3), 150);
-        img.addFrame(getResources().getDrawable(R.drawable.loading4), 150);
-        img.setBounds(0, 0, 30, 30);
-        img.setOneShot(false);
-        TextView updateTV = (TextView)findViewById(R.id.updateTextView);
-        if (updateTV == null) {
-            updateTV = new TextView(this);
-            updateTV.setText(" Updating...");
-            updateTV.setCompoundDrawables(img, null, null, null);
-            updateTV.setGravity(Gravity.TOP);
-            updateTV.setWidth(layoutContent.getWidth());
-            updateTV.setPadding(15, 3, 3, 3);
-            updateTV.setTextColor(Color.BLACK);
-            updateTV.setTextSize(13);
-            updateTV.setId(R.id.updateTextView);
-            layoutContent.addView(updateTV);
-        } else {
-            updateTV.setCompoundDrawables(img, null, null, null);
-            updateTV.setText(" Updating...");
-            updateTV.setTextColor(Color.BLACK);
-        }
-        updateTV.post(new Runnable() {
-            public void run() {
-                img.start();
-            }
-        });
+    	toggle();
     }
 
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		Log.d("OU", "item pos " + itemPosition);
-		return false;
-	}
 }
