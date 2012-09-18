@@ -28,7 +28,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#535353"
                         android:textSize="14dp"
-                        android:text="@string/button1"
+                        android:text="@string/classesButton"
                         android:paddingLeft="3dp"/>
             </LinearLayout>
             <!-- Spacer -->
@@ -56,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#7d7d7d"
                         android:textSize="14dp"
-                        android:text="@string/button2"
+                        android:text="@string/newsButton"
                         android:paddingLeft="3dp"/>
             </LinearLayout>
             <!-- Spacer -->
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#7d7d7d"
                         android:textSize="14dp"
-                        android:text="@string/button3"
+                        android:text="@string/mapButton"
                         android:paddingLeft="3dp"/>
             </LinearLayout>
     </LinearLayout>
@@ -112,7 +112,7 @@
 
     <ScrollView
         android:id="@+id/content_scroll"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_margin="5dp"
         android:layout_weight="1"
