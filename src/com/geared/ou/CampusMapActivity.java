@@ -25,14 +25,19 @@ import java.util.List;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 
-import com.actionbarsherlock.app.SherlockMapActivity;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingMapActivity;
 
 /**
  *
@@ -41,18 +46,29 @@ import com.google.android.maps.OverlayItem;
  * functionality has been implemented.
  * 
  */
-public class CampusMapActivity extends SherlockMapActivity {
+public class CampusMapActivity extends SlidingMapActivity {
 	
 	private MapView mapView;
+	OUApplication app;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        app = (OUApplication)getApplication();
         
         setContentView(R.layout.map);
+        setBehindContentView(R.layout.side_nav);
         
+        ActionBar ab = getSupportActionBar();
+        if (ab != null)
+        {
+        	ab.setTitle("Map");
+        	ab.setDisplayHomeAsUpEnabled(true);
+        }
         
+        SlidingMenu sm = getSlidingMenu();
+        sm.setBehindWidth(300);
         
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
@@ -77,7 +93,18 @@ public class CampusMapActivity extends SherlockMapActivity {
         mapOverlays.add(itemizedoverlay);
     }
     
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+        	case android.R.id.home:
+        		toggle();
+        		break;
+        	default:
+            	break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
 	public void setMapBoundsToPois(List<GeoPoint> items, double hpadding, double vpadding, MapView mv) {
         MapController mapController = mv.getController();
         // If there is only on one result
@@ -118,6 +145,27 @@ public class CampusMapActivity extends SherlockMapActivity {
             mapController.animateTo(new GeoPoint(
                   (maxLatitude + minLatitude) / 2, (maxLongitude + minLongitude) / 2));
         }
+    }
+	
+	public void sideNavItemSelected(View v)
+    {
+    	switch(v.getId())
+    	{
+    		case R.id.news_button:
+    			app.setCurrentFragment(OUApplication.FRAGMENT_NEWS);
+    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			break;
+    		case R.id.classes_button:
+    			app.setCurrentFragment(OUApplication.FRAGMENT_CLASSES);
+    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			break;
+    		case R.id.map_button:
+    			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			break;
+			default:
+				break;
+    	}
+    	toggle();
     }
     
     public void gotoClasses(View v) {
