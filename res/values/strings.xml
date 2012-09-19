@@ -10,7 +10,7 @@
     <string name="badLogin">Incorrect username or password.</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="titlePrefs">Pref</string>
+    <string name="titlePrefs">Set Credentials</string>
     <string name="usernameSummary">Your OU 4x4</string>
     <string name="passwordSummary">Your OU password</string>
     <string name="msgWaitWhileUpdating">Updating courses</string>
