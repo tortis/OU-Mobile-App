@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -62,7 +63,7 @@ public class NewsActivity extends SlidingFragmentActivity {
         tlc = (LinearLayout)findViewById(R.id.top_level_container);
         
         SlidingMenu sm = getSlidingMenu();
-        sm.setBehindWidth(300);
+        sm.setBehindWidth(350);
         
         fragmentManager = getSupportFragmentManager();
         newsFragment = new NewsFragment();
@@ -83,6 +84,11 @@ public class NewsActivity extends SlidingFragmentActivity {
         			fragClassesTrans.add(R.id.top_level_container, classesFragment, "main_fragment");
         			fragClassesTrans.commit();
         			break;
+        		case OUApplication.FRAGMENT_CLASS:
+        			ClassHomeFragment classHomeFragment = new ClassHomeFragment();
+        			FragmentTransaction fragClassTrans = fragmentManager.beginTransaction();
+        			fragClassTrans.add(R.id.top_level_container, classHomeFragment, "main_fragment");
+        			fragClassTrans.commit();
     			default:
     				FragmentTransaction fragDefaultTrans = fragmentManager.beginTransaction();
     				fragDefaultTrans.add(R.id.top_level_container, newsFragment, "main_fragment");
@@ -143,4 +149,10 @@ public class NewsActivity extends SlidingFragmentActivity {
     	toggle();
     }
 
+
+
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
 }
