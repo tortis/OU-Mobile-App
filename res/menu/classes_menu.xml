@@ -3,9 +3,5 @@
     <item android:title="@string/titleRefreshClasses"
           android:id="@+id/refreshClasses"
           android:icon="@drawable/ic_menu_refresh"
-          android:showAsAction="ifRoom|withText"></item>
-    <item android:title="@string/titlePrefs"
-          android:id="@+id/itemPrefs"
-          android:icon="@drawable/ic_menu_preferences"
-          android:showAsAction="ifRoom|withText"></item>
+          android:showAsAction="withText|always"></item>
 </menu>
