@@ -25,8 +25,6 @@ import java.util.List;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -68,7 +66,7 @@ public class CampusMapActivity extends SlidingMapActivity {
         }
         
         SlidingMenu sm = getSlidingMenu();
-        sm.setBehindWidth(300);
+        sm.setBehindWidth(350);
         
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
