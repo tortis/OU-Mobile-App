@@ -50,6 +50,7 @@ public class OUApplication extends Application {
     private DbHelper dbHelper;
     private SyndFeed feed;
     private int currentFragment;
+    private int currentClass;
     
     @Override
     public void onCreate() {
@@ -60,6 +61,7 @@ public class OUApplication extends Application {
         sourceGetter.setCredentials(prefs.getString("username", ""), prefs.getString("password", ""));
         dbHelper = new DbHelper(this);
         currentFragment = FRAGMENT_NEWS;
+        currentClass = 0;
     }
     
     public SGError updateClasses(ClassesActivity context) //Async this function!
@@ -115,6 +117,16 @@ public class OUApplication extends Application {
     public void setCurrentFragment(int f)
     {
     	currentFragment = f;
+    }
+    
+    public int getCurrentClass()
+    {
+    	return currentClass;
+    }
+    
+    public void setCurrentClass(int classID)
+    {
+    	currentClass = classID;
     }
 
     @Override
