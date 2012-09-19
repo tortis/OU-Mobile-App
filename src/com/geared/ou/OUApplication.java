@@ -34,11 +34,22 @@ import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.Syn
  * primary data structures are created.
  */
 public class OUApplication extends Application {
+	
+	public static final int FRAGMENT_NEWS = 1;
+	public static final int FRAGMENT_CLASSES = 2;
+	public static final int FRAGMENT_CLASS = 3;
+	public static final int FRAGMENT_GRADES = 4;
+	public static final int FRAGMENT_CONTENT = 5;
+	public static final int FRAGMENT_ROSTER = 6;
+	public static final int FRAGMENT_MAP = 7;
+	
+	
     private ClassesData classes;
     private SharedPreferences prefs;
     private D2LSourceGetter sourceGetter;
     private DbHelper dbHelper;
     private SyndFeed feed;
+    private int currentFragment;
     
     @Override
     public void onCreate() {
@@ -48,6 +59,7 @@ public class OUApplication extends Application {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         sourceGetter.setCredentials(prefs.getString("username", ""), prefs.getString("password", ""));
         dbHelper = new DbHelper(this);
+        currentFragment = FRAGMENT_NEWS;
     }
     
     public SGError updateClasses(ClassesActivity context) //Async this function!
@@ -93,6 +105,16 @@ public class OUApplication extends Application {
     
     public void setFeed(SyndFeed feed) {
         this.feed = feed;
+    }
+    
+    public int getCurrentFragment()
+    {
+    	return currentFragment;
+    }
+    
+    public void setCurrentFragment(int f)
+    {
+    	currentFragment = f;
     }
 
     @Override
