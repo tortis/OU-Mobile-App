@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="action_list">
-        <item>News</item>
-        <item>Classes</item>
-        <item>Map</item>
-        <item>About</item>
+    <string-array name="class_nav">
+        <item>Home</item>
+        <item>Content</item>
+        <item>Grades</item>
+        <item>Roster</item>
     </string-array>
 </resources>
