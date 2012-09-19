@@ -19,11 +19,15 @@
 
 package com.geared.ou;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -38,42 +42,62 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
  * 
  */
 public class NewsActivity extends SlidingFragmentActivity {
+	
+    FragmentManager fragmentManager;
+    NewsFragment newsFragment;
+    ClassesFragment classesFragment;
+    Fragment mapFragment;
+    OUApplication app;
     
+    LinearLayout tlc;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        app = (OUApplication)getApplication();
         
         setContentView(R.layout.news);
         setBehindContentView(R.layout.side_nav);
+        tlc = (LinearLayout)findViewById(R.id.top_level_container);
         
         SlidingMenu sm = getSlidingMenu();
         sm.setBehindWidth(300);
         
-        ActionBar ab = getSupportActionBar();
-        if (ab != null)
-        {
-        	Log.d("OU", "ab not null");
-        	ab.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.crimson));
-        	ab.setTitle("News");
-        	ab.setDisplayHomeAsUpEnabled(true);
-        }
+        fragmentManager = getSupportFragmentManager();
+        newsFragment = new NewsFragment();
         
-        /*FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment newFragment = fragmentManager.findFragmentById(R.id.main_fragment);
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.replace(R.id.main_fragment, newFragment);
-		fragmentTransaction.addToBackStack(null);
-
-		// Commit the transaction
-		fragmentTransaction.commit();*/
+        if (fragmentManager.findFragmentByTag("main_fragment") == null)
+        {
+        	switch(app.getCurrentFragment())
+        	{
+        		case OUApplication.FRAGMENT_NEWS:
+        			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
+        			fragNewsTrans.add(R.id.top_level_container, newsFragment, "main_fragment");
+        			fragNewsTrans.commit();
+        			break;
+        		case OUApplication.FRAGMENT_CLASSES:
+        			if (classesFragment == null)
+        				classesFragment = new ClassesFragment();
+        			FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
+        			fragClassesTrans.add(R.id.top_level_container, classesFragment, "main_fragment");
+        			fragClassesTrans.commit();
+        			break;
+    			default:
+    				FragmentTransaction fragDefaultTrans = fragmentManager.beginTransaction();
+    				fragDefaultTrans.add(R.id.top_level_container, newsFragment, "main_fragment");
+    				fragDefaultTrans.commit();
+    				break;
+        	}
+        }
     }
+    
+    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.classes_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
     
@@ -84,14 +108,38 @@ public class NewsActivity extends SlidingFragmentActivity {
         		Log.d("OU", "Up button pressed");
         		toggle();
         		break;
+        	case R.id.itemPrefs:
+        		startActivity(new Intent(this, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             default:
             	break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
     
     public void sideNavItemSelected(View v)
     {
+    	switch(v.getId())
+    	{
+    		case R.id.news_button:
+    			app.setCurrentFragment(OUApplication.FRAGMENT_NEWS);
+    			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
+    			fragNewsTrans.replace(R.id.top_level_container, newsFragment, "main_fragment");
+    			fragNewsTrans.commit();
+    			break;
+    		case R.id.classes_button:
+    			if (classesFragment == null)
+    				classesFragment = new ClassesFragment();
+    			app.setCurrentFragment(OUApplication.FRAGMENT_CLASSES);
+    			FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
+    			fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
+    			fragClassesTrans.commit();
+    			break;
+    		case R.id.map_button:
+    			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			break;
+			default:
+				break;
+    	}
     	toggle();
     }
 
