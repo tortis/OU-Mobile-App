@@ -43,8 +43,6 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
     private SyndFeed feed;
     private Context c;
     private SlidingFragmentActivity a;
-    private float scale;
-    private int spacerHeight;
     private Drawable showMore, showLess;
 	
 	@Override
@@ -52,6 +50,7 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
 
 		a = (SlidingFragmentActivity)getActivity();
         c =a.getApplicationContext();
+        app = (OUApplication) a.getApplication();
         setHasOptionsMenu(true);
         
         ActionBar ab = a.getSupportActionBar();
@@ -59,22 +58,14 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
         {
         	ab.setTitle("News");
         	ab.setDisplayHomeAsUpEnabled(true);
+        	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
         
-        scale = c.getResources().getDisplayMetrics().density;
-        spacerHeight = (int)(2 * scale + 0.5f);
         ScrollView scroll = new ScrollView(c);
         layoutContent = new LinearLayout(c);
         layoutContent.setOrientation(LinearLayout.VERTICAL);
         scroll.addView(layoutContent);
         
-        showMore = getActivity().getResources().getDrawable(R.drawable.ic_menu_more);
-        showMore.setBounds(0, 0, 48, 48);
-        
-        showLess = getActivity().getResources().getDrawable(R.drawable.ic_menu_less);
-        showLess.setBounds(0, 0, 48, 48);
-        
-        app = (OUApplication) getActivity().getApplication();
         feed = app.getFeed();
         if (feed == null) {
             setStatusTextViewToUpdating();
@@ -130,6 +121,14 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
     }
     
     protected void updateDisplay() {
+    	float scale = c.getResources().getDisplayMetrics().density;
+    	int spacerHeight = (int)(2 * scale + 0.5f);
+    	showMore = getActivity().getResources().getDrawable(R.drawable.ic_menu_more);
+        showMore.setBounds(0, 0, 48, 48);
+        
+        showLess = getActivity().getResources().getDrawable(R.drawable.ic_menu_less);
+        showLess.setBounds(0, 0, 48, 48);
+    	
         layoutContent.removeAllViews();
         LayoutParams lparam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         items = feed.getEntries();
