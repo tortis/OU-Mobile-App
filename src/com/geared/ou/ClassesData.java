@@ -126,8 +126,10 @@ public class ClassesData {
         }
 
         protected void splitPrefixFromName() {
+        	Log.d("OU", "name: " + name);
         	String[] parts = name.split("-");
-        	namePrefix = parts[0];
+        	namePrefix = parts[0] + ": " + parts[1].substring(0,4);
+        	Log.d("OU", parts[1]);
         	int pos = name.split("[A-Z][a-z]")[0].length();
             name = name.substring(pos, name.length());
             name = name.replace("&amp;", "&");
