@@ -11,7 +11,8 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
         {
         	ab.setTitle("Courses: "+classes.getCurrentSemesterString());
         	ab.setDisplayHomeAsUpEnabled(true);
+        	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
         
         scale = c.getResources().getDisplayMetrics().density;
@@ -129,10 +131,14 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
 	
 	public void onClick(View v) {
 		// Actually want to do a fragment transaction here...
-        Intent myIntent = new Intent(c, ClassHomeActivity.class);
-        myIntent.putExtra("classId", v.getId());
-        Log.d("OU", "Put extra classId: " +v.getId());
-        startActivity(myIntent);
+		app.setCurrentClass(v.getId());
+		app.setCurrentFragment(OUApplication.FRAGMENT_CLASS);
+		FragmentManager fragmentManager = a.getSupportFragmentManager();
+		ClassHomeFragment classHomeFragment = new ClassHomeFragment();
+		FragmentTransaction fragClassHomeTrans = fragmentManager.beginTransaction();
+		fragClassHomeTrans.replace(R.id.top_level_container, classHomeFragment, "main_fragment");
+		fragClassHomeTrans.addToBackStack(null);
+		fragClassHomeTrans.commit();
     }
 	
 	@Override
