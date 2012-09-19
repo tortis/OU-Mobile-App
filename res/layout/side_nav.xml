@@ -22,7 +22,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#111111" />
+        android:background="#222222" />
     
     <TextView
 	        android:background="@drawable/content_list_button_selector"
@@ -41,7 +41,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#111111" />
+        android:background="#222222" />
     
     <TextView
 	        android:background="@drawable/content_list_button_selector"
@@ -60,6 +60,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#111111" />
+        android:background="#222222" />
 
 </LinearLayout>
