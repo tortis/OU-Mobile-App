@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
@@ -23,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -33,24 +33,46 @@ import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FeedF
 import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FetcherException;
 import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.impl.HttpURLFeedFetcher;
 import com.google.code.rome.android.repackaged.com.sun.syndication.io.FeedException;
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class NewsFragment extends SherlockFragment implements View.OnClickListener {
 	
 	private LinearLayout layoutContent;
     private OUApplication app;
     private List<?> items;
-    SyndFeed feed;
+    private SyndFeed feed;
     private Context c;
+    private SlidingFragmentActivity a;
+    private float scale;
+    private int spacerHeight;
+    private Drawable showMore, showLess;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        c = getActivity().getApplicationContext();
+		a = (SlidingFragmentActivity)getActivity();
+        c =a.getApplicationContext();
+        setHasOptionsMenu(true);
+        
+        ActionBar ab = a.getSupportActionBar();
+        if (ab != null)
+        {
+        	ab.setTitle("News");
+        	ab.setDisplayHomeAsUpEnabled(true);
+        }
+        
+        scale = c.getResources().getDisplayMetrics().density;
+        spacerHeight = (int)(2 * scale + 0.5f);
         ScrollView scroll = new ScrollView(c);
         layoutContent = new LinearLayout(c);
         layoutContent.setOrientation(LinearLayout.VERTICAL);
-        //layoutContent.setBackgroundColor(Color.argb(255, 255, 253, 208));
         scroll.addView(layoutContent);
+        
+        showMore = getActivity().getResources().getDrawable(R.drawable.ic_menu_more);
+        showMore.setBounds(0, 0, 48, 48);
+        
+        showLess = getActivity().getResources().getDrawable(R.drawable.ic_menu_less);
+        showLess.setBounds(0, 0, 48, 48);
         
         app = (OUApplication) getActivity().getApplication();
         feed = app.getFeed();
@@ -87,17 +109,19 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
             updateDisplay();
         }
     }
-    
 	
     @Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    	inflater.inflate(R.menu.classes_menu, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.refreshClasses:
             	setStatusTextViewToUpdating();
                 new Load().execute();
-                break;
-            case R.id.itemPrefs:
-                startActivity(new Intent(c, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                 break;
             default:
             	break;
@@ -111,7 +135,6 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
         items = feed.getEntries();
         Log.d("OU", "num items: "+items.size());
         Iterator<?> i = items.iterator();
-        addSpacer(layoutContent, Color.BLACK, 1, -1, View.VISIBLE);
         int counter = 0;
         while (i.hasNext()) {
             SyndEntryImpl entry = (SyndEntryImpl) i.next();
@@ -127,22 +150,21 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
             tv.setOnClickListener(this);
             tv.setClickable(true);
             tv.setBackgroundResource(R.drawable.content_list_button_selector);
-            Drawable img = getActivity().getResources().getDrawable(R.drawable.ic_menu_more);
-            img.setBounds(0, 0, 48, 48);
-            tv.setCompoundDrawables(null, null, img, null);
+            tv.setCompoundDrawables(null, null, showMore, null);
             layoutContent.addView(tv);
-            addSpacer(layoutContent, Color.BLACK, 1, -1, View.VISIBLE);
+            addSpacer(layoutContent, Color.LTGRAY, spacerHeight, -1, View.VISIBLE);
             TextView tvc = new TextView(c);
             tvc.setLayoutParams(lparam);
             tvc.setGravity(Gravity.CENTER_VERTICAL);
             tvc.setTextColor(Color.argb(255, 75, 25, 25));
+            tvc.setBackgroundColor(Color.argb(255, 245, 245, 245));
             tvc.setTextSize(13);
             tvc.setId(counter+100);
             tvc.setPadding(10, 5, 10, 5);
             tvc.setVisibility(View.GONE);
             tvc.setText(entry.getDescription().getValue());
             layoutContent.addView(tvc);
-            addSpacer(layoutContent, Color.BLACK, 1, counter+200, View.GONE);
+            addSpacer(layoutContent, Color.LTGRAY, spacerHeight, counter+200, View.GONE);
             counter++;
         }
     }
@@ -176,7 +198,6 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
     }
     
     public void onClick(View v) {
-        Log.d("OU", "Something was clicked");
         SyndEntryImpl i = (SyndEntryImpl)items.get(v.getId());
         if (i == null) {
             Log.d("OU", "Could not get the clicked view.");
@@ -184,13 +205,17 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
         }
         TextView tv = (TextView)layoutContent.findViewById(v.getId()+100);
         TextView sp = (TextView)layoutContent.findViewById(v.getId()+200);
+        int titleIndex = layoutContent.indexOfChild(tv) -2;
+        TextView titleView = (TextView)layoutContent.getChildAt(titleIndex);
         if (tv.getVisibility() == View.GONE) {
             tv.setVisibility(View.VISIBLE);
             sp.setVisibility(View.VISIBLE);
+            titleView.setCompoundDrawables(null, null, showLess, null);
         }
         else {
             tv.setVisibility(View.GONE);
             sp.setVisibility(View.GONE);
+            titleView.setCompoundDrawables(null, null, showMore, null);
         }
     }
     
@@ -213,7 +238,7 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
             updateTV.setTextColor(Color.BLACK);
             updateTV.setTextSize(13);
             updateTV.setId(R.id.updateTextView);
-            layoutContent.addView(updateTV);
+            layoutContent.addView(updateTV, 0);
         } else {
             updateTV.setCompoundDrawables(img, null, null, null);
             updateTV.setText(" Updating...");
