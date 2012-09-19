@@ -376,7 +376,7 @@ public class ClassesData {
         }
     }
     
-    private String getCurrentSemesterString() {
+    public String getCurrentSemesterString() {
         String s;
         Calendar date = Calendar.getInstance();
         int month = date.get(Calendar.MONTH);
