@@ -61,6 +61,7 @@ public class CampusMapActivity extends SlidingMapActivity {
         ActionBar ab = getSupportActionBar();
         if (ab != null)
         {
+        	ab.setIcon(R.drawable.side_menu_button);
         	ab.setTitle("Map");
         	ab.setDisplayHomeAsUpEnabled(true);
         }

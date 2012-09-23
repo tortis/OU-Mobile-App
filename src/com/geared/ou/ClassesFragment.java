@@ -59,6 +59,7 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
         ActionBar ab = a.getSupportActionBar();
         if (ab != null)
         {
+        	ab.setIcon(R.drawable.side_menu_button);
         	ab.setTitle("Courses: "+classes.getCurrentSemesterString());
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);

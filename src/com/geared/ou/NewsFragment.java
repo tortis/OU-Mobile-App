@@ -59,6 +59,7 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
         ActionBar ab = a.getSupportActionBar();
         if (ab != null)
         {
+        	ab.setIcon(R.drawable.side_menu_button);
         	ab.setTitle("News");
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
