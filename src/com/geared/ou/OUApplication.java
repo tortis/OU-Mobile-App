@@ -64,7 +64,7 @@ public class OUApplication extends Application {
         currentClass = 0;
     }
     
-    public SGError updateClasses(ClassesActivity context) //Async this function!
+    public SGError updateClasses(NewsActivity context) //Async this function!
     {
         return classes.update(sourceGetter);
     }

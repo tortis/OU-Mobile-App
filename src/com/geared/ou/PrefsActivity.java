@@ -52,7 +52,8 @@ public class PrefsActivity extends PreferenceActivity implements OnClickListener
     {
         OUApplication app = (OUApplication)this.getApplication();
         app.getClasses().forceNextUpdate();
-        startActivity(new Intent(this, ClassesActivity.class));
+        app.setCurrentFragment(OUApplication.FRAGMENT_CLASSES);
+        startActivity(new Intent(this, NewsActivity.class));
     }
     
 }
