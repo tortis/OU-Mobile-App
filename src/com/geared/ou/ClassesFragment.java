@@ -43,14 +43,18 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
     private ClassesData classes;
     private String username="";
     private String password="";
+    
+    private update updateThread;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		a = (SlidingFragmentActivity)getActivity();
 		c = a.getApplicationContext();
 		app = (OUApplication) a.getApplication();
+		app.setCurrentFragment(OUApplication.FRAGMENT_CLASSES);
 		classes = app.getClasses();
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         
         ActionBar ab = a.getSupportActionBar();
         if (ab != null)
@@ -84,7 +88,8 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
             if(classes.needUpdate()) {
                 displayClassData(false);
                 setStatusTextViewToUpdating();
-                new update().execute(app.getSourceGetter());
+                updateThread = new update();
+                updateThread.execute(app.getSourceGetter());
             }
             else
                 displayClassData(false);
@@ -132,14 +137,23 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
 	public void onClick(View v) {
 		// Actually want to do a fragment transaction here...
 		app.setCurrentClass(v.getId());
-		app.setCurrentFragment(OUApplication.FRAGMENT_CLASS);
 		FragmentManager fragmentManager = a.getSupportFragmentManager();
 		ClassHomeFragment classHomeFragment = new ClassHomeFragment();
 		FragmentTransaction fragClassHomeTrans = fragmentManager.beginTransaction();
 		fragClassHomeTrans.replace(R.id.top_level_container, classHomeFragment, "main_fragment");
-		fragClassHomeTrans.addToBackStack(null);
+		//fragClassHomeTrans.addToBackStack("classesPage");
 		fragClassHomeTrans.commit();
     }
+	
+	@Override
+	public void onDetach() {
+		if (updateThread != null)
+		{
+			if (updateThread.getStatus() == AsyncTask.Status.RUNNING)
+				updateThread.cancel(false);
+		}
+		super.onDetach();
+	}
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -153,7 +167,8 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
             case R.id.refreshClasses:
             	classes.forceNextUpdate();
                 setStatusTextViewToUpdating();
-                new update().execute(app.getSourceGetter());
+                updateThread = new update();
+                updateThread.execute(app.getSourceGetter());
                 break;
             default:
             	break;

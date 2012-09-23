@@ -7,6 +7,8 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,14 +40,17 @@ public class ClassHomeFragment extends SherlockFragment implements OnNavigationL
     private OUApplication app;
     private Context c;
     private SlidingFragmentActivity a;
+    private update updateThread;
     
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	a = (SlidingFragmentActivity)getActivity();
 		c = a.getApplicationContext();
 		app = (OUApplication) a.getApplication();
+		app.setCurrentFragment(OUApplication.FRAGMENT_CLASS);
 		classId = app.getCurrentClass();
 		course = app.getClasses().getCourse(classId);
 		news = course.getNews();
+		setRetainInstance(true);
 		
 		setHasOptionsMenu(true);
 		
@@ -68,7 +73,8 @@ public class ClassHomeFragment extends SherlockFragment implements OnNavigationL
         if (news.needsUpdate()) {
             updateDisplay(false);
             setStatusTextViewToUpdating();
-            new update().execute();
+            updateThread = new update();
+            updateThread.execute();
         } else {
             Log.d("OU", "Doesn't need update. displaying.");
             updateDisplay(false);
@@ -212,16 +218,54 @@ public class ClassHomeFragment extends SherlockFragment implements OnNavigationL
             case R.id.refreshClasses:
             	news.forceNextUpdate();
                 setStatusTextViewToUpdating();
-                new update().execute();
+                updateThread = new update();
+                updateThread.execute();
                 break;
             default:
             	break;
         }
         return true;
     }
+    
+	@Override
+	public void onDetach() {
+		if (updateThread != null)
+		{
+			if (updateThread.getStatus() == AsyncTask.Status.RUNNING)
+				updateThread.cancel(false);
+		}
+		super.onDetach();
+	}
 
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		// TODO Auto-generated method stub
+		FragmentManager fragManager = a.getSupportFragmentManager();
+		switch(itemPosition)
+		{
+			case 0:			// Home
+				
+				break;
+			case 1:			// Content
+				ContentFragment contentFragment = new ContentFragment();
+				FragmentTransaction fragContentTrans = fragManager.beginTransaction();
+				fragContentTrans.replace(R.id.top_level_container, contentFragment, "main_fragment");
+				fragContentTrans.commit();
+				break;
+			case 2:			// Grades
+				GradesFragment gradesFragment = new GradesFragment();
+				FragmentTransaction fragGradesTrans = fragManager.beginTransaction();
+				fragGradesTrans.replace(R.id.top_level_container, gradesFragment, "main_fragment");
+				fragGradesTrans.commit();
+				break;
+				
+			case 3:			// Roster
+				RosterFragment rosterFragment = new RosterFragment();
+				FragmentTransaction fragRosterTrans = fragManager.beginTransaction();
+				fragRosterTrans.replace(R.id.top_level_container, rosterFragment, "main_fragment");
+				fragRosterTrans.commit();
+				break;
+			default:
+				break;
+		}
 		return false;
 	}
 }

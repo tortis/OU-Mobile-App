@@ -44,6 +44,7 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
     private Context c;
     private SlidingFragmentActivity a;
     private Drawable showMore, showLess;
+    private Load updateThread;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +52,9 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
 		a = (SlidingFragmentActivity)getActivity();
         c =a.getApplicationContext();
         app = (OUApplication) a.getApplication();
+        app.setCurrentFragment(OUApplication.FRAGMENT_NEWS);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         
         ActionBar ab = a.getSupportActionBar();
         if (ab != null)
@@ -69,7 +72,8 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
         feed = app.getFeed();
         if (feed == null) {
             setStatusTextViewToUpdating();
-            new Load().execute();
+            updateThread = new Load();
+            updateThread.execute();
         }
         else {
             updateDisplay();
@@ -112,13 +116,24 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
         switch(item.getItemId()) {
             case R.id.refreshClasses:
             	setStatusTextViewToUpdating();
-                new Load().execute();
+                updateThread = new Load();
+                updateThread.execute();
                 break;
             default:
             	break;
         }
         return true;
     }
+	
+	@Override
+	public void onDetach() {
+		if (updateThread != null)
+		{
+			if (updateThread.getStatus() == AsyncTask.Status.RUNNING)
+				updateThread.cancel(false);
+		}
+		super.onDetach();
+	}
     
     protected void updateDisplay() {
     	float scale = c.getResources().getDisplayMetrics().density;
