@@ -56,9 +56,9 @@ public class D2LSourceGetter {
     private long totalDownloadSize;
     
     private class CountingFileOutputStream extends FileOutputStream {
-        private ContentActivity.Download t;
+        private ContentFragment.Download t;
 
-        public CountingFileOutputStream(File file, boolean append, ContentActivity.Download t) throws FileNotFoundException {
+        public CountingFileOutputStream(File file, boolean append, ContentFragment.Download t) throws FileNotFoundException {
             super(file, append);
             this.t = t;
             t.setTotalDownloadSize((int)totalDownloadSize);
@@ -146,7 +146,7 @@ public class D2LSourceGetter {
         return SGError.NO_ERROR;
     }
     
-    public SGError downloadFile(File file, String url, ContentActivity.Download t) {
+    public SGError downloadFile(File file, String url, ContentFragment.Download t) {
         if (!loggedIn) {
             SGError loginError = login();
             if (loginError != SGError.NO_ERROR)
