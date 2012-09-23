@@ -155,7 +155,7 @@ public class NewsActivity extends SlidingFragmentActivity {
     			fragClassesTrans.commit();
     			break;
     		case R.id.map_button:
-    			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
     			break;
 			default:
 				break;
