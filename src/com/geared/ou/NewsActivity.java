@@ -45,9 +45,6 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 public class NewsActivity extends SlidingFragmentActivity {
 	
     FragmentManager fragmentManager;
-    NewsFragment newsFragment;
-    ClassesFragment classesFragment;
-    Fragment mapFragment;
     OUApplication app;
     
     LinearLayout tlc;
@@ -66,20 +63,19 @@ public class NewsActivity extends SlidingFragmentActivity {
         sm.setBehindWidth(350);
         
         fragmentManager = getSupportFragmentManager();
-        newsFragment = new NewsFragment();
         
-        if (fragmentManager.findFragmentByTag("main_fragment") == null)
+        if (icicle == null)
         {
         	switch(app.getCurrentFragment())
         	{
         		case OUApplication.FRAGMENT_NEWS:
+        			NewsFragment newsFragment = new NewsFragment();
         			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
         			fragNewsTrans.add(R.id.top_level_container, newsFragment, "main_fragment");
         			fragNewsTrans.commit();
         			break;
         		case OUApplication.FRAGMENT_CLASSES:
-        			if (classesFragment == null)
-        				classesFragment = new ClassesFragment();
+        			ClassesFragment classesFragment = new ClassesFragment();
         			FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
         			fragClassesTrans.add(R.id.top_level_container, classesFragment, "main_fragment");
         			fragClassesTrans.commit();
@@ -89,18 +85,38 @@ public class NewsActivity extends SlidingFragmentActivity {
         			FragmentTransaction fragClassTrans = fragmentManager.beginTransaction();
         			fragClassTrans.add(R.id.top_level_container, classHomeFragment, "main_fragment");
         			fragClassTrans.commit();
+        		case OUApplication.FRAGMENT_CONTENT:
+        			ContentFragment contentFragment = new ContentFragment();
+        			FragmentTransaction fragContentTrans = fragmentManager.beginTransaction();
+        			fragContentTrans.add(R.id.top_level_container, contentFragment, "main_fragment");
+        			fragContentTrans.commit();
     			default:
+    				NewsFragment newsFragmentD = new NewsFragment();
     				FragmentTransaction fragDefaultTrans = fragmentManager.beginTransaction();
-    				fragDefaultTrans.add(R.id.top_level_container, newsFragment, "main_fragment");
+    				fragDefaultTrans.add(R.id.top_level_container, newsFragmentD, "main_fragment");
     				fragDefaultTrans.commit();
     				break;
         	}
         }
+        
+        Log.d("OU", "OnCreate of the main activity is called.");
     }
     
-    
-    
     @Override
+	public void onBackPressed() {
+    	int f = app.getCurrentFragment();
+		if (f == OUApplication.FRAGMENT_CLASS || f == OUApplication.FRAGMENT_CONTENT || f == OUApplication.FRAGMENT_GRADES || f == OUApplication.FRAGMENT_ROSTER)
+		{
+			ClassesFragment classesFragment = new ClassesFragment();
+			FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
+			fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
+			fragClassesTrans.commit();
+		}
+		else
+			super.onBackPressed();
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -127,21 +143,19 @@ public class NewsActivity extends SlidingFragmentActivity {
     	switch(v.getId())
     	{
     		case R.id.news_button:
-    			app.setCurrentFragment(OUApplication.FRAGMENT_NEWS);
+    			NewsFragment newsFragment = new NewsFragment();
     			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
     			fragNewsTrans.replace(R.id.top_level_container, newsFragment, "main_fragment");
     			fragNewsTrans.commit();
     			break;
     		case R.id.classes_button:
-    			if (classesFragment == null)
-    				classesFragment = new ClassesFragment();
-    			app.setCurrentFragment(OUApplication.FRAGMENT_CLASSES);
+    			ClassesFragment classesFragment = new ClassesFragment();
     			FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
     			fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
     			fragClassesTrans.commit();
     			break;
     		case R.id.map_button:
-    			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     			break;
 			default:
 				break;
