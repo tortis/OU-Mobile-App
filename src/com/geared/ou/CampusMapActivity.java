@@ -165,19 +165,7 @@ public class CampusMapActivity extends SlidingMapActivity {
     	}
     	toggle();
     }
-    
-    public void gotoClasses(View v) {
-        Intent myIntent = new Intent(this, ClassesActivity.class);
-        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myIntent);
-    }
-    
-    public void gotoNews(View v) {
-        Intent myIntent = new Intent(this, NewsActivity.class);
-        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myIntent);
-    }
-    
+       
     @Override
     protected boolean isRouteDisplayed() {
         return false;
