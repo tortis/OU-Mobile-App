@@ -20,15 +20,15 @@
 package com.geared.ou;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -44,10 +44,10 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
  */
 public class NewsActivity extends SlidingFragmentActivity {
 	
-    FragmentManager fragmentManager;
-    OUApplication app;
+    private FragmentManager fragmentManager;
+    private OUApplication app;
     
-    LinearLayout tlc;
+    private TextView whoAmI;
 
     /** Called when the activity is first created. */
     @Override
@@ -57,7 +57,24 @@ public class NewsActivity extends SlidingFragmentActivity {
         
         setContentView(R.layout.news);
         setBehindContentView(R.layout.side_nav);
-        tlc = (LinearLayout)findViewById(R.id.top_level_container);
+        
+        /* SideMenu User Button. */
+        whoAmI = (TextView)findViewById(R.id.whoAmI);
+        if (!app.getUser().isEmpty())
+        {
+        	Drawable userIcon = getResources().getDrawable(R.drawable.user_icon);
+        	userIcon.setBounds(0, 0, 48, 48);
+        	whoAmI.setCompoundDrawables(userIcon, null, null, null);
+        	whoAmI.setText("Logged in as "+app.getUser());
+        }
+        else
+        {
+        	Drawable userIcon = getResources().getDrawable(R.drawable.user_icon);
+        	userIcon.setBounds(0, 0, 48, 48);
+        	whoAmI.setCompoundDrawables(userIcon, null, null, null);
+        	whoAmI.setText("Login");
+        }
+        
         
         SlidingMenu sm = getSlidingMenu();
         sm.setBehindWidth(350);
@@ -90,6 +107,12 @@ public class NewsActivity extends SlidingFragmentActivity {
         			FragmentTransaction fragContentTrans = fragmentManager.beginTransaction();
         			fragContentTrans.add(R.id.top_level_container, contentFragment, "main_fragment");
         			fragContentTrans.commit();
+        		case OUApplication.FRAGMENT_PREFS:
+        			PrefsFragment prefsFragment = new PrefsFragment();
+        			FragmentTransaction fragPrefsTrans = fragmentManager.beginTransaction();
+        			fragPrefsTrans.add(R.id.top_level_container, prefsFragment, "main_fragment");
+        			fragPrefsTrans.commit();
+        			break;
     			default:
     				NewsFragment newsFragmentD = new NewsFragment();
     				FragmentTransaction fragDefaultTrans = fragmentManager.beginTransaction();
@@ -112,6 +135,13 @@ public class NewsActivity extends SlidingFragmentActivity {
 			fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
 			fragClassesTrans.commit();
 		}
+		else if (f == OUApplication.FRAGMENT_PREFS)
+		{
+			NewsFragment newsFragment = new NewsFragment();
+			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
+			fragNewsTrans.replace(R.id.top_level_container, newsFragment, "main_fragment");
+			fragNewsTrans.commit();
+		}
 		else
 			super.onBackPressed();
 	}
@@ -131,7 +161,10 @@ public class NewsActivity extends SlidingFragmentActivity {
         		toggle();
         		break;
         	case R.id.itemPrefs:
-        		startActivity(new Intent(this, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+        		PrefsFragment prefsFragment = new PrefsFragment();
+    			FragmentTransaction fragPrefsTrans = fragmentManager.beginTransaction();
+    			fragPrefsTrans.replace(R.id.top_level_container, prefsFragment, "main_fragment");
+    			fragPrefsTrans.commit();
             default:
             	break;
         }
@@ -140,6 +173,13 @@ public class NewsActivity extends SlidingFragmentActivity {
     
     public void sideNavItemSelected(View v)
     {
+    	/* Update the sidebar. */
+    	if (app.getUser().isEmpty())
+    		whoAmI.setText("Login");
+    	else
+    		whoAmI.setText("Logged in as "+app.getUser());
+    	
+    	/* Switch over view ID. */
     	switch(v.getId())
     	{
     		case R.id.news_button:
@@ -163,7 +203,56 @@ public class NewsActivity extends SlidingFragmentActivity {
     	toggle();
     }
 
+    public void userSideMenuButton(View v)
+    {
+    	if (app.getUser().isEmpty())
+    	{
+    		PrefsFragment prefsFragment = new PrefsFragment();
+			FragmentTransaction fragPrefsTrans = fragmentManager.beginTransaction();
+			fragPrefsTrans.replace(R.id.top_level_container, prefsFragment, "main_fragment");
+			fragPrefsTrans.commit();
+			toggle();
+    	}
+    	else
+    	{
+    		showDialog();
+    	}
+    }
+    
+    public void goToClassesFragment(View v)
+    {
+        app.getClasses().forceNextUpdate();
+        ClassesFragment classesFragment = new ClassesFragment();
+		FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
+		fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
+		fragClassesTrans.commit();
+    }
+    
+    public void logout()
+    {
+    	whoAmI.setText("Login");
+    }
+    
+    public void login()
+    {
+    	whoAmI.setText("Logged in as "+app.getUser());
+    }
+    
+    private void showDialog() {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
 
+        // Create and show the dialog.
+        LoginDialogFragment newFragment = new LoginDialogFragment();
+        newFragment.show(ft, "dialog");
+    }
 
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
