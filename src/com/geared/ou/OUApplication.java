@@ -42,6 +42,7 @@ public class OUApplication extends Application {
 	public static final int FRAGMENT_CONTENT = 5;
 	public static final int FRAGMENT_ROSTER = 6;
 	public static final int FRAGMENT_MAP = 7;
+	public static final int FRAGMENT_PREFS = 8;
 	
 	
     private ClassesData classes;
