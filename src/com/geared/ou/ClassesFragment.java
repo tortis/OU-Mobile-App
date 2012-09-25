@@ -80,7 +80,10 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
         
         /* If a username or password was not found, kick to Prefs Activity. */
         if (password.isEmpty() || username.isEmpty()) {
-            startActivity(new Intent(c, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+        	PrefsFragment prefsFragment = new PrefsFragment();
+			FragmentTransaction fragPrefsTrans = a.getSupportFragmentManager().beginTransaction();
+			fragPrefsTrans.replace(R.id.top_level_container, prefsFragment, "main_fragment");
+			fragPrefsTrans.commit();
             Toast.makeText(c, R.string.msgSetupPrefs, Toast.LENGTH_SHORT).show();
         }
         else
@@ -121,7 +124,12 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
                 displayClassData(true);
             }
             else if (result == SGError.NO_CREDENTIALS)
-                startActivity(new Intent(a, PrefsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+            {
+            	PrefsFragment prefsFragment = new PrefsFragment();
+    			FragmentTransaction fragPrefsTrans = a.getSupportFragmentManager().beginTransaction();
+    			fragPrefsTrans.replace(R.id.top_level_container, prefsFragment, "main_fragment");
+    			fragPrefsTrans.commit();
+            }
             else if (result == SGError.NO_DATA)
                 Toast.makeText(a, R.string.noCoursesFound, Toast.LENGTH_LONG).show();
             else if (result == SGError.BAD_CREDENTIALS) {
