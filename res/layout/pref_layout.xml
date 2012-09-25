@@ -1,5 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical" >
+	<LinearLayout android:id="@+id/prefs_list"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="vertical" >
+		    <LinearLayout 
+		      android:id="@+id/setUserName"
+		      android:clickable="true"
+		      android:background="@drawable/content_list_button_selector"
+		      android:layout_width="match_parent"
+		      android:layout_height="wrap_content"
+		      android:padding="10dp"
+		      android:orientation="vertical" >
+		      	<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Username"
+				    android:textColor="#000000"
+				    android:textSize="18sp" />
+		      	<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Your OU 4x4"
+				    android:textColor="#999999"
+				    android:textSize="14sp" />
+	      	</LinearLayout>
+	      	<View
+	      	  android:layout_width="match_parent"
+	      	  android:layout_height="1dp"
+	      	  android:background="#bbbbbb" />
+		    <LinearLayout 
+		      android:id="@+id/setPassword"
+		      android:clickable="true"
+		      android:background="@drawable/content_list_button_selector"
+		      android:layout_width="match_parent"
+		      android:layout_height="wrap_content"
+		      android:padding="10dp"
+		      android:orientation="vertical" >
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Password"
+				    android:textColor="#000000"
+				    android:textSize="18sp" />
+		      	<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Your OU password"
+				    android:textColor="#999999"
+				    android:textSize="14sp" />
+		    </LinearLayout>
+		    <View
+	      	  android:layout_width="match_parent"
+	      	  android:layout_height="1dp"
+	      	  android:background="#bbbbbb" />
+    </LinearLayout>
+ 	<Button android:text="@string/prefsUpdateButton"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:onClick="goToClassesFragment"
+       android:layout_gravity="bottom" />
+</LinearLayout>
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical" >
@@ -11,4 +79,4 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:onClick="goToClassesActivity" />
-</LinearLayout>
+</LinearLayout>-->
