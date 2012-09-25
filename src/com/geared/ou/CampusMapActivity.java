@@ -25,7 +25,10 @@ import java.util.List;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
@@ -48,6 +51,7 @@ public class CampusMapActivity extends SlidingMapActivity {
 	
 	private MapView mapView;
 	OUApplication app;
+	TextView whoAmI;
 	
     /** Called when the activity is first created. */
     @Override
@@ -57,6 +61,22 @@ public class CampusMapActivity extends SlidingMapActivity {
         
         setContentView(R.layout.map);
         setBehindContentView(R.layout.side_nav);
+        
+        whoAmI = (TextView)findViewById(R.id.whoAmI);
+        if (!app.getUser().isEmpty())
+        {
+        	Drawable userIcon = getResources().getDrawable(R.drawable.user_icon);
+        	userIcon.setBounds(0, 0, 48, 48);
+        	whoAmI.setCompoundDrawables(userIcon, null, null, null);
+        	whoAmI.setText("Logged in as "+app.getUser());
+        }
+        else
+        {
+        	Drawable userIcon = getResources().getDrawable(R.drawable.user_icon);
+        	userIcon.setBounds(0, 0, 48, 48);
+        	whoAmI.setCompoundDrawables(userIcon, null, null, null);
+        	whoAmI.setText("Login");
+        }
         
         ActionBar ab = getSupportActionBar();
         if (ab != null)
@@ -146,6 +166,20 @@ public class CampusMapActivity extends SlidingMapActivity {
         }
     }
 	
+	public void userSideMenuButton(View v)
+    {
+    	if (app.getUser().isEmpty())
+    	{
+    		app.setCurrentFragment(OUApplication.FRAGMENT_PREFS);
+    		startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+			toggle();
+    	}
+    	else
+    	{
+    		
+    	}
+    }
+	
 	public void sideNavItemSelected(View v)
     {
     	switch(v.getId())
@@ -159,7 +193,7 @@ public class CampusMapActivity extends SlidingMapActivity {
     			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
     			break;
     		case R.id.map_button:
-    			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			
     			break;
 			default:
 				break;
