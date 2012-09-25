@@ -81,6 +81,7 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         if (ab != null)
         {
         	ab.setTitle(course.getPrefix());
+        	ab.setIcon(R.drawable.side_menu_button);
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         	SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(c, R.array.class_nav, R.layout.text_view);
@@ -208,14 +209,13 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
                 }
             }
             file.setReadable(true);
-
             return 0;
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            dlDialog.setProgress(values[0]);
+            //dlDialog.setProgress(values[0]);
         }
         
         public void publicProgressUpdate(int p) {
@@ -227,18 +227,18 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         
         public void setTotalDownloadSize(int s) {
             dlSize = s;
-            dlDialog.setMax(s);
-            dlDialog.setIndeterminate(false);
+            //dlDialog.setMax(s);
+            //dlDialog.setIndeterminate(false);
         }
 
         @Override
         protected void onPostExecute(Integer result) {
             busy = false;
             super.onPostExecute(result);
-            dlDialog.setIndeterminate(true);
-            dlDialog.setProgress(0);
-            dlDialog.setMax(100);
-            a.dismissDialog(DIALOG_DL_ID);
+            //dlDialog.setIndeterminate(true);
+            //dlDialog.setProgress(0);
+            //dlDialog.setMax(100);
+            //a.dismissDialog(DIALOG_DL_ID);
             if (result == 1) {
                 Toast.makeText(c, R.string.failedToGetDLink, Toast.LENGTH_SHORT).show();
             }
@@ -265,8 +265,7 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
 	
 	public void onClick(View v) {
         if (!busy) {
-            a.showDialog(DIALOG_DL_ID);
-            this.
+            //a.showDialog(DIALOG_DL_ID);
             new Download().execute(v.getId());
             busy = true;
         }

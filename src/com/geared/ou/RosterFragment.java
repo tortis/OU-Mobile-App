@@ -59,6 +59,7 @@ public class RosterFragment extends SherlockFragment implements OnNavigationList
         if (ab != null)
         {
         	ab.setTitle(course.getPrefix());
+        	ab.setIcon(R.drawable.side_menu_button);
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         	SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(c, R.array.class_nav, R.layout.text_view);
