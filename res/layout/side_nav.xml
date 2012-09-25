@@ -12,7 +12,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:textColor="#ffffff"
-	        android:textSize="18dip"
+	        android:textSize="18sp"
 	        android:text="@string/newsButton"
 	        android:paddingBottom="8dp"
 	        android:paddingTop="10dp"
@@ -31,7 +31,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:textColor="#ffffff"
-	        android:textSize="18dip"
+	        android:textSize="18sp"
 	        android:text="@string/classesButton"
 	        android:paddingBottom="8dp"
 	        android:paddingTop="10dp"
@@ -50,7 +50,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:textColor="#ffffff"
-	        android:textSize="18dip"
+	        android:textSize="18sp"
 	        android:text="@string/mapButton"
 	        android:paddingBottom="8dp"
 	        android:paddingTop="10dp"
@@ -61,5 +61,23 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#222222" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom" >
+	    <TextView
+	        android:background="@drawable/content_list_button_selector"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/whoAmI"
+	        android:textColor="#666666"
+	        android:textSize="14sp"
+	        android:paddingLeft="10dp"
+	        android:paddingBottom="15dp"
+	        android:paddingTop="15dp"
+	        android:clickable="true"
+	        android:gravity="center_vertical"
+	        android:onClick="userSideMenuButton" />
+    </LinearLayout>
 
 </LinearLayout>
