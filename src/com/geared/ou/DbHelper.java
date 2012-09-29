@@ -213,224 +213,224 @@ public class DbHelper extends SQLiteOpenHelper {
     	//Asp Avenue Parking Facility
     	values.put(C_MD_ID, 6);
     	values.put(C_MD_NAME, "Asp Avenue Parking Facility");
-    	values.put(C_MD_X, 3520568);
-    	values.put(C_MD_Y, -97443657);
+    	values.put(C_MD_X, 35205755);
+    	values.put(C_MD_Y, -9744363);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Barry Switzer Center
     	values.put(C_MD_ID, 7);
     	values.put(C_MD_NAME, "Barry Switzer Center");
-    	values.put(C_MD_X, 35204659);
-    	values.put(C_MD_Y, -974418);
+    	values.put(C_MD_X, 35204683);
+    	values.put(C_MD_Y, -97441808);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Biological Survey
     	values.put(C_MD_ID, 8);
     	values.put(C_MD_NAME, "Biological Survey");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35189672);
+    	values.put(C_MD_Y, -97439959);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Bizzell Memorial Library
     	values.put(C_MD_ID, 9);
     	values.put(C_MD_NAME, "Bizzell Memorial Library");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35208062);
+    	values.put(C_MD_Y, -97445749);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Boomer Outreach Building
     	values.put(C_MD_ID, 10);
     	values.put(C_MD_NAME, "Boomer Outreach Building");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 3519726);
+    	values.put(C_MD_Y, -97445864);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Boren Hall
     	values.put(C_MD_ID, 11);
     	values.put(C_MD_NAME, "Boren Hall");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35203113);
+    	values.put(C_MD_Y, -9744485);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Boyd House
     	values.put(C_MD_ID, 12);
     	values.put(C_MD_NAME, "Boyd House");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35211600);
+    	values.put(C_MD_Y, -97446118);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Bruce Drake Golf Clubhouse
     	values.put(C_MD_ID, 13);
     	values.put(C_MD_NAME, "Bruce Drake Golf Clubhouse");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35194522);
+    	values.put(C_MD_Y, -97431921);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Buchanan Hall
     	values.put(C_MD_ID, 14);
     	values.put(C_MD_NAME, "Buchanan Hall");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35208450);
+    	values.put(C_MD_Y, -97444450);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Bud Wilkinson House
     	values.put(C_MD_ID, 15);
     	values.put(C_MD_NAME, "Bud Wilkinson House");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35204387);
+    	values.put(C_MD_Y, -97440794);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Burton Hall
     	values.put(C_MD_ID, 16);
     	values.put(C_MD_NAME, "Burton Hall");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35208960);
+    	values.put(C_MD_Y, -97448474);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Carnegie Building
     	values.put(C_MD_ID, 17);
     	values.put(C_MD_NAME, "Carnegie Building");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35208844);
+    	values.put(C_MD_Y, -97445030);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Carpenter Hall
     	values.put(C_MD_ID, 18);
     	values.put(C_MD_NAME, "Carpenter Hall");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35210322);
+    	values.put(C_MD_Y, -97444258);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Carson Engineering Center
     	values.put(C_MD_ID, 19);
     	values.put(C_MD_NAME, "Carson Engineering Center");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35210720);
+    	values.put(C_MD_Y, -97442782);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Cate Center
     	values.put(C_MD_ID, 20);
     	values.put(C_MD_NAME, "Cate Center");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35203125);
+    	values.put(C_MD_Y, -97445937);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Catlett Music Center
     	values.put(C_MD_ID, 21);
     	values.put(C_MD_NAME, "Catlett Music Center");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35210492);
+    	values.put(C_MD_Y, -97448433);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Ceramics Department
     	values.put(C_MD_ID, 22);
     	values.put(C_MD_NAME, "Ceramics Department");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35187768);
+    	values.put(C_MD_Y, -97436484);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Charlie Coe Golf Learning Center
     	values.put(C_MD_ID, 23);
     	values.put(C_MD_NAME, "Charlie Coe Golf Learning Center");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35191799);
+    	values.put(C_MD_Y, -97433441);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Chemistry Annex
     	values.put(C_MD_ID, 24);
     	values.put(C_MD_NAME, "Chemistry Annex");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35209378);
+    	values.put(C_MD_Y, -97446649);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Chemistry Building
     	values.put(C_MD_ID, 25);
     	values.put(C_MD_NAME, "Chemistry Building");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35209356);
+    	values.put(C_MD_Y, -97446208);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Chilled Water Plant
     	values.put(C_MD_ID, 26);
     	values.put(C_MD_NAME, "Chilled Water Plant");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35186895);
+    	values.put(C_MD_Y, -97436598);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Coats Hall
     	values.put(C_MD_ID, 27);
     	values.put(C_MD_NAME, "Coats Hall");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35195964);
+    	values.put(C_MD_Y, -97446667);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Collums Building
     	values.put(C_MD_ID, 28);
     	values.put(C_MD_NAME, "Collums Building");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35204329);
+    	values.put(C_MD_Y, -97439632);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Copeland Hall
     	values.put(C_MD_ID, 29);
     	values.put(C_MD_NAME, "Copeland Hall");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35204819);
+    	values.put(C_MD_Y, -97446551);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Couch Restaurants
     	values.put(C_MD_ID, 30);
     	values.put(C_MD_NAME, "Couch Restaurants");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35200305);
+    	values.put(C_MD_Y, -97445632);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Couch Tower
     	values.put(C_MD_ID, 31);
     	values.put(C_MD_NAME, "Couch Tower");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35200214);
+    	values.put(C_MD_Y, -97444755);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Craddock Hall, Air Force ROTC
     	values.put(C_MD_ID, 32);
     	values.put(C_MD_NAME, "Craddock Hall, Air Force ROTC");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35210148);
+    	values.put(C_MD_Y, -97442178);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
     	//Cross Center
     	values.put(C_MD_ID, 33);
     	values.put(C_MD_NAME, "Cross Center");
-    	values.put(C_MD_X, 2);
-    	values.put(C_MD_Y, 2);
+    	values.put(C_MD_X, 35198778);
+    	values.put(C_MD_Y, -97442282);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
