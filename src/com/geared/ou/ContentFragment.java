@@ -10,7 +10,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -18,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -30,6 +30,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -55,7 +56,6 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
     private Course course;
     private ContentData content;
     
-    private static final int DIALOG_DL_ID = 2;
     private Boolean busy;
     ProgressDialog dlDialog;
     
@@ -63,6 +63,9 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
     private Context c;
     private SlidingFragmentActivity a;
     private update updateThread;
+    private Download downloadThread;
+    
+    private ClipDrawable downloadingBackground;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	a = (SlidingFragmentActivity)getActivity();
@@ -84,7 +87,7 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         	ab.setIcon(R.drawable.side_menu_button);
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        	SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(c, R.array.class_nav, R.layout.text_view);
+        	SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(c, R.array.class_nav, R.layout.drop_down_nav_item);
         	ab.setListNavigationCallbacks(mSpinnerAdapter, this);
         	ab.setSelectedNavigationItem(1);
         }
@@ -107,28 +110,17 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         return scroll;
     }
 	
-	/*@Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DIALOG_DL_ID:
-              dlDialog = new ProgressDialog(c);
-              dlDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-              dlDialog.setMessage(this.getString(R.string.downloadWaitDiag));
-              dlDialog.setIndeterminate(true);
-              dlDialog.setCancelable(true);
-              dlDialog.show();
-              return dlDialog;
-        }
-
-        return null;
-    }*/
-	
 	@Override
 	public void onDetach() {
 		if (updateThread != null)
 		{
 			if (updateThread.getStatus() == AsyncTask.Status.RUNNING)
 				updateThread.cancel(false);
+		}
+		if (downloadThread != null)
+		{
+			if (downloadThread.getStatus() == AsyncTask.Status.RUNNING)
+				downloadThread.cancel(false);
 		}
 		super.onDetach();
 	}
@@ -179,14 +171,18 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         return true;
     }
 	
-	public class Download extends AsyncTask<Integer, Integer, Integer> {
+	public class Download extends AsyncTask<Integer, Double, Integer> {
         private File file;
         private int dlSize;
         private double percent;
+        private int id;
         @Override
         protected Integer doInBackground(Integer... ids) {
             percent = 0.0D;
-            ContentItem ci = content.getItem(ids[0]);           
+            id = ids[0];
+            ContentItem ci = content.getItem(id);
+            TextView tmp = (TextView) layoutContent.findViewById(ci.getId());
+            Log.d("OU", "width: "+tmp.getWidth());
             // Get direct link and extract the file name.
             String dLink = "";
             dLink = getDirectLink(ci);
@@ -213,15 +209,15 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
+        protected void onProgressUpdate(Double... values) {
             super.onProgressUpdate(values);
-            //dlDialog.setProgress(values[0]);
+            downloadingBackground.setLevel(1000 + (int)(9000*values[0]));
         }
         
         public void publicProgressUpdate(int p) {
             if ((double)p/(double)dlSize - percent > 0.01D) {
-                this.publishProgress(p);
                 percent = (double)p/(double)dlSize;
+                publishProgress(percent);
             }
         }
         
@@ -235,10 +231,8 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         protected void onPostExecute(Integer result) {
             busy = false;
             super.onPostExecute(result);
-            //dlDialog.setIndeterminate(true);
-            //dlDialog.setProgress(0);
-            //dlDialog.setMax(100);
-            //a.dismissDialog(DIALOG_DL_ID);
+            TextView clickedItem = (TextView)layoutContent.findViewById(id);
+            clickedItem.setBackgroundResource(R.drawable.content_list_button_selector);
             if (result == 1) {
                 Toast.makeText(c, R.string.failedToGetDLink, Toast.LENGTH_SHORT).show();
             }
@@ -265,8 +259,11 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
 	
 	public void onClick(View v) {
         if (!busy) {
-            //a.showDialog(DIALOG_DL_ID);
-            new Download().execute(v.getId());
+            v.setBackgroundResource(R.drawable.download_progress);
+            downloadingBackground = (ClipDrawable)v.getBackground();
+            downloadingBackground.setLevel(1000);
+            downloadThread = new Download();
+            downloadThread.execute(v.getId());
             busy = true;
         }
     }
@@ -346,7 +343,6 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         
         if (cont == null || cat == null)
             return;
-        
         for (String s : cat) {
             addSpacer(layoutContent, Color.BLACK, 2);
             TextView t = new TextView(c);
@@ -367,7 +363,7 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
                 TextView tv = new TextView(c);
                 tv.setText(ci.getName());
                 tv.setId(ci.getId());
-                tv.setWidth(layoutContent.getWidth());
+                tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                 tv.setGravity(Gravity.CENTER_VERTICAL);
                 tv.setTextColor(Color.DKGRAY);
                 tv.setTextSize(15);
