@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -29,14 +28,13 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.geared.ou.ClassesData.Course;
 import com.geared.ou.D2LSourceGetter.SGError;
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class ClassesFragment extends SherlockFragment implements View.OnClickListener {
 	
 	private LinearLayout layoutContent;
     private OUApplication app;
     private Context c;
-    private SlidingFragmentActivity a;
+    private NewsActivity a;
     private float scale;
     private int spacerHeight;
     
@@ -48,7 +46,7 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		a = (SlidingFragmentActivity)getActivity();
+		a = (NewsActivity)getActivity();
 		c = a.getApplicationContext();
 		app = (OUApplication) a.getApplication();
 		app.setCurrentFragment(OUApplication.FRAGMENT_CLASSES);
@@ -135,6 +133,7 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
             else if (result == SGError.BAD_CREDENTIALS) {
                 Toast.makeText(a, R.string.badLogin, Toast.LENGTH_LONG).show();
                 displayClassData(true);
+                a.logout();
             }
             else {
                 Toast.makeText(a, R.string.unknownError, Toast.LENGTH_LONG).show();
