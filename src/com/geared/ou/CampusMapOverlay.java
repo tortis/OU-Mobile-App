@@ -11,7 +11,7 @@ import com.google.android.maps.OverlayItem;
 
 public class CampusMapOverlay extends ItemizedOverlay<OverlayItem>
 {
-	private ArrayList<OverlayItem>mOverlays= new ArrayList<OverlayItem>();
+	private ArrayList<OverlayItem> mOverlays= new ArrayList<OverlayItem>();
 	Context mContext;
 	
 	public CampusMapOverlay(Drawable defaultMarker, Context context)
@@ -35,6 +35,11 @@ public class CampusMapOverlay extends ItemizedOverlay<OverlayItem>
 	protected OverlayItem createItem(int i)
 	{
 		return mOverlays.get(i);
+	}
+	
+	public void pop()
+	{
+		mOverlays.remove(mOverlays.size()-1);
 	}
 	
 	@Override
