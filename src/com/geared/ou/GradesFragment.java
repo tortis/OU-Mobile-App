@@ -64,7 +64,7 @@ public class GradesFragment extends SherlockFragment implements OnNavigationList
         	ab.setIcon(R.drawable.side_menu_button);
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        	SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(c, R.array.class_nav, R.layout.text_view);
+        	SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(c, R.array.class_nav, R.layout.drop_down_nav_item);
         	ab.setListNavigationCallbacks(mSpinnerAdapter, this);
         	ab.setSelectedNavigationItem(2);
         }
