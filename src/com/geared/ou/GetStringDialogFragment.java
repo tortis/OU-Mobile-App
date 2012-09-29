@@ -118,7 +118,6 @@ public class GetStringDialogFragment extends SherlockDialogFragment implements V
 	    	if (title == "Password")
 	    		mEditor.putString("password", mTextField.getText().toString());
 	    	mEditor.commit();
-	    	a.login();
 			this.dismiss();
 		}
 		else
@@ -126,5 +125,19 @@ public class GetStringDialogFragment extends SherlockDialogFragment implements V
 			this.dismiss();
 		}
 	}
+
+	@Override
+	public void onDetach() {
+		SharedPreferences prefs = app.getPrefs();
+    	SharedPreferences.Editor mEditor = prefs.edit();
+    	if (title == "Username")
+    		mEditor.putString("username", mTextField.getText().toString());
+    	if (title == "Password")
+    		mEditor.putString("password", mTextField.getText().toString());
+    	mEditor.commit();
+		super.onDetach();
+	}
+	
+	
 
 }
