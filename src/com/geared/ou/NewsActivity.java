@@ -62,16 +62,10 @@ public class NewsActivity extends SlidingFragmentActivity {
         whoAmI = (TextView)findViewById(R.id.whoAmI);
         if (!app.getUser().isEmpty())
         {
-        	Drawable userIcon = getResources().getDrawable(R.drawable.user_icon);
-        	userIcon.setBounds(0, 0, 48, 48);
-        	whoAmI.setCompoundDrawables(userIcon, null, null, null);
         	whoAmI.setText("Logged in as "+app.getUser());
         }
         else
         {
-        	Drawable userIcon = getResources().getDrawable(R.drawable.user_icon);
-        	userIcon.setBounds(0, 0, 48, 48);
-        	whoAmI.setCompoundDrawables(userIcon, null, null, null);
         	whoAmI.setText("Login");
         }
         
@@ -113,6 +107,12 @@ public class NewsActivity extends SlidingFragmentActivity {
         			fragPrefsTrans.add(R.id.top_level_container, prefsFragment, "main_fragment");
         			fragPrefsTrans.commit();
         			break;
+        		case OUApplication.FRAGMENT_ABOUT:
+        			AboutFragment aboutFragment = new AboutFragment();
+        			FragmentTransaction fragAboutTrans = fragmentManager.beginTransaction();
+        			fragAboutTrans.add(R.id.top_level_container, aboutFragment, "main_fragment");
+        			fragAboutTrans.commit();
+        			break;
     			default:
     				NewsFragment newsFragmentD = new NewsFragment();
     				FragmentTransaction fragDefaultTrans = fragmentManager.beginTransaction();
@@ -121,8 +121,6 @@ public class NewsActivity extends SlidingFragmentActivity {
     				break;
         	}
         }
-        
-        Log.d("OU", "OnCreate of the main activity is called.");
     }
     
     @Override
@@ -135,7 +133,7 @@ public class NewsActivity extends SlidingFragmentActivity {
 			fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
 			fragClassesTrans.commit();
 		}
-		else if (f == OUApplication.FRAGMENT_PREFS)
+		else if (f == OUApplication.FRAGMENT_PREFS || f == OUApplication.FRAGMENT_ABOUT)
 		{
 			NewsFragment newsFragment = new NewsFragment();
 			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
@@ -219,6 +217,15 @@ public class NewsActivity extends SlidingFragmentActivity {
     	}
     }
     
+    public void aboutButton(View v)
+    {
+    	AboutFragment aboutFragment = new AboutFragment();
+		FragmentTransaction fragAboutTrans = fragmentManager.beginTransaction();
+		fragAboutTrans.replace(R.id.top_level_container, aboutFragment, "main_fragment");
+		fragAboutTrans.commit();
+		toggle();
+    }
+    
     public void goToClassesFragment(View v)
     {
         app.getClasses().forceNextUpdate();
@@ -226,6 +233,7 @@ public class NewsActivity extends SlidingFragmentActivity {
 		FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
 		fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
 		fragClassesTrans.commit();
+		login();
     }
     
     public void logout()
