@@ -64,20 +64,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom" >
-	    <TextView
+        android:gravity="bottom"
+        android:orientation="vertical" >
+        <View
+            android:background="#888888"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+        <TextView
 	        android:background="@drawable/content_list_button_selector"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
+	        android:drawableLeft="@drawable/user_icon"
 	        android:id="@+id/whoAmI"
-	        android:textColor="#666666"
+	        android:textColor="#888888"
 	        android:textSize="14sp"
 	        android:paddingLeft="10dp"
-	        android:paddingBottom="15dp"
-	        android:paddingTop="15dp"
+	        android:paddingBottom="10dp"
+	        android:paddingTop="10dp"
 	        android:clickable="true"
 	        android:gravity="center_vertical"
 	        android:onClick="userSideMenuButton" />
+        <View
+            android:background="#888888"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+        <TextView
+	        android:background="@drawable/content_list_button_selector"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/aboutButton"
+	        android:textColor="#888888"
+	        android:textSize="14sp"
+	        android:drawableLeft="@drawable/about_icon"
+	        android:paddingLeft="10dp"
+	        android:paddingBottom="10dp"
+	        android:paddingTop="10dp"
+	        android:clickable="true"
+	        android:text="About this app"
+	        android:gravity="center_vertical"
+	        android:onClick="aboutButton" />
     </LinearLayout>
 
 </LinearLayout>
