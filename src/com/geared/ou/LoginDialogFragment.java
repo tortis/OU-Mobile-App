@@ -37,6 +37,7 @@ public class LoginDialogFragment extends SherlockDialogFragment implements View.
 		Button logout = new Button(c);
 		Button nevermind = new Button(c);
 		logout.setText("Logout");
+		logout.setPadding(0, 15, 0, 15);
 		nevermind.setText("Neverind");
 		LayoutParams lp = new LayoutParams(tlc.getWidth()/2, LayoutParams.WRAP_CONTENT);
 		logout.setLayoutParams(lp);
