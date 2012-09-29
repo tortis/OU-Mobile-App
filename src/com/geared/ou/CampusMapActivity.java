@@ -24,14 +24,17 @@ import java.util.List;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
+import com.geared.ou.D2LSourceGetter.SGError;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -50,8 +53,10 @@ import com.slidingmenu.lib.app.SlidingMapActivity;
 public class CampusMapActivity extends SlidingMapActivity {
 	
 	private MapView mapView;
-	OUApplication app;
-	TextView whoAmI;
+	private OUApplication app;
+	private TextView whoAmI;
+	private CampusLocations campusLocations;
+	private CampusMapOverlay itemizedoverlay;
 	
     /** Called when the activity is first created. */
     @Override
@@ -65,16 +70,10 @@ public class CampusMapActivity extends SlidingMapActivity {
         whoAmI = (TextView)findViewById(R.id.whoAmI);
         if (!app.getUser().isEmpty())
         {
-        	Drawable userIcon = getResources().getDrawable(R.drawable.user_icon);
-        	userIcon.setBounds(0, 0, 48, 48);
-        	whoAmI.setCompoundDrawables(userIcon, null, null, null);
         	whoAmI.setText("Logged in as "+app.getUser());
         }
         else
         {
-        	Drawable userIcon = getResources().getDrawable(R.drawable.user_icon);
-        	userIcon.setBounds(0, 0, 48, 48);
-        	whoAmI.setCompoundDrawables(userIcon, null, null, null);
         	whoAmI.setText("Login");
         }
         
@@ -89,6 +88,9 @@ public class CampusMapActivity extends SlidingMapActivity {
         SlidingMenu sm = getSlidingMenu();
         sm.setBehindWidth(350);
         
+        campusLocations = new CampusLocations();
+        
+        
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         List<GeoPoint> points = new ArrayList<GeoPoint>();
@@ -96,20 +98,43 @@ public class CampusMapActivity extends SlidingMapActivity {
         points.add(new GeoPoint(35203866, -97441263));
         setMapBoundsToPois(points,0.0,0.0,mapView);
         
+        
+        new LoadLocations().execute();
+        
         //Overlays
         List<Overlay> mapOverlays = mapView.getOverlays();
         Drawable drawable = this.getResources().getDrawable(R.drawable.map_marker);
-        CampusMapOverlay itemizedoverlay = new CampusMapOverlay(drawable,this);
+        itemizedoverlay = new CampusMapOverlay(drawable,this);
         GeoPoint point = new GeoPoint(35208814,-97442315);
         OverlayItem overlayitem = new OverlayItem(point, "Laissez les bon temps rouler!", "I'm in Louisiana!");
 
         GeoPoint point2 = new GeoPoint(17385812,78480667);
         OverlayItem overlayitem2 = new OverlayItem(point2, "Namashkaar!", "I'm in Hyderabad, India!");
-
-        itemizedoverlay.addOverlay(overlayitem);
-        itemizedoverlay.addOverlay(overlayitem2);
-
         mapOverlays.add(itemizedoverlay);
+    }
+    
+    private class LoadLocations extends AsyncTask<Integer, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Integer... sg) {
+            return campusLocations.loadLocations(app.getDb());
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            // Update percentage
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result == false)
+            	return;
+            for (OverlayItem io:campusLocations.getAllLocations())
+            {
+            	itemizedoverlay.addOverlay(io);
+            }
+        }
     }
     
     @Override
@@ -178,6 +203,13 @@ public class CampusMapActivity extends SlidingMapActivity {
     	{
     		
     	}
+    }
+	
+	public void aboutButton(View v)
+    {
+		app.setCurrentFragment(OUApplication.FRAGMENT_ABOUT);
+		startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+		toggle();
     }
 	
 	public void sideNavItemSelected(View v)
