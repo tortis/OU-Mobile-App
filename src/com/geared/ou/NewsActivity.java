@@ -20,13 +20,12 @@
 package com.geared.ou;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
@@ -56,22 +55,25 @@ public class NewsActivity extends SlidingFragmentActivity {
         app = (OUApplication)getApplication();
         
         setContentView(R.layout.news);
-        setBehindContentView(R.layout.side_nav);
+        setBehindLeftContentView(R.layout.side_nav);
         
         /* SideMenu User Button. */
         whoAmI = (TextView)findViewById(R.id.whoAmI);
         if (!app.getUser().isEmpty())
         {
-        	whoAmI.setText("Logged in as "+app.getUser());
+        	whoAmI.setText(getResources().getString(R.string.loggedInAsText)+" "+app.getUser());
         }
         else
         {
-        	whoAmI.setText("Login");
+        	whoAmI.setText(R.string.loginButtonText);
         }
         
+    	
+        ImageView view = (ImageView)findViewById(android.R.id.home);
+        view.setPadding(5, 0, 20, 0);
         
         SlidingMenu sm = getSlidingMenu();
-        sm.setBehindWidth(350);
+        sm.setBehindWidth(350, SlidingMenu.LEFT);
         
         fragmentManager = getSupportFragmentManager();
         
@@ -155,8 +157,7 @@ public class NewsActivity extends SlidingFragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
         	case android.R.id.home:
-        		Log.d("OU", "Up button pressed");
-        		toggle();
+        		toggle(SlidingMenu.LEFT);
         		break;
         	case R.id.itemPrefs:
         		PrefsFragment prefsFragment = new PrefsFragment();
@@ -173,9 +174,9 @@ public class NewsActivity extends SlidingFragmentActivity {
     {
     	/* Update the sidebar. */
     	if (app.getUser().isEmpty())
-    		whoAmI.setText("Login");
+    		whoAmI.setText(R.string.loginButtonText);
     	else
-    		whoAmI.setText("Logged in as "+app.getUser());
+    		whoAmI.setText(getResources().getString(R.string.loggedInAsText)+" "+app.getUser());
     	
     	/* Switch over view ID. */
     	switch(v.getId())
@@ -193,12 +194,12 @@ public class NewsActivity extends SlidingFragmentActivity {
     			fragClassesTrans.commit();
     			break;
     		case R.id.map_button:
-    			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			startActivity(new Intent(this, CampusMapActivity.class));
     			break;
 			default:
 				break;
     	}
-    	toggle();
+    	toggle(SlidingMenu.LEFT);
     }
 
     public void userSideMenuButton(View v)
@@ -209,7 +210,7 @@ public class NewsActivity extends SlidingFragmentActivity {
 			FragmentTransaction fragPrefsTrans = fragmentManager.beginTransaction();
 			fragPrefsTrans.replace(R.id.top_level_container, prefsFragment, "main_fragment");
 			fragPrefsTrans.commit();
-			toggle();
+			toggle(SlidingMenu.LEFT);
     	}
     	else
     	{
@@ -223,7 +224,7 @@ public class NewsActivity extends SlidingFragmentActivity {
 		FragmentTransaction fragAboutTrans = fragmentManager.beginTransaction();
 		fragAboutTrans.replace(R.id.top_level_container, aboutFragment, "main_fragment");
 		fragAboutTrans.commit();
-		toggle();
+		toggle(SlidingMenu.LEFT);
     }
     
     public void goToClassesFragment(View v)
@@ -238,12 +239,12 @@ public class NewsActivity extends SlidingFragmentActivity {
     
     public void logout()
     {
-    	whoAmI.setText("Login");
+    	whoAmI.setText(R.string.loginButtonText);
     }
     
     public void login()
     {
-    	whoAmI.setText("Logged in as "+app.getUser());
+		whoAmI.setText(getResources().getString(R.string.loggedInAsText)+" "+app.getUser());
     }
     
     private void showDialog() {

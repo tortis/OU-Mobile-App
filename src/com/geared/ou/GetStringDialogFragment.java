@@ -16,7 +16,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class GetStringDialogFragment extends SherlockDialogFragment implements View.OnClickListener {
 	
@@ -51,7 +50,7 @@ public class GetStringDialogFragment extends SherlockDialogFragment implements V
 		mTextField.setPadding(10, 0, 5, 0);
 		mTextField.setText(oldData);
 		mTextField.setTextColor(Color.BLACK);
-		if (title == "Password")
+		if (title == getResources().getString(R.string.password))
 			mTextField.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
 		
 		TextView ok = new TextView(c);
@@ -61,7 +60,7 @@ public class GetStringDialogFragment extends SherlockDialogFragment implements V
 		cancel.setLayoutParams(new TableRow.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 0.5f));
 		
 		ok.setBackgroundResource(R.drawable.content_list_button_selector);
-		ok.setText("OK");
+		ok.setText(R.string.ok);
 		ok.setOnClickListener(this);
 		ok.setId(OK_BUTTON);
 		ok.setClickable(true);
@@ -71,7 +70,7 @@ public class GetStringDialogFragment extends SherlockDialogFragment implements V
 		ok.setPadding(0, 20, 0, 20);
 		
 		cancel.setBackgroundResource(R.drawable.content_list_button_selector);
-		cancel.setText("Cancel");
+		cancel.setText(R.string.cancel);
 		cancel.setOnClickListener(this);
 		cancel.setId(CANCEL_BUTTON);
 		cancel.setClickable(true);
@@ -113,9 +112,9 @@ public class GetStringDialogFragment extends SherlockDialogFragment implements V
 		{
 			SharedPreferences prefs = app.getPrefs();
 	    	SharedPreferences.Editor mEditor = prefs.edit();
-	    	if (title == "Username")
+	    	if (title == getResources().getString(R.string.username))
 	    		mEditor.putString("username", mTextField.getText().toString());
-	    	if (title == "Password")
+	    	if (title == getResources().getString(R.string.password))
 	    		mEditor.putString("password", mTextField.getText().toString());
 	    	mEditor.commit();
 			this.dismiss();
@@ -130,9 +129,9 @@ public class GetStringDialogFragment extends SherlockDialogFragment implements V
 	public void onDetach() {
 		SharedPreferences prefs = app.getPrefs();
     	SharedPreferences.Editor mEditor = prefs.edit();
-    	if (title == "Username")
+    	if (title == getResources().getString(R.string.username))
     		mEditor.putString("username", mTextField.getText().toString());
-    	if (title == "Password")
+    	if (title == getResources().getString(R.string.password))
     		mEditor.putString("password", mTextField.getText().toString());
     	mEditor.commit();
 		super.onDetach();

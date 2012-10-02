@@ -31,6 +31,26 @@
     <string name="downloadFailed">Download failed</string>
     <string name="failedToGetDLink">Could not get link to file from D2L</string>
     <string name="downloadWaitDiag">Downloading&#8230;</string>
+    <string name="updating">Updating&#8230;</string>
     <string name="courseHomeTitle">Course Home</string>
+    <string name="titleShowMapSideMenu">Side Menu</string>
+    <string name="aboutButtonText">About this app</string>
+    <string name="searchFieldHint">Building Name</string>
+    <string name="clearSearchButtonDesc">Clear text</string>
+    <string name="loginButtonText">Login</string>
+    <string name="loggedInAsText">Logged in as</string>
+    <string name="aboutTitle">About</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout">Logout</string>
+    <string name="logoutQuestion">Would you like to logout?</string>
+    <string name="nevermind">Nevermind</string>
+    
+    <string-array name="class_nav">
+        <item>Home</item>
+        <item>Content</item>
+        <item>Grades</item>
+        <item>Roster</item>
+    </string-array>
 </resources>
 

@@ -186,7 +186,7 @@ public class ClassHomeFragment extends SherlockFragment implements OnNavigationL
         TextView updateTV = (TextView)layoutContent.findViewById(R.id.updateTextView);
         if (updateTV == null) {
             updateTV = new TextView(c);
-            updateTV.setText(" Updating...");
+            updateTV.setText(R.string.updating);
             updateTV.setCompoundDrawables(img, null, null, null);
             updateTV.setGravity(Gravity.TOP);
             updateTV.setWidth(layoutContent.getWidth());
@@ -197,7 +197,7 @@ public class ClassHomeFragment extends SherlockFragment implements OnNavigationL
             layoutContent.addView(updateTV);
         } else {
             updateTV.setCompoundDrawables(img, null, null, null);
-            updateTV.setText(" Updating...");
+            updateTV.setText(R.string.updating);
             updateTV.setTextColor(Color.BLACK);
         }
         updateTV.post(new Runnable() {

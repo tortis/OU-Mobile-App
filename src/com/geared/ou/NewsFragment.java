@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -63,7 +62,7 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
         if (ab != null)
         {
         	ab.setIcon(R.drawable.side_menu_button);
-        	ab.setTitle("News");
+        	ab.setTitle(R.string.newsButton);
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
@@ -259,7 +258,7 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
         TextView updateTV = (TextView)tlc.findViewById(R.id.updateTextView);
         if (updateTV == null) {
             updateTV = new TextView(c);
-            updateTV.setText(" Updating...");
+            updateTV.setText(R.string.updating);
             updateTV.setCompoundDrawables(img, null, null, null);
             updateTV.setGravity(Gravity.TOP);
             updateTV.setWidth(tlc.getWidth());
@@ -270,7 +269,7 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
             tlc.addView(updateTV, 0);
         } else {
             updateTV.setCompoundDrawables(img, null, null, null);
-            updateTV.setText(" Updating...");
+            updateTV.setText(R.string.updating);
             updateTV.setTextColor(Color.BLACK);
         }
         updateTV.post(new Runnable() {

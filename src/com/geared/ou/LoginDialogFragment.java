@@ -30,15 +30,15 @@ public class LoginDialogFragment extends SherlockDialogFragment implements View.
 		a = (SlidingFragmentActivity)getActivity();
 		c = a.getApplicationContext();
 		app = (OUApplication) a.getApplication();
-		getDialog().setTitle("Would you like to logout?");
+		getDialog().setTitle(R.string.logoutQuestion);
 		LinearLayout tlc = new LinearLayout(c);
 		tlc.setOrientation(LinearLayout.HORIZONTAL);
 		tlc.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		Button logout = new Button(c);
 		Button nevermind = new Button(c);
-		logout.setText("Logout");
+		logout.setText(R.string.logout);
 		logout.setPadding(0, 15, 0, 15);
-		nevermind.setText("Neverind");
+		nevermind.setText(R.string.nevermind);
 		LayoutParams lp = new LayoutParams(tlc.getWidth()/2, LayoutParams.WRAP_CONTENT);
 		logout.setLayoutParams(lp);
 		nevermind.setLayoutParams(lp);
@@ -48,8 +48,6 @@ public class LoginDialogFragment extends SherlockDialogFragment implements View.
 		logout.setId(LOGOUT_BUTTON);
 		nevermind.setId(NEVERMIND_BUTTON);
 		logout.setBackgroundResource(R.drawable.content_list_button_selector);
-		//tlc.addView(logout);
-		//tlc.addView(nevermind);
 		return logout;
 	}
 

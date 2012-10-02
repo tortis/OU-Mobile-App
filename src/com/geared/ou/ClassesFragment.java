@@ -58,7 +58,7 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
         if (ab != null)
         {
         	ab.setIcon(R.drawable.side_menu_button);
-        	ab.setTitle("Courses: "+classes.getCurrentSemesterString());
+        	ab.setTitle(getResources().getString(R.string.classesButton)+": "+classes.getCurrentSemesterString());
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
@@ -202,11 +202,11 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
             t.setGravity(Gravity.CENTER_VERTICAL);
             t.setTextColor(Color.DKGRAY);
             t.setTextSize(18);
-            t.setPadding(10, 0, 10, 0);
+            t.setPadding(10, 25, 10, 25);
             t.setClickable(true);
             t.setHorizontalFadingEdgeEnabled(true);
             t.setFadingEdgeLength(35);
-            t.setBackgroundResource(R.drawable.class_button_bg_selector);
+            t.setBackgroundResource(R.drawable.content_list_button_selector);
             t.setSingleLine(true);
             t.setOnClickListener(this);
             layoutContent.addView(t);
@@ -244,7 +244,7 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
         TextView updateTV = (TextView)layoutContent.findViewById(R.id.updateTextView);
         if (updateTV == null) {
             updateTV = new TextView(c);
-            updateTV.setText(" Updating...");
+            updateTV.setText(R.string.updating);
             updateTV.setCompoundDrawables(img, null, null, null);
             updateTV.setGravity(Gravity.TOP);
             updateTV.setWidth(layoutContent.getWidth());
@@ -255,7 +255,7 @@ public class ClassesFragment extends SherlockFragment implements View.OnClickLis
             layoutContent.addView(updateTV);
         } else {
             updateTV.setCompoundDrawables(img, null, null, null);
-            updateTV.setText(" Updating...");
+            updateTV.setText(R.string.updating);
             updateTV.setTextColor(Color.BLACK);
         }
         updateTV.post(new Runnable() {

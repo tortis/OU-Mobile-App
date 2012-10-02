@@ -30,7 +30,7 @@ public class AboutFragment extends SherlockFragment {
         if (ab != null)
         {
         	ab.setIcon(R.drawable.side_menu_button);
-        	ab.setTitle("About");
+        	ab.setTitle(R.string.aboutTitle);
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }

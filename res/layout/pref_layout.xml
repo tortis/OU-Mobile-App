@@ -19,13 +19,13 @@
 		      	<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Username"
+				    android:text="@string/username"
 				    android:textColor="#000000"
 				    android:textSize="18sp" />
 		      	<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Your OU 4x4"
+				    android:text="@string/usernameSummary"
 				    android:textColor="#999999"
 				    android:textSize="14sp" />
 	      	</LinearLayout>
@@ -44,13 +44,13 @@
 				<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Password"
+				    android:text="@string/password"
 				    android:textColor="#000000"
 				    android:textSize="18sp" />
 		      	<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Your OU password"
+				    android:text="@string/passwordSummary"
 				    android:textColor="#999999"
 				    android:textSize="14sp" />
 		    </LinearLayout>
@@ -65,18 +65,3 @@
        android:onClick="goToClassesFragment"
        android:layout_gravity="bottom" />
 </LinearLayout>
-
-<!-- <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical" >
-    <ListView android:id="@android:id/list"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:layout_weight="1" />
-    <Button   android:text="@string/prefsUpdateButton"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:onClick="goToClassesActivity" />
-</LinearLayout>-->

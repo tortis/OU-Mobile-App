@@ -1,6 +1,5 @@
 package com.geared.ou;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,14 +18,12 @@ public class PrefsFragment extends SherlockFragment implements View.OnClickListe
 	LinearLayout setUserName, setPassword;
 	
 	private OUApplication app;
-    private Context c;
     private SlidingFragmentActivity a;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		a = (SlidingFragmentActivity)getActivity();
-        c =a.getApplicationContext();
         app = (OUApplication) a.getApplication();
         app.setCurrentFragment(OUApplication.FRAGMENT_PREFS);
         
@@ -34,7 +31,7 @@ public class PrefsFragment extends SherlockFragment implements View.OnClickListe
         if (ab != null)
         {
         	ab.setIcon(R.drawable.side_menu_button);
-        	ab.setTitle("Set Credientials");
+        	ab.setTitle(R.string.titlePrefs);
         	ab.setDisplayHomeAsUpEnabled(true);
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
@@ -51,13 +48,11 @@ public class PrefsFragment extends SherlockFragment implements View.OnClickListe
 	public void onClick(View v) {
 		if (v.getId() == R.id.setUserName)
 		{
-			Log.d("OU", "Set username clicked.");
-			showDialog("Username", app.getUser());
+			showDialog(getResources().getString(R.string.username), app.getUser());
 		}
 		else if (v.getId() == R.id.setPassword)
 		{
-			Log.d("OU", "Set password clicked.");
-			showDialog("Password", app.getPrefs().getString("password", ""));
+			showDialog(getResources().getString(R.string.password), app.getPrefs().getString("password", ""));
 		}
 		else
 			Log.d("OU", "Unknown ID");

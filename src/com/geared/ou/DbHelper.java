@@ -214,7 +214,7 @@ public class DbHelper extends SQLiteOpenHelper {
     	values.put(C_MD_ID, 6);
     	values.put(C_MD_NAME, "Asp Avenue Parking Facility");
     	values.put(C_MD_X, 35205755);
-    	values.put(C_MD_Y, -9744363);
+    	values.put(C_MD_Y, -97443630);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
@@ -245,7 +245,7 @@ public class DbHelper extends SQLiteOpenHelper {
     	//Boomer Outreach Building
     	values.put(C_MD_ID, 10);
     	values.put(C_MD_NAME, "Boomer Outreach Building");
-    	values.put(C_MD_X, 3519726);
+    	values.put(C_MD_X, 35197260);
     	values.put(C_MD_Y, -97445864);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
@@ -254,7 +254,7 @@ public class DbHelper extends SQLiteOpenHelper {
     	values.put(C_MD_ID, 11);
     	values.put(C_MD_NAME, "Boren Hall");
     	values.put(C_MD_X, 35203113);
-    	values.put(C_MD_Y, -9744485);
+    	values.put(C_MD_Y, -97444850);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
@@ -314,9 +314,9 @@ public class DbHelper extends SQLiteOpenHelper {
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
-    	//Carson Engineering Center
+    	//Carson  Center
     	values.put(C_MD_ID, 19);
-    	values.put(C_MD_NAME, "Carson Engineering Center");
+    	values.put(C_MD_NAME, "Carson  Center");
     	values.put(C_MD_X, 35210720);
     	values.put(C_MD_Y, -97442782);
     	values.put(C_MD_DESC, "tmp");
@@ -482,9 +482,9 @@ public class DbHelper extends SQLiteOpenHelper {
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
-    	//Engineering Laboratory
+    	// Laboratory
     	values.put(C_MD_ID, 117);
-    	values.put(C_MD_NAME, "Engineering Laboratory");
+    	values.put(C_MD_NAME, " Laboratory");
     	values.put(C_MD_X, 35209327);
     	values.put(C_MD_Y, -97443099);
     	values.put(C_MD_DESC, "tmp");
@@ -510,7 +510,7 @@ public class DbHelper extends SQLiteOpenHelper {
     	values.put(C_MD_ID, 42);
     	values.put(C_MD_NAME, "ExxonMobil / Lawrence G. Rawl Engineering Practice Facility");
     	values.put(C_MD_X, 35210230);
-    	values.put(C_MD_Y, -97.441672);
+    	values.put(C_MD_Y, -97441672);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();
@@ -590,7 +590,7 @@ public class DbHelper extends SQLiteOpenHelper {
     	values.put(C_MD_ID, 52);
     	values.put(C_MD_NAME, "Gould Hall");
     	values.put(C_MD_X, 35205426);
-    	values.put(C_MD_Y, -97.444939);
+    	values.put(C_MD_Y, -97444939);
     	values.put(C_MD_DESC, "tmp");
     	db.insert(T_MAP_DATA, null, values);
     	values.clear();

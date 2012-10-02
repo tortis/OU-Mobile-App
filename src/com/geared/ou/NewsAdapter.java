@@ -75,4 +75,4 @@ public class NewsAdapter extends BaseAdapter {
 	      holder.titleLayout.setOnClickListener(listener);
 	      return convertView;
 	   }
-	}
+}
