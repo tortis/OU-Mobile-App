@@ -10,11 +10,13 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
 public class CampusLocations {
+	private ArrayList<OverlayItem> mFilteredLocations;
 	private ArrayList<OverlayItem> mLocations;
 	
 	public CampusLocations()
 	{
 		mLocations = new ArrayList<OverlayItem>(150);
+		mFilteredLocations = new ArrayList<OverlayItem>(150);
 	}
 	
 	public boolean loadLocations(SQLiteDatabase db)
@@ -33,6 +35,7 @@ public class CampusLocations {
         	mLocations.add(new OverlayItem(point, name, description));
         }
         db.close();
+        mFilteredLocations = new ArrayList<OverlayItem>(mLocations);
         Log.d("OU", mLocations.size()+" locations loaded.");
 		return true;
 	}
@@ -42,8 +45,28 @@ public class CampusLocations {
 		return mLocations;
 	}
 	
+	public ArrayList<OverlayItem> getFilteredLocations()
+	{
+		return mFilteredLocations;
+	}
+	
 	public OverlayItem getLocationById(int id)
 	{
 		return mLocations.get(id);
+	}
+	
+	public void filterLocations(String s)
+	{
+		mFilteredLocations.clear();
+		for (OverlayItem o : mLocations)
+		{
+			if (o.getTitle().toLowerCase().indexOf(s) != -1)
+				mFilteredLocations.add(o);
+		}
+	}
+	
+	public void resetFilter()
+	{
+		mFilteredLocations = new ArrayList<OverlayItem>(mLocations);
 	}
 }

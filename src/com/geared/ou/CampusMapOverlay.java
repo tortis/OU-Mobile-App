@@ -18,6 +18,7 @@ public class CampusMapOverlay extends ItemizedOverlay<OverlayItem>
 	{
 		super(boundCenterBottom(defaultMarker));
 		mContext = context;
+		populate();
 	}
 	
 	public CampusMapOverlay(Drawable defaultMarker)
@@ -40,6 +41,11 @@ public class CampusMapOverlay extends ItemizedOverlay<OverlayItem>
 	public void pop()
 	{
 		mOverlays.remove(mOverlays.size()-1);
+	}
+	
+	public void removeAllItems()
+	{
+		mOverlays.clear();
 	}
 	
 	@Override
