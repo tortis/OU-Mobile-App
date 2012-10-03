@@ -45,7 +45,28 @@
     <string name="logout">Logout</string>
     <string name="logoutQuestion">Would you like to logout?</string>
     <string name="nevermind">Nevermind</string>
-    
+    <string name="aboutMainTitle">OU Mobile App</string>
+    <string name="aboutMainDesc">This android app was developed for free by David Findley for use by students at the University of Oklahoma.
+It lets users read OU Daily News, search for buildings on the campus map, and gives partial D2L access.  This is not
+an official University of Oklahoma application, nor is it sponsored by the University of Oklahoma.</string>
+	<string name="aboutThanksTitle">Special Thanks</string>
+	<string name="aboutThanksContent">Design input: Vincent Do, Hoai Nguyen\nArt asset contribution: John Dewberry\nTesting device: Vincent Do</string>
+    <string name="aboutLicenseTitle">License</string>
+    <string name="aboutLicenseContent">The OU Mobile App by <a href='mailto:thefindley@gmail.com'>David findley</a> is licensed under a <a href='http://creativecommons.org/licenses/by-nc/3.0/'>Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.
+Based on work at <a href='https://github.com/ThinksInBits/OU-Mobile-App'>github.com</a>.</string>
+	<string name="aboutLibsTitle">Libraries Used</string>
+	<string name="aboutLibsContent">This application uses several third-party opensource libraries in order implement it\'s features.
+	\n\n<a href="http://hc.apache.org/httpcomponents-client-ga/">Apache HttpClient</a> is a library that lets developers interact with Web servers in a very robust way. OU Mobile App
+	uses this library to pull user specific Webpages from OU\'s D2L Website. This library is licensed under the
+	<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.
+	\n\n<a href="http://jsoup.org/">jsoup Html parser</a> is a library for reading and modifying html source files. OU Mobile App uses this 
+	library to extract user specific data from D2L Webpages. This library is licensed under the <a href="http://jsoup.org/license">MIT License</a>.
+	\n\n<a href="http://actionbarsherlock.com/">ActionBarSherlock</a> is a library that extends the compatibility library in order to facilitate use of 
+	the action bar design patter across all versions of Android with a single API. This library is licensed 
+	under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.
+	\n\n<a href="https://github.com/jfeinstein10/SlidingMenu">SlidingMenu</a> is a library that allows Android apps to easily implement the sliding menu design pattern.
+	This library is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.</string>
+	
     <string-array name="class_nav">
         <item>Home</item>
         <item>Content</item>

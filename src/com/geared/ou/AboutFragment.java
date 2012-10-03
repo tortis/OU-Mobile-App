@@ -1,8 +1,9 @@
 package com.geared.ou;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +16,13 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 public class AboutFragment extends SherlockFragment {
 	
 	private OUApplication app;
-    private Context c;
     private SlidingFragmentActivity a;
+    private View mainView;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		a = (SlidingFragmentActivity)getActivity();
-        c =a.getApplicationContext();
         app = (OUApplication) a.getApplication();
         app.setCurrentFragment(OUApplication.FRAGMENT_ABOUT);
         
@@ -35,11 +35,27 @@ public class AboutFragment extends SherlockFragment {
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
         
-    	TextView test = new TextView(c);
-    	test.setText("About....");
-    	test.setPadding(9, 5, 9, 5);
-    	test.setTextColor(Color.BLACK);
-        return test;
+        mainView = inflater.inflate(R.layout.about, container, false);
+        
+    	TextView version = (TextView) mainView.findViewById(R.id.versionText);
+    	PackageInfo pInfo;
+		try {
+			pInfo = a.getPackageManager().getPackageInfo(a.getPackageName(), 0);
+			version.setText("version: "+pInfo.versionName);
+		} catch (NameNotFoundException e) {
+			version.setText("version: ???");
+			e.printStackTrace();
+		}
+		
+		TextView aboutLicenseContent = (TextView) mainView.findViewById(R.id.aboutLicenseContent);
+		aboutLicenseContent.setText(a.getResources().getText(R.string.aboutLicenseContent));
+		aboutLicenseContent.setMovementMethod(LinkMovementMethod.getInstance());
+		
+		TextView aboutLibsContent = (TextView) mainView.findViewById(R.id.aboutLibsContent);
+		aboutLibsContent.setText(a.getResources().getText(R.string.aboutLibsContent));
+		aboutLibsContent.setMovementMethod(LinkMovementMethod.getInstance());
+		
+        return mainView;
     }
 }
 /*
@@ -73,4 +89,4 @@ This application uses several third-party opensource libraries in order implemen
 	
 	SlidingMenu(link) is a library that allows Android apps to easily implement the sliding menu design pattern.
 	This library is licensed under Apache License, version 2.0 (link).
-	
+	*/
