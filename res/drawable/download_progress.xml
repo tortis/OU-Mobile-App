@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <clip xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/transparent_red"
+    android:drawable="@drawable/transparent_green"
     android:clipOrientation="horizontal"
     android:gravity="left" >
 </clip>
