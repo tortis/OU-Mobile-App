@@ -45,19 +45,23 @@ public class ContentData {
     
     public class ContentItem {
         
-        String name;
-        String link;
-        String category;
-        String type;
-        int ouId;
-        int id;
+        private String name;
+        private String link;
+        private String category;
+        private String type;
+        private int ouId;
+        private int id;
+        private Boolean hasLink;
         
         public ContentItem(String name, String link, String category, int ouId) {
             type = "";
+            hasLink = true;
             this.name = name;
             this.link = link;
             this.category = category;
             this.ouId = ouId;
+            if (link.equals("0=0") || link.equals(""))
+            	hasLink = false;
             setIdFromLink();
         }
         
@@ -95,6 +99,11 @@ public class ContentData {
         
         public int getId() {
             return id;
+        }
+        
+        public Boolean hasLink()
+        {
+        	return hasLink;
         }
         
        private void setIdFromLink() {
@@ -152,8 +161,8 @@ public class ContentData {
         Document doc = Jsoup.parse(contentSource);
         contentSource = null;
         
-        /***********************************************************************
-         *                      START specialized code
+        /* ********************************************************************
+         *                      START specialized code                        *
          **********************************************************************/
         
         // Get the element which is the table containing the content.
@@ -162,14 +171,23 @@ public class ContentData {
             return false;
         Element table = tables.get(0);
         Elements tdsOfInterest = table.getElementsByAttributeValue("class", "d_gn");
-        if (tdsOfInterest.isEmpty()) {
-            categories.add("Empty");
-            content.get(categories.get(categories.size()-1)).add(new ContentItem("No content", "#", "Empty", course.getOuId()));
-            return true;
-        }
         
         content.clear();
         categories.clear();
+        
+        if (tdsOfInterest.isEmpty()) {
+            categories.add("Oops");
+            ContentItem c = new ContentItem("No content found.", "0=0", "Oops", course.getOuId());
+            content.put("Oops", new ArrayList<ContentItem>());
+            content.get(categories.get(categories.size()-1)).add(c);
+            
+            lastUpdate = new Date();
+            if (!writeToDb())
+                return false;
+            
+            return true;
+        }
+        
         for (Element e : tdsOfInterest) {
             Elements as;
             // If there was no <a> tag, then td was a category, so add arraylist for it.
@@ -177,7 +195,7 @@ public class ContentData {
                 content.put(e.text().trim().replace("&nbsp;", ""), new ArrayList<ContentItem>());
                 categories.add(e.text().trim().replace("&nbsp;", ""));
             }
-            // Otherwie the <td> contains an <a> tag representing a ContentItem.
+            // Otherwise the <td> contains an <a> tag representing a ContentItem.
             else {
                 Element a = as.get(0);
                 ContentItem ci = new ContentItem(a.ownText().trim(), "https://learn.ou.edu"+a.attr("href"), categories.get(categories.size()-1), course.getOuId());
@@ -185,12 +203,12 @@ public class ContentData {
                 ci.setType(img.attr("alt"));
                 content.get(categories.get(categories.size()-1)).add(ci);
             }
-	}
+        }
         cleanContent();
         
-        /***********************************************************************
-         *                       END specialized code
-         **********************************************************************/
+        /* *********************************************************************
+         *                       END specialized code                          *
+         ***********************************************************************/
         
         lastUpdate = new Date();
         if (!writeToDb())
@@ -260,7 +278,7 @@ public class ContentData {
     
     private Boolean writeToDb() {
         SQLiteDatabase db = app.getDb();
-        db.rawQuery("delete from content where user='"+app.getUser()+"' and ou_id="+course.getOuId(), null);
+        db.delete("content", "ou_id=?", new String[] {String.valueOf(course.getOuId())});
         
         ContentValues values = new ContentValues();
         

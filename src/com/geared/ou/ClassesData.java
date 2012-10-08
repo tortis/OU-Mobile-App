@@ -19,19 +19,22 @@
 
 package com.geared.ou;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import com.geared.ou.D2LSourceGetter.SGError;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import com.geared.ou.D2LSourceGetter.SGError;
 
 /**
  *
@@ -52,7 +55,6 @@ public class ClassesData {
         private String name;
         private String link;
         private String namePrefix;
-        private String semester;
         
         private ContentData content;
         private GradesData grades;
@@ -124,9 +126,12 @@ public class ClassesData {
         }
 
         protected void splitPrefixFromName() {
-            /* MAKE THIS SMARTER. */
-            namePrefix = name.substring(0, 4);
-            name = name.substring(16, name.length());
+        	Log.d("OU", "name: " + name);
+        	String[] parts = name.split("-");
+        	namePrefix = parts[0] + ": " + parts[1].substring(0,4);
+        	Log.d("OU", parts[1]);
+        	int pos = name.split("[A-Z][a-z]")[0].length();
+            name = name.substring(pos, name.length());
             name = name.replace("&amp;", "&");
         }
         
@@ -201,7 +206,7 @@ public class ClassesData {
                     counter++;
                 }
             }
-	}
+        }
         
         es = doc.getElementsContainingOwnText(getPreviousSemesterString());
         for (Element t : es) {
@@ -224,7 +229,7 @@ public class ClassesData {
                     counter++;
                 }
             }
-	}
+        }
         
         cleanCourseNames();
         
@@ -268,7 +273,8 @@ public class ClassesData {
     }
 
     public Course getCourse(int id) {
-        if (!courses.isEmpty()) {
+        if (!courses.isEmpty())
+        {
             if (id < courses.size()) {
                 return courses.get(id);
             }
@@ -289,8 +295,7 @@ public class ClassesData {
     {
         SQLiteDatabase db = app.getDb();
         // Delete any classes already in database for the current user
-        //db.delete(DbHelper.T_CLASSES, "where user='?'", new String[] {app.getUser()});
-        db.rawQuery("delete from classes where user='"+app.getUser()+"'", null);
+        db.delete("classes", "user=?", new String[] {app.getUser()});
         
         // Insert each of the pulled courses
         ContentValues values = new ContentValues();
@@ -373,7 +378,7 @@ public class ClassesData {
         }
     }
     
-    private String getCurrentSemesterString() {
+    public String getCurrentSemesterString() {
         String s;
         Calendar date = Calendar.getInstance();
         int month = date.get(Calendar.MONTH);

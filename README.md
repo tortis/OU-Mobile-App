@@ -3,7 +3,7 @@
 This is an Android Application for students at the University of Oklahoma. Gives quick access to D2L features, a campus map, and more.
 
 + Download the app from [Google Play](https://play.google.com/store/apps/details?id=com.geared.ou "OU Mobile Alpha on Google Play")
-+ Pull the source at [github](https://github.com/ThinksInBits/OU-Mobile-App "Github Repository")
++ Get the source at [github](https://github.com/ThinksInBits/OU-Mobile-App "Github Repository")
 + Follow development on [Trello](https://trello.com/board/ou-app/4f1f697a28390abb75008a97)
 
 # Features
@@ -11,12 +11,16 @@ This is an Android Application for students at the University of Oklahoma. Gives
 + Course List
 + Course Grades
 + Download Course Content
-+ Campus Map (rough)
-+ Class Schedule (soon)
-+ Course Roster (soon)
-+ Campus News (soon)
++ Campus Map
++ Course Roster
++ OU News
 
 # License
 
 ![Creative Commons License Image](http://i.creativecommons.org/l/by-nc/3.0/88x31.png) OU Mobile Alpha by [David Findley](mailto:thefindley@gmail.com) is licensed under a [Creative Commons Attribution-NonCommercial 3.0 Unported License](http://creativecommons.org/licenses/by-nc/3.0/).
 Based on a work at [github.com](https://github.com/ThinksInBits/OU-Mobile-App).
+
++ Actionbar Sherlock
++ Sliding Menu
++ Apache httpclient
++ Rome feed reader

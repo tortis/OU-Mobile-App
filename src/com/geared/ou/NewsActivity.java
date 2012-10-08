@@ -19,29 +19,20 @@
 
 package com.geared.ou;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndEntryImpl;
-import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
-import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FeedFetcher;
-import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FetcherException;
-import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.impl.HttpURLFeedFetcher;
-import com.google.code.rome.android.repackaged.com.sun.syndication.io.FeedException;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 /**
  *
@@ -50,196 +41,230 @@ import java.util.List;
  * functionality has been implemented.
  * 
  */
-public class NewsActivity extends Activity implements View.OnClickListener {
-    private LinearLayout buttonClasses;
-    private LinearLayout buttonEmail;
-    private LinearLayout layoutContent;
+public class NewsActivity extends SlidingFragmentActivity {
+	
+    private FragmentManager fragmentManager;
     private OUApplication app;
-    List items;
-    SyndFeed feed;
+    
+    private TextView whoAmI;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        app = (OUApplication)getApplication();
         
         setContentView(R.layout.news);
-
-        // Get Action Buttons
-        buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
-        buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
-        buttonClasses.setOnClickListener(this);
-        buttonEmail.setOnClickListener(this);
-        layoutContent = (LinearLayout) findViewById(R.id.content);
+        setBehindLeftContentView(R.layout.side_nav);
         
-        app = (OUApplication) this.getApplication();
-        feed = app.getFeed();
-        if (feed == null) {
-            setStatusTextViewToUpdating();
-            new Load().execute();
+        /* SideMenu User Button. */
+        whoAmI = (TextView)findViewById(R.id.whoAmI);
+        if (!app.getUser().isEmpty())
+        {
+        	whoAmI.setText(getResources().getString(R.string.loggedInAsText)+" "+app.getUser());
         }
-        else {
-            updateDisplay();
+        else
+        {
+        	whoAmI.setText(R.string.loginButtonText);
+        }
+        
+    	
+        ImageView view = (ImageView)findViewById(android.R.id.home);
+        view.setPadding(5, 0, 20, 0);
+        
+        SlidingMenu sm = getSlidingMenu();
+        sm.setBehindWidth(350, SlidingMenu.LEFT);
+        
+        fragmentManager = getSupportFragmentManager();
+        
+        if (icicle == null)
+        {
+        	switch(app.getCurrentFragment())
+        	{
+        		case OUApplication.FRAGMENT_NEWS:
+        			NewsFragment newsFragment = new NewsFragment();
+        			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
+        			fragNewsTrans.add(R.id.top_level_container, newsFragment, "main_fragment");
+        			fragNewsTrans.commit();
+        			break;
+        		case OUApplication.FRAGMENT_CLASSES:
+        			ClassesFragment classesFragment = new ClassesFragment();
+        			FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
+        			fragClassesTrans.add(R.id.top_level_container, classesFragment, "main_fragment");
+        			fragClassesTrans.commit();
+        			break;
+        		case OUApplication.FRAGMENT_CLASS:
+        			ClassHomeFragment classHomeFragment = new ClassHomeFragment();
+        			FragmentTransaction fragClassTrans = fragmentManager.beginTransaction();
+        			fragClassTrans.add(R.id.top_level_container, classHomeFragment, "main_fragment");
+        			fragClassTrans.commit();
+        		case OUApplication.FRAGMENT_CONTENT:
+        			ContentFragment contentFragment = new ContentFragment();
+        			FragmentTransaction fragContentTrans = fragmentManager.beginTransaction();
+        			fragContentTrans.add(R.id.top_level_container, contentFragment, "main_fragment");
+        			fragContentTrans.commit();
+        		case OUApplication.FRAGMENT_PREFS:
+        			PrefsFragment prefsFragment = new PrefsFragment();
+        			FragmentTransaction fragPrefsTrans = fragmentManager.beginTransaction();
+        			fragPrefsTrans.add(R.id.top_level_container, prefsFragment, "main_fragment");
+        			fragPrefsTrans.commit();
+        			break;
+        		case OUApplication.FRAGMENT_ABOUT:
+        			AboutFragment aboutFragment = new AboutFragment();
+        			FragmentTransaction fragAboutTrans = fragmentManager.beginTransaction();
+        			fragAboutTrans.add(R.id.top_level_container, aboutFragment, "main_fragment");
+        			fragAboutTrans.commit();
+        			break;
+    			default:
+    				NewsFragment newsFragmentD = new NewsFragment();
+    				FragmentTransaction fragDefaultTrans = fragmentManager.beginTransaction();
+    				fragDefaultTrans.add(R.id.top_level_container, newsFragmentD, "main_fragment");
+    				fragDefaultTrans.commit();
+    				break;
+        	}
         }
     }
     
-    private class Load extends AsyncTask<Integer, Integer, Boolean> {
-        @Override
-        protected Boolean doInBackground(Integer... s) {
-            feed = getMostRecentNews("http://www.oudaily.com/rss/headlines/front/");
-            app.setFeed(feed);
-            if (feed == null)
-                return false;
-            return true;
-        }
+    @Override
+	public void onBackPressed() {
+    	int f = app.getCurrentFragment();
+		if (f == OUApplication.FRAGMENT_CLASS || f == OUApplication.FRAGMENT_CONTENT || f == OUApplication.FRAGMENT_GRADES || f == OUApplication.FRAGMENT_ROSTER)
+		{
+			ClassesFragment classesFragment = new ClassesFragment();
+			FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
+			fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
+			fragClassesTrans.commit();
+		}
+		else if (f == OUApplication.FRAGMENT_PREFS || f == OUApplication.FRAGMENT_ABOUT)
+		{
+			NewsFragment newsFragment = new NewsFragment();
+			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
+			fragNewsTrans.replace(R.id.top_level_container, newsFragment, "main_fragment");
+			fragNewsTrans.commit();
+		}
+		else
+			super.onBackPressed();
+	}
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            // Update percentage
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+        	case android.R.id.home:
+        		toggle(SlidingMenu.LEFT);
+        		break;
+        	case R.id.itemPrefs:
+        		PrefsFragment prefsFragment = new PrefsFragment();
+    			FragmentTransaction fragPrefsTrans = fragmentManager.beginTransaction();
+    			fragPrefsTrans.replace(R.id.top_level_container, prefsFragment, "main_fragment");
+    			fragPrefsTrans.commit();
+            default:
+            	break;
         }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    public void sideNavItemSelected(View v)
+    {
+    	/* Update the sidebar. */
+    	if (app.getUser().isEmpty())
+    		whoAmI.setText(R.string.loginButtonText);
+    	else
+    		whoAmI.setText(getResources().getString(R.string.loggedInAsText)+" "+app.getUser());
+    	
+    	/* Switch over view ID. */
+    	switch(v.getId())
+    	{
+    		case R.id.news_button:
+    			NewsFragment newsFragment = new NewsFragment();
+    			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
+    			fragNewsTrans.replace(R.id.top_level_container, newsFragment, "main_fragment");
+    			fragNewsTrans.commit();
+    			break;
+    		case R.id.classes_button:
+    			ClassesFragment classesFragment = new ClassesFragment();
+    			FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
+    			fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
+    			fragClassesTrans.commit();
+    			break;
+    		case R.id.map_button:
+    			startActivity(new Intent(this, CampusMapActivity.class));
+    			break;
+			default:
+				break;
+    	}
+    	toggle(SlidingMenu.LEFT);
+    }
 
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            updateDisplay();
-        }
-    }
-    
-    protected void updateDisplay() {
-        layoutContent.removeViews(1, layoutContent.getChildCount()-1);
-        LayoutParams lparam = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-        items = feed.getEntries();
-        Iterator i = items.iterator();
-        addSpacer(layoutContent, Color.BLACK, 1, -1, View.VISIBLE);
-        int counter = 0;
-        while (i.hasNext()) {
-            SyndEntryImpl entry = (SyndEntryImpl) i.next();
-            TextView tv = new TextView(this);
-            tv.setLayoutParams(lparam);
-            tv.setGravity(Gravity.CENTER_VERTICAL);
-            tv.setTextColor(Color.argb(255, 75, 25, 25));
-            tv.setTextSize(13);
-            tv.setId(counter);
-            tv.setTypeface(null, Typeface.BOLD);
-            tv.setPadding(10, 12, 10, 12);
-            tv.setHorizontalFadingEdgeEnabled(true);
-            tv.setFadingEdgeLength(35);
-            tv.setSingleLine(true);
-            tv.setText(entry.getTitle());
-            tv.setOnClickListener(this);
-            tv.setClickable(true);
-            tv.setBackgroundResource(R.drawable.content_list_button_selector);
-            layoutContent.addView(tv);
-            addSpacer(layoutContent, Color.BLACK, 1, -1, View.VISIBLE);
-            TextView tvc = new TextView(this);
-            tvc.setLayoutParams(lparam);
-            tvc.setGravity(Gravity.CENTER_VERTICAL);
-            tvc.setTextColor(Color.argb(255, 75, 25, 25));
-            tvc.setTextSize(13);
-            tvc.setId(counter+100);
-            tvc.setPadding(10, 5, 10, 5);
-            tvc.setVisibility(View.GONE);
-            tvc.setText(entry.getDescription().getValue());
-            layoutContent.addView(tvc);
-            addSpacer(layoutContent, Color.BLACK, 1, counter+200, View.GONE);
-            counter++;
-        }
-    }
-    
-    public void addSpacer(LinearLayout l, int color, int height, int id, int vis) {
-        TextView t = new TextView(this);
-        t.setWidth(l.getWidth());
-        t.setHeight(height);
-        t.setId(id);
-        t.setVisibility(vis);
-        t.setBackgroundColor(color);
-        l.addView(t);
-    }
-    
-    protected SyndFeed getMostRecentNews( final String feedUrl )
+    public void userSideMenuButton(View v)
     {
-        try
-        {
-            return retrieveFeed( feedUrl );
-        }
-        catch ( Exception e )
-        {
-            throw new RuntimeException( e );
-        }
+    	if (app.getUser().isEmpty())
+    	{
+    		PrefsFragment prefsFragment = new PrefsFragment();
+			FragmentTransaction fragPrefsTrans = fragmentManager.beginTransaction();
+			fragPrefsTrans.replace(R.id.top_level_container, prefsFragment, "main_fragment");
+			fragPrefsTrans.commit();
+			toggle(SlidingMenu.LEFT);
+    	}
+    	else
+    	{
+    		showDialog();
+    	}
     }
     
-    private SyndFeed retrieveFeed( final String feedUrl ) throws IOException, FeedException, FetcherException
+    public void aboutButton(View v)
     {
-        FeedFetcher feedFetcher = new HttpURLFeedFetcher();
-        return feedFetcher.retrieveFeed( new URL( feedUrl ) );
+    	AboutFragment aboutFragment = new AboutFragment();
+		FragmentTransaction fragAboutTrans = fragmentManager.beginTransaction();
+		fragAboutTrans.replace(R.id.top_level_container, aboutFragment, "main_fragment");
+		fragAboutTrans.commit();
+		toggle(SlidingMenu.LEFT);
     }
     
-    public void onClick(View v) {
-        Log.d("OU", "Something was clicked");
-        if (v.getId() == R.id.classesbutton)
-        {
-            Log.d("OU", "Classes button pressed.");
-            Intent myIntent = new Intent(this, ClassesActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-        else if (v.getId() == R.id.emailbutton)
-        {
-            Log.d("OU", "Email button pressed.");
-            Intent myIntent = new Intent(this, CampusMapActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-        else {
-            SyndEntryImpl i = (SyndEntryImpl)items.get(v.getId());
-            if (i == null) {
-                Log.d("OU", "Could not get the clicked view.");
-                return;
-            }
-            TextView tv = (TextView)findViewById(v.getId()+100);
-            TextView sp = (TextView)findViewById(v.getId()+200);
-            if (tv.getVisibility() == View.GONE) {
-                tv.setVisibility(View.VISIBLE);
-                sp.setVisibility(View.VISIBLE);
-            }
-            else {
-                tv.setVisibility(View.GONE);
-                sp.setVisibility(View.GONE);
-            }
-        }
+    public void goToClassesFragment(View v)
+    {
+        app.getClasses().forceNextUpdate();
+        ClassesFragment classesFragment = new ClassesFragment();
+		FragmentTransaction fragClassesTrans = fragmentManager.beginTransaction();
+		fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
+		fragClassesTrans.commit();
+		login();
     }
     
-    protected void setStatusTextViewToUpdating() {
-        final AnimationDrawable img = new AnimationDrawable();
-        img.addFrame(getResources().getDrawable(R.drawable.loading1), 150);
-        img.addFrame(getResources().getDrawable(R.drawable.loading2), 150);
-        img.addFrame(getResources().getDrawable(R.drawable.loading3), 150);
-        img.addFrame(getResources().getDrawable(R.drawable.loading4), 150);
-        img.setBounds(0, 0, 30, 30);
-        img.setOneShot(false);
-        TextView updateTV = (TextView)findViewById(R.id.updateTextView);
-        TextView TitleTV = (TextView) findViewById(R.id.classHomeTitle);
-        if (updateTV == null) {
-            updateTV = new TextView(this);
-            updateTV.setText(" Updating...");
-            updateTV.setCompoundDrawables(img, null, null, null);
-            updateTV.setGravity(Gravity.TOP);
-            updateTV.setWidth(layoutContent.getWidth());
-            updateTV.setPadding(15, 3, 3, 3);
-            updateTV.setTextColor(Color.BLACK);
-            updateTV.setTextSize(13);
-            updateTV.setId(R.id.updateTextView);
-            layoutContent.addView(updateTV);
-        } else {
-            updateTV.setCompoundDrawables(img, null, null, null);
-            updateTV.setText(" Updating...");
-            updateTV.setTextColor(Color.BLACK);
-        }
-        updateTV.post(new Runnable() {
-            @Override
-            public void run() {
-                img.start();
-            }
-        });
+    public void logout()
+    {
+    	whoAmI.setText(R.string.loginButtonText);
     }
+    
+    public void login()
+    {
+		whoAmI.setText(getResources().getString(R.string.loggedInAsText)+" "+app.getUser());
+    }
+    
+    private void showDialog() {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        LoginDialogFragment newFragment = new LoginDialogFragment();
+        newFragment.show(ft, "dialog");
+    }
+
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
 }

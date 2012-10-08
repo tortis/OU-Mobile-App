@@ -19,17 +19,19 @@
 
 package com.geared.ou;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import com.geared.ou.D2LSourceGetter.SGError;
 import java.util.ArrayList;
 import java.util.Date;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.geared.ou.D2LSourceGetter.SGError;
 
 /**
  *
@@ -121,7 +123,7 @@ public class ClassHomeData {
         }
         // Loop through each newsTr
         for (int i = 2; i < newsList.size(); i+=2) {
-            String name = newsList.get(i).text();
+            String name = newsList.get(i).child(0).child(0).text();
             String content = newsList.get(i+1).text();
             
             NewsItem n = new NewsItem(name, content, i+course.getOuId());
@@ -173,9 +175,8 @@ public class ClassHomeData {
     
     private Boolean writeToDb() {
         SQLiteDatabase db = app.getDb();
-        db.rawQuery("delete from course_news where user='"+app.getUser()+"' and ou_id="+course.getOuId(), null);
+        db.delete("course_news", "ou_id=?", new String[] {String.valueOf(course.getOuId())});
         ContentValues values = new ContentValues();
-        
         for (NewsItem n : newsItems) {
             values.clear();
             values.put(DbHelper.C_CN_ID, n.getId());

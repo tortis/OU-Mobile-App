@@ -19,16 +19,35 @@
 
 package com.geared.ou;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingMapActivity;
 
 /**
  *
@@ -37,32 +56,141 @@ import java.util.List;
  * functionality has been implemented.
  * 
  */
-public class CampusMapActivity extends MapActivity {
-    private LinearLayout buttonClasses;
-    private LinearLayout buttonEmail;
+public class CampusMapActivity extends SlidingMapActivity implements View.OnClickListener, TextWatcher  {
+	
+	private MapView mapView;
+	private OUApplication app;
+	private TextView whoAmI;
+	private CampusLocations campusLocations;
+	private CampusMapOverlay itemizedoverlay;
+	private ListView locationsListView;
+	private LocationsAdapter locationsAdapter;
+	private Context c;
+	private CampusMapActivity tc;
+	private ActionBar actionBar;
+	private MyLocationOverlay userLocation;
+	private EditText buildingSearch;
+	private ImageView clearSearchImage;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        app = (OUApplication)getApplication();
+        c = (Context)this;
+        tc = this;
         
         setContentView(R.layout.map);
+        setBehindLeftContentView(R.layout.side_nav);
+        setBehindRightContentView(R.layout.side_locations);
         
-        MapView mapView = (MapView) findViewById(R.id.mapview);
+        locationsListView = (ListView) findViewById(R.id.locationsListView);
+        buildingSearch = (EditText) findViewById(R.id.buildingSearch);
+        buildingSearch.addTextChangedListener(this);
+        clearSearchImage = (ImageView) findViewById(R.id.searchClearText);
+        whoAmI = (TextView)findViewById(R.id.whoAmI);
+        if (!app.getUser().isEmpty())
+        {
+        	whoAmI.setText(getResources().getString(R.string.loggedInAsText)+" "+app.getUser());
+        }
+        else
+        {
+        	whoAmI.setText(R.string.loginButtonText);
+        }
+        
+        actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+        	actionBar.setIcon(R.drawable.side_menu_button);
+        	actionBar.setTitle(R.string.mapButton);
+        	actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        
+        ImageView view = (ImageView)findViewById(android.R.id.home);
+        view.setPadding(5, 0, 20, 0);
+        
+        SlidingMenu sm = getSlidingMenu();
+        sm.setBehindWidth(350, SlidingMenu.BOTH);
+        
+        campusLocations = new CampusLocations();
+        
+        
+        mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         List<GeoPoint> points = new ArrayList<GeoPoint>();
         points.add(new GeoPoint(35211098, -97447894));
         points.add(new GeoPoint(35203866, -97441263));
         setMapBoundsToPois(points,0.0,0.0,mapView);
+
+        new LoadLocations().execute();
         
+        //Overlays
+        List<Overlay> mapOverlays = mapView.getOverlays();
+        Drawable drawable = this.getResources().getDrawable(R.drawable.map_marker);
+        itemizedoverlay = new CampusMapOverlay(drawable,this);
+        mapOverlays.add(itemizedoverlay);
         
-        // Get Action Buttons
-        //buttonClasses = (LinearLayout) findViewById(R.id.classesbutton);
-        //buttonEmail = (LinearLayout) findViewById(R.id.emailbutton);
-        //buttonClasses.setOnClickListener(this);
-        //buttonEmail.setOnClickListener(this);
+        userLocation = new MyLocationOverlay(this, mapView);
+        mapOverlays.add(userLocation);
+        mapView.postInvalidate();
     }
     
-    public void setMapBoundsToPois(List<GeoPoint> items, double hpadding, double vpadding, MapView mv) {
+    @Override
+	protected void onPause() {
+		userLocation.disableCompass();
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		userLocation.enableMyLocation();
+		super.onResume();
+	}
+
+	private class LoadLocations extends AsyncTask<Integer, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Integer... sg) {
+            return campusLocations.loadLocations(app.getDb());
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            // Update percentage
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result == false)
+            	return;
+            locationsAdapter = new LocationsAdapter(c, campusLocations, tc);
+            locationsListView.setAdapter(locationsAdapter);
+        }
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.map_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+        	case android.R.id.home:
+        		toggle(SlidingMenu.LEFT);
+        		break;
+        	case R.id.mapRightMenu:
+        		toggle(SlidingMenu.RIGHT);
+        	default:
+            	break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+	public void setMapBoundsToPois(List<GeoPoint> items, double hpadding, double vpadding, MapView mv) {
         MapController mapController = mv.getController();
         // If there is only on one result
         // directly animate to that location
@@ -103,39 +231,95 @@ public class CampusMapActivity extends MapActivity {
                   (maxLatitude + minLatitude) / 2, (maxLongitude + minLongitude) / 2));
         }
     }
-
-    /*public void onClick(View v) {
-        if (v.getId() == R.id.classesbutton)
-        {
-            Log.d("OU", "Classes button pressed.");
-            Intent myIntent = new Intent(this, ClassesActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-        if (v.getId() == R.id.emailbutton)
-        {
-            Log.d("OU", "Email button pressed.");
-            Intent myIntent = new Intent(this, EmailActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(myIntent);
-        }
-    }*/
-    
-    public void gotoClasses(View v) {
-        Intent myIntent = new Intent(this, ClassesActivity.class);
-        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myIntent);
+	
+	public void userSideMenuButton(View v)
+    {
+    	if (app.getUser().isEmpty())
+    	{
+    		app.setCurrentFragment(OUApplication.FRAGMENT_PREFS);
+    		startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+			toggle(SlidingMenu.LEFT);
+    	}
+    	else
+    	{
+    		
+    	}
     }
-    
-    public void gotoNews(View v) {
-        Intent myIntent = new Intent(this, NewsActivity.class);
-        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myIntent);
+	
+	public void aboutButton(View v)
+    {
+		app.setCurrentFragment(OUApplication.FRAGMENT_ABOUT);
+		startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+		toggle(SlidingMenu.LEFT);
     }
-    
+	
+	public void sideNavItemSelected(View v)
+    {
+    	switch(v.getId())
+    	{
+    		case R.id.news_button:
+    			app.setCurrentFragment(OUApplication.FRAGMENT_NEWS);
+    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			break;
+    		case R.id.classes_button:
+    			app.setCurrentFragment(OUApplication.FRAGMENT_CLASSES);
+    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			break;
+    		case R.id.map_button:
+    			
+    			break;
+			default:
+				break;
+    	}
+    	toggle(SlidingMenu.LEFT);
+    }
+       
     @Override
     protected boolean isRouteDisplayed() {
         return false;
     }
+
+	public void onClick(View v) {
+		OverlayItem overlayItem = locationsAdapter.getItem(v.getId());
+		itemizedoverlay.removeAllItems();
+		itemizedoverlay.addOverlay(overlayItem);
+		List<GeoPoint> items = new ArrayList<GeoPoint>();
+		items.add(overlayItem.getPoint());
+		setMapBoundsToPois(items, 0.0, 0.0, mapView);
+		String title = overlayItem.getTitle();
+		if (title.length() > 17)
+			title = title.substring(0,17);
+		actionBar.setTitle(getResources().getString(R.string.mapButton)+": "+title);
+		
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(buildingSearch.getWindowToken(), 0);
+		
+		toggle(SlidingMenu.RIGHT);
+	}
+
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		if (s.length() == 0)
+			clearSearchImage.setVisibility(View.GONE);
+		if (s.length() == 1)
+			clearSearchImage.setVisibility(View.VISIBLE);
+		campusLocations.filterLocations(s.toString());
+		locationsAdapter.notifyDataSetChanged();
+	}
+
+	public void afterTextChanged(Editable s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void clearSearch(View v)
+	{
+		buildingSearch.setText("");
+	}
     
 }

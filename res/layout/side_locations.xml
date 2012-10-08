@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="#333333"
+  android:orientation="vertical" >
+  <FrameLayout
+    android:id="@+id/searchContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+	<EditText android:id="@+id/buildingSearch"
+  	  android:layout_width="match_parent"
+  	  android:layout_height="wrap_content"
+  	  android:textSize="16sp"
+  	  android:inputType="text"
+  	  android:hint="@string/searchFieldHint"
+  	  android:drawableLeft="@drawable/icon_search"
+  	  android:textColor="#ffffff" />
+  	<ImageView
+	    android:id="@+id/searchClearText"
+	    android:contentDescription="@string/clearSearchButtonDesc"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginRight="10dp"
+	    android:layout_gravity="right|center_vertical"
+	    android:src="@drawable/clear_text_button"
+        android:visibility="gone"
+        android:clickable="true"
+        android:onClick="clearSearch" />
+  	</FrameLayout>
+	<ListView style="@style/MyListView"
+	    android:id="@+id/locationsListView"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" />
+</LinearLayout>

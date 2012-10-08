@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="ou_actionbar" parent="@style/Theme.Sherlock.Light">
+        <item name="android:actionBarTabStyle">@drawable/crimson</item>
+        <item name="android:actionBarTabBarStyle">@drawable/crimson</item>
+    </style>
+</resources>
