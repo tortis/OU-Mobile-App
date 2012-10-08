@@ -1,112 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-<<<<<<< HEAD
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/crimson"
-    android:gravity="top">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp">
-            <!-- Button 1 -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/main_button_background"
-                android:id="@+id/classesbutton"
-                android:clickable="true"
-                android:onClick="gotoClasses"
-                android:gravity="center"
-                android:layout_weight="1">
-                    <ImageView
-                        android:src="@drawable/grades_button_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#535353"
-                        android:textSize="14dp"
-                        android:text="@string/button1"
-                        android:paddingLeft="3dp"/>
-            </LinearLayout>
-            <!-- Spacer -->
-            <ImageView
-                    android:background="#cccccc"
-                    android:layout_width="1dp"
-                    android:layout_height="fill_parent"/>
-            <!-- Button 2 -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/button_background_selector"
-                android:id="@+id/newsbutton"
-                android:clickable="true"
-                android:onClick="gotoNews"
-                android:gravity="center"
-                android:layout_weight="1">
-                    <ImageView
-                        android:src="@drawable/news_button_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#7d7d7d"
-                        android:textSize="14dp"
-                        android:text="@string/button2"
-                        android:paddingLeft="3dp"/>
-            </LinearLayout>
-            <!-- Spacer -->
-            <ImageView
-                    android:background="#cccccc"
-                    android:layout_width="1dp"
-                    android:layout_height="fill_parent"/>
-            <!-- Button 3 -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/main_button_background_a"
-                android:id="@+id/emailbutton"
-                android:clickable="true"
-                android:gravity="center"
-                android:layout_weight="1">
-                    <ImageView
-                        android:src="@drawable/map_button_icon_a"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#7d7d7d"
-                        android:textSize="14dp"
-                        android:text="@string/button3"
-                        android:paddingLeft="3dp"/>
-            </LinearLayout>
-    </LinearLayout>
-    <!-- Bottom Spacer -->
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#efefef" 
-        android:layout_gravity="top" />
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#bfbfbf" 
-        android:layout_gravity="top" />
-    <com.google.android.maps.MapView
-            android:id="@+id/mapview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:clickable="true"
-            android:apiKey="0Z4bcHWH4mxy0b5wWJJwYXcZbuXMivLLjibDYKA" />
-=======
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 	    <com.google.android.maps.MapView
@@ -114,6 +8,5 @@
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
 	            android:clickable="true"
-	            android:apiKey="0Z4bcHWH4mxxi6O69Ny7vTYFCH9CemuLE9phijg" />
->>>>>>> origin/master
+	            android:apiKey="0Z4bcHWH4mxy0b5wWJJwYXcZbuXMivLLjibDYKA" />
 </LinearLayout>
