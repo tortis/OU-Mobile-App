@@ -138,11 +138,13 @@ public class CampusMapActivity extends SlidingMapActivity implements View.OnClic
     @Override
 	protected void onPause() {
 		userLocation.disableCompass();
+		userLocation.disableMyLocation();
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
+		userLocation.enableCompass();
 		userLocation.enableMyLocation();
 		super.onResume();
 	}
@@ -259,11 +261,11 @@ public class CampusMapActivity extends SlidingMapActivity implements View.OnClic
     	{
     		case R.id.news_button:
     			app.setCurrentFragment(OUApplication.FRAGMENT_NEWS);
-    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     			break;
     		case R.id.classes_button:
     			app.setCurrentFragment(OUApplication.FRAGMENT_CLASSES);
-    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     			break;
     		case R.id.map_button:
     			
