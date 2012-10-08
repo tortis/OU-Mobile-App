@@ -16,12 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ClassesActivity"></activity>
         <activity android:name="CampusMapActivity"></activity>
-        <activity android:name="PrefsActivity"></activity>
-        <activity android:name="ClassHomeActivity"></activity>
-        <activity android:name="ContentActivity"></activity>
-        <activity android:name="GradesActivity"></activity>
-        <activity android:name="RosterActivity"></activity>
     </application>
 </manifest>
