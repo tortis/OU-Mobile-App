@@ -68,10 +68,6 @@ public class NewsActivity extends SlidingFragmentActivity {
         	whoAmI.setText(R.string.loginButtonText);
         }
         
-    	
-        ImageView view = (ImageView)findViewById(android.R.id.home);
-        view.setPadding(5, 0, 20, 0);
-        
         SlidingMenu sm = getSlidingMenu();
         sm.setBehindWidth(350, SlidingMenu.LEFT);
         

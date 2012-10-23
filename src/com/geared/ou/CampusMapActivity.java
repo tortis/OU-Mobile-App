@@ -106,9 +106,6 @@ public class CampusMapActivity extends SlidingMapActivity implements View.OnClic
         	actionBar.setDisplayHomeAsUpEnabled(true);
         }
         
-        ImageView view = (ImageView)findViewById(android.R.id.home);
-        view.setPadding(5, 0, 20, 0);
-        
         SlidingMenu sm = getSlidingMenu();
         sm.setBehindWidth(350, SlidingMenu.BOTH);
         
