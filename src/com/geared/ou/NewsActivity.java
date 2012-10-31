@@ -131,12 +131,26 @@ public class NewsActivity extends SlidingFragmentActivity {
 			fragClassesTrans.replace(R.id.top_level_container, classesFragment, "main_fragment");
 			fragClassesTrans.commit();
 		}
-		else if (f == OUApplication.FRAGMENT_PREFS || f == OUApplication.FRAGMENT_ABOUT)
+		else if (f == OUApplication.FRAGMENT_PREFS || f == OUApplication.FRAGMENT_ABOUT || f == OUApplication.FRAGMENT_VIEW_NEWS)
 		{
 			NewsFragment newsFragment = new NewsFragment();
 			FragmentTransaction fragNewsTrans = fragmentManager.beginTransaction();
 			fragNewsTrans.replace(R.id.top_level_container, newsFragment, "main_fragment");
 			fragNewsTrans.commit();
+		}
+		else if (f == OUApplication.FRAGMENT_STOP_LIST)
+		{
+			BusArrivalsFragment frag = new BusArrivalsFragment();
+			FragmentTransaction fragTrans = fragmentManager.beginTransaction();
+			fragTrans.replace(R.id.top_level_container, frag, "main_fragment");
+			fragTrans.commit();
+		}
+		else if (f == OUApplication.FRAGMENT_ARRIVAL_TIME)
+		{
+			BusStopFragment frag = new BusStopFragment();
+			FragmentTransaction fragTrans = fragmentManager.beginTransaction();
+			fragTrans.replace(R.id.top_level_container, frag, "main_fragment");
+			fragTrans.commit();
 		}
 		else
 			super.onBackPressed();
@@ -191,6 +205,12 @@ public class NewsActivity extends SlidingFragmentActivity {
     			break;
     		case R.id.map_button:
     			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    			break;
+    		case R.id.bus_button:
+    			BusArrivalsFragment busArrivalsFragment = new BusArrivalsFragment();
+    			FragmentTransaction fragBusTrans = fragmentManager.beginTransaction();
+    			fragBusTrans.replace(R.id.top_level_container, busArrivalsFragment, "main_fragment");
+    			fragBusTrans.commit();
     			break;
 			default:
 				break;
