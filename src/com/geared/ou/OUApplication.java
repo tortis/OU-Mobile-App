@@ -44,6 +44,10 @@ public class OUApplication extends Application {
 	public static final int FRAGMENT_MAP = 7;
 	public static final int FRAGMENT_PREFS = 8;
 	public static final int FRAGMENT_ABOUT = 9;
+	public static final int FRAGMENT_VIEW_NEWS = 10;
+	public static final int FRAGMENT_ROUTE_LIST = 11;
+	public static final int FRAGMENT_STOP_LIST = 12;
+	public static final int FRAGMENT_ARRIVAL_TIME = 13;
 	
 	
     private ClassesData classes;
@@ -53,6 +57,11 @@ public class OUApplication extends Application {
     private SyndFeed feed;
     private int currentFragment;
     private int currentClass;
+    private int currentRoute;
+    private int currentStop;
+    private String routeSource;
+    private String stopSource;
+    private String arrivalSource;
     
     @Override
     public void onCreate() {
@@ -64,6 +73,8 @@ public class OUApplication extends Application {
         dbHelper = new DbHelper(this);
         currentFragment = FRAGMENT_NEWS;
         currentClass = 0;
+        currentRoute = 0;
+        currentStop = 0;
     }
     
     public SGError updateClasses(NewsActivity context) //Async this function!
@@ -129,6 +140,56 @@ public class OUApplication extends Application {
     public void setCurrentClass(int classID)
     {
     	currentClass = classID;
+    }
+    
+    public int getCurrentRoute()
+    {
+    	return currentRoute;
+    }
+    
+    public void setCurrentRoute(int route)
+    {
+    	currentRoute = route;
+    }
+    
+    public int getCurrentStop()
+    {
+    	return currentStop;
+    }
+    
+    public void setCurrentStop(int stop)
+    {
+    	currentStop = stop;
+    }
+    
+    public String getRouteSource()
+    {
+    	return routeSource;
+    }
+    
+    public void setRouteSource(String source)
+    {
+    	routeSource = source;
+    }
+    
+    public String getStopSource()
+    {
+    	return stopSource;
+    }
+    
+    public void setStopSource(String source)
+    {
+    	stopSource = source;
+    }
+    
+    public String getArrivalSource()
+    {
+    	return arrivalSource;
+    }
+    
+    public void setArrivalSource(String source)
+    {
+    	arrivalSource = source;
     }
 
     @Override
