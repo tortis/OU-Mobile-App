@@ -62,10 +62,15 @@ Based on work at <a href='https://github.com/ThinksInBits/OU-Mobile-App'>github.
 	\n\n<a href="http://jsoup.org/">jsoup Html parser</a> is a library for reading and modifying html source files. OU Mobile App uses this 
 	library to extract user specific data from D2L Webpages. This library is licensed under the <a href="http://jsoup.org/license">MIT License</a>.
 	\n\n<a href="http://actionbarsherlock.com/">ActionBarSherlock</a> is a library that extends the compatibility library in order to facilitate use of 
-	the action bar design patter across all versions of Android with a single API. This library is licensed 
+	the action bar design pattern across all versions of Android with a single API. This library is licensed 
 	under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.
 	\n\n<a href="https://github.com/jfeinstein10/SlidingMenu">SlidingMenu</a> is a library that allows Android apps to easily implement the sliding menu design pattern.
 	This library is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.</string>
+	<string name="oudaily">OU Daily</string>
+	<string name="bus_routes">Pick a Route</string>
+	<string name="bus_stops">Pick a Stop</string>
+	<string name="bus_arrival">Arrival In...</string>
+	<string name="buses_button">Buses</string>
 	
     <string-array name="class_nav">
         <item>Home</item>
