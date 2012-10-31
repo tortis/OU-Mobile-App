@@ -12,6 +12,8 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -203,9 +205,16 @@ public class NewsFragment extends SherlockFragment implements View.OnClickListen
     	if (v.getId() < 100)
     	{
     		SyndEntryImpl i = newsAdapter.getItem(v.getId());
-    		Intent in = new Intent(Intent.ACTION_VIEW);
-    		in.setData(Uri.parse(i.getLink()));
-    		startActivity(in);
+    		
+    		Bundle data = new Bundle();
+    		data.putString("url",i.getLink());
+    		
+    		FragmentManager fragmentManager = a.getSupportFragmentManager();
+    		NewsViewFragment newsViewFragment = new NewsViewFragment();
+    		newsViewFragment.setArguments(data);
+    		FragmentTransaction fragNewsViewTrans = fragmentManager.beginTransaction();
+    		fragNewsViewTrans.replace(R.id.top_level_container, newsViewFragment, "main_fragment");
+    		fragNewsViewTrans.commit();
     	}
     	/* Show more/less was clicked. */
     	else
