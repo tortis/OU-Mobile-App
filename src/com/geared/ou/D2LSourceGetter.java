@@ -125,8 +125,6 @@ public class D2LSourceGetter {
         {
             HttpGet httpget = new HttpGet(url);
             HttpResponse response = httpclient.execute(httpget);
-            //OutputStream q = new OutputStream();
-            //ssssresponse.getEntity().writeTo(q);
             
             mReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String line = "";
