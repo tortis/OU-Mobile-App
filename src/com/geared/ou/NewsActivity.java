@@ -111,6 +111,12 @@ public class NewsActivity extends SlidingFragmentActivity {
         			fragAboutTrans.add(R.id.top_level_container, aboutFragment, "main_fragment");
         			fragAboutTrans.commit();
         			break;
+        		case OUApplication.FRAGMENT_ROUTE_LIST:
+        			BusFragment busFragment = new BusFragment();
+        			FragmentTransaction fragBusTrans = fragmentManager.beginTransaction();
+        			fragBusTrans.add(R.id.top_level_container, busFragment, "main_fragment");
+        			fragBusTrans.commit();
+        			break;
     			default:
     				NewsFragment newsFragmentD = new NewsFragment();
     				FragmentTransaction fragDefaultTrans = fragmentManager.beginTransaction();
@@ -140,7 +146,7 @@ public class NewsActivity extends SlidingFragmentActivity {
 		}
 		else if (f == OUApplication.FRAGMENT_STOP_LIST)
 		{
-			BusArrivalsFragment frag = new BusArrivalsFragment();
+			BusFragment frag = new BusFragment();
 			FragmentTransaction fragTrans = fragmentManager.beginTransaction();
 			fragTrans.replace(R.id.top_level_container, frag, "main_fragment");
 			fragTrans.commit();
@@ -207,7 +213,7 @@ public class NewsActivity extends SlidingFragmentActivity {
     			startActivity(new Intent(this, CampusMapActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     			break;
     		case R.id.bus_button:
-    			BusArrivalsFragment busArrivalsFragment = new BusArrivalsFragment();
+    			BusFragment busArrivalsFragment = new BusFragment();
     			FragmentTransaction fragBusTrans = fragmentManager.beginTransaction();
     			fragBusTrans.replace(R.id.top_level_container, busArrivalsFragment, "main_fragment");
     			fragBusTrans.commit();
