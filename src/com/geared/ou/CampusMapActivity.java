@@ -267,6 +267,9 @@ public class CampusMapActivity extends SlidingMapActivity implements View.OnClic
     		case R.id.map_button:
     			
     			break;
+    		case R.id.bus_button:
+    			app.setCurrentFragment(OUApplication.FRAGMENT_ROUTE_LIST);
+    			startActivity(new Intent(this, NewsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			default:
 				break;
     	}
