@@ -3,7 +3,6 @@ package com.geared.ou;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -39,8 +38,7 @@ public class NewsFragment extends SherlockFragment implements
 		View.OnClickListener {
 
 	private OUApplication app;
-	private List<SyndEntryImpl> items;
-	private ArrayList<SyndEntryImpl> itemsAList;
+	private ArrayList<SyndEntryImpl> items;
 	private SyndFeed feed;
 	private Context c;
 	private SlidingFragmentActivity a;
@@ -70,6 +68,7 @@ public class NewsFragment extends SherlockFragment implements
 
 		tlc = (LinearLayout) inflater.inflate(R.layout.news, container, false);
 		newsList = (ListView) tlc.findViewById(R.id.newsList);
+		items = new ArrayList<SyndEntryImpl>();
 
 		feed = app.getFeed();
 		if (feed == null) {
@@ -148,19 +147,15 @@ public class NewsFragment extends SherlockFragment implements
 	}
 
 	protected void updateDisplay() {
+		if (items == null)
+			return;
 		if (tlc.getChildAt(0).getId() == R.id.updateTextView)
 			tlc.removeViewAt(0);
 		for (Object o: feed.getEntries())
 		{
 			items.add((SyndEntryImpl) o);
 		}
-		if (items == null)
-			return;
-		for (Object o:items)
-		{
-			itemsAList.add((SyndEntryImpl)o);
-		}
-		newsAdapter = new NewsAdapter(c, itemsAList, this);
+		newsAdapter = new NewsAdapter(c, items, this);
 		newsList.setAdapter(newsAdapter);
 		Log.d("OU", "num items: " + newsAdapter.getCount());
 	}
@@ -224,25 +219,6 @@ public class NewsFragment extends SherlockFragment implements
 				}
 			}
 		}
-		// SyndEntryImpl i = (SyndEntryImpl)items.get(v.getId());
-		// if (i == null) {
-		// Log.d("OU", "Could not get the clicked view.");
-		// return;
-		// }
-		// TextView tv = (TextView)layoutContent.findViewById(v.getId()+100);
-		// TextView sp = (TextView)layoutContent.findViewById(v.getId()+200);
-		// int titleIndex = layoutContent.indexOfChild(tv) -2;
-		// TextView titleView = (TextView)layoutContent.getChildAt(titleIndex);
-		// if (tv.getVisibility() == View.GONE) {
-		// tv.setVisibility(View.VISIBLE);
-		// sp.setVisibility(View.VISIBLE);
-		// titleView.setCompoundDrawables(null, null, showLess, null);
-		// }
-		// else {
-		// tv.setVisibility(View.GONE);
-		// sp.setVisibility(View.GONE);
-		// titleView.setCompoundDrawables(null, null, showMore, null);
-		// }
 	}
 
 	private void setStatusTextViewToUpdating() {
