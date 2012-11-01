@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 public class LinkedItemAdapter extends BaseAdapter {
 
-	   private LayoutInflater inflater = null;
 	   private OnClickListener listener;
 	   private ArrayList<ListItem> items;
 	   private Context c;
@@ -24,7 +22,6 @@ public class LinkedItemAdapter extends BaseAdapter {
 	   
 
 	   public LinkedItemAdapter(Context context, ArrayList<ListItem> items, OnClickListener listener) {
-	      inflater = LayoutInflater.from(context);
 	      c = context;
 	      this.listener = listener;
 	      this.items = items;

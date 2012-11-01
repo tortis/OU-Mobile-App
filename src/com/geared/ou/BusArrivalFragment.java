@@ -3,9 +3,6 @@ package com.geared.ou;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -13,7 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.content.Context;
@@ -21,15 +17,11 @@ import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -47,7 +39,6 @@ public class BusArrivalFragment extends SherlockFragment {
 	private LinearLayout tlc;
 	private Load updateThread;
 	private static String url = "http://cartgps.com/simple/routes/";
-	private ArrayList<ListItem> arrivalAList;
 	private TextView arrivalTextView;
 	private String arrivalString;
 	
@@ -72,7 +63,6 @@ public class BusArrivalFragment extends SherlockFragment {
         
         tlc = (LinearLayout)inflater.inflate(R.layout.bus_arrival, container, false);
         arrivalTextView = (TextView) tlc.findViewById(R.id.arrival_text_view);
-        arrivalAList = new ArrayList<ListItem>();
         
         setStatusTextViewToUpdating();
         updateThread = new Load();
