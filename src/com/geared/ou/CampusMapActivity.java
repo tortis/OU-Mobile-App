@@ -109,7 +109,7 @@ public class CampusMapActivity extends SlidingMapActivity implements View.OnClic
         SlidingMenu sm = getSlidingMenu();
         sm.setBehindWidth(350, SlidingMenu.BOTH);
         
-        campusLocations = new CampusLocations();
+        campusLocations = app.getLocations();
         
         
         mapView = (MapView) findViewById(R.id.mapview);
