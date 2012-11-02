@@ -12,32 +12,40 @@ import com.google.android.maps.OverlayItem;
 public class CampusLocations {
 	private ArrayList<OverlayItem> mFilteredLocations;
 	private ArrayList<OverlayItem> mLocations;
+	boolean loaded;
 	
 	public CampusLocations()
 	{
+		loaded = false;
 		mLocations = new ArrayList<OverlayItem>(150);
 		mFilteredLocations = new ArrayList<OverlayItem>(150);
 	}
 	
 	public boolean loadLocations(SQLiteDatabase db)
 	{
-		mLocations.clear();
-        Cursor result = db.rawQuery("select * from map_data", null);
-        if (result == null)
-        	return false;
-        while(result.moveToNext())
-        {
-        	String name = result.getString(result.getColumnIndex(DbHelper.C_MD_NAME));
-        	String description = result.getString(result.getColumnIndex(DbHelper.C_MD_DESC));
-        	int x = result.getInt(result.getColumnIndex(DbHelper.C_MD_X));
-        	int y = result.getInt(result.getColumnIndex(DbHelper.C_MD_Y));
-        	GeoPoint point = new GeoPoint(x,y);
-        	mLocations.add(new OverlayItem(point, name, description));
-        }
-        db.close();
-        mFilteredLocations = new ArrayList<OverlayItem>(mLocations);
-        Log.d("OU", mLocations.size()+" locations loaded.");
-		return true;
+		if (!loaded)
+		{
+			mLocations.clear();
+	        Cursor result = db.rawQuery("select * from map_data", null);
+	        if (result == null)
+	        	return false;
+	        while(result.moveToNext())
+	        {
+	        	String name = result.getString(result.getColumnIndex(DbHelper.C_MD_NAME));
+	        	String description = result.getString(result.getColumnIndex(DbHelper.C_MD_DESC));
+	        	int x = result.getInt(result.getColumnIndex(DbHelper.C_MD_X));
+	        	int y = result.getInt(result.getColumnIndex(DbHelper.C_MD_Y));
+	        	GeoPoint point = new GeoPoint(x,y);
+	        	mLocations.add(new OverlayItem(point, name, description));
+	        }
+	        db.close();
+	        mFilteredLocations = new ArrayList<OverlayItem>(mLocations);
+	        Log.d("OU", mLocations.size()+" locations loaded.");
+	        loaded = true;
+			return true;
+		}
+		else
+			return true;
 	}
 	
 	public ArrayList<OverlayItem> getAllLocations()
