@@ -79,13 +79,24 @@ public class OUApplication extends Application {
         currentRoute = 0;
         currentStop = 0;
     }
-    
-    public SGError updateClasses(NewsActivity context) //Async this function!
-    {
-        return classes.update(sourceGetter);
-    }
-    
-    public SQLiteDatabase getDb()
+      
+    @Override
+	public void onLowMemory() {
+		
+    	routeSource = null;
+    	stopSource = null;
+    	arrivalSource = null;
+    	campusLocations = null;
+    	campusLocations = new CampusLocations();
+    	feed = null;
+    	sourceGetter = null;
+    	sourceGetter = new D2LSourceGetter();
+    	sourceGetter.setCredentials(prefs.getString("username", ""), prefs.getString("password", ""));
+    	
+		super.onLowMemory();
+	}
+
+	public SQLiteDatabase getDb()
     {
         return dbHelper.getWritableDatabase();
     }
