@@ -23,7 +23,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
-import com.geared.ou.D2LSourceGetter.SGError;
+
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
 
 /**
@@ -35,6 +35,7 @@ import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.Syn
  */
 public class OUApplication extends Application {
 	
+	/* Constants to identify each fragment in the application */
 	public static final int FRAGMENT_NEWS = 1;
 	public static final int FRAGMENT_CLASSES = 2;
 	public static final int FRAGMENT_CLASS = 3;
@@ -49,7 +50,7 @@ public class OUApplication extends Application {
 	public static final int FRAGMENT_STOP_LIST = 12;
 	public static final int FRAGMENT_ARRIVAL_TIME = 13;
 	
-	
+	/* Persistant Application Data */
     private ClassesData classes;
     private SharedPreferences prefs;
     private D2LSourceGetter sourceGetter;
@@ -62,11 +63,13 @@ public class OUApplication extends Application {
     private String routeSource;
     private String stopSource;
     private String arrivalSource;
+    private CampusLocations campusLocations;
     
     @Override
     public void onCreate() {
         super.onCreate();
         classes = new ClassesData(this);
+        campusLocations = new CampusLocations();
         sourceGetter = new D2LSourceGetter();
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         sourceGetter.setCredentials(prefs.getString("username", ""), prefs.getString("password", ""));
@@ -190,6 +193,11 @@ public class OUApplication extends Application {
     public void setArrivalSource(String source)
     {
     	arrivalSource = source;
+    }
+    
+    public CampusLocations getLocations()
+    {
+    	return campusLocations;
     }
 
     @Override
