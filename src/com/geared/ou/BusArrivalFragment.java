@@ -31,20 +31,46 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
+/** This fragment shows the estimated arrival time for a bus
+ * on a given route and stop. The data is pulled from cartgps.com
+ * and the route and stop are set in the application object by
+ * different fragments.
+ * @author David Findley
+ *
+ */
 public class BusArrivalFragment extends SherlockFragment {
 	
+	/** The SlidingFragmentActivity that displays this fragment. */
 	private SlidingFragmentActivity a;
+	
+	/** The display context for this fragment. */
 	private Context c;
+	
+	/** The application object for persistent data. */
 	private OUApplication app;
+	
+	/** The top level view for this fragment. */
 	private LinearLayout tlc;
+	
+	/** The an instance of the Load object which, when executed,
+	 * pulls the bus arrival data. */
 	private Load updateThread;
-	private static String url = "http://cartgps.com/simple/routes/";
+	
+	/** This is the base url where the arrival data will be pulled from.
+	 * The actual url is of the form: http://cartgps.com/simple/routes/{route#}/stops/{stop#} */
+	private static final String url = "http://cartgps.com/simple/routes/";
+	
+	/** The TextView that will hold the arrival data string pulled from the Web. */
 	private TextView arrivalTextView;
 	private String arrivalString;
 	
+	/** In this method the persistent app object is retrieved to get the current route and
+	 * and stop, then execute the Load object to get the. The actionbar is also setup here.
+	 */
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+		/* Get some object references for easy access.*/
 		a = (SlidingFragmentActivity)getActivity();
         c = a.getApplicationContext();
         app = (OUApplication) a.getApplication();
@@ -52,6 +78,7 @@ public class BusArrivalFragment extends SherlockFragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
         
+        /* Setup the ActionBar. */
         ActionBar ab = a.getSupportActionBar();
         if (ab != null)
         {
@@ -61,9 +88,11 @@ public class BusArrivalFragment extends SherlockFragment {
         	ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
         
+        /* Get references to views that were inflated. */
         tlc = (LinearLayout)inflater.inflate(R.layout.bus_arrival, container, false);
         arrivalTextView = (TextView) tlc.findViewById(R.id.arrival_text_view);
         
+        /* Fetch the data and then display it. */
         setStatusTextViewToUpdating();
         updateThread = new Load();
         updateThread.execute();
@@ -71,22 +100,39 @@ public class BusArrivalFragment extends SherlockFragment {
         return tlc;
     }
 	
+	/** This class is an AsyncTask that that fetches the arrival data from the url
+	 * using HttpClient. In the onPostExecute method, the fragment view is updated
+	 * to show the information.
+	 * @author David Findley
+	 *
+	 */
 	private class Load extends AsyncTask<Integer, Integer, Boolean> {
+		
+		/** This method will run in a different thread, but it can still access
+		 * data from the containing class, like the app object. Use the HttpClient
+		 * to get the source of the set url.
+		 */
         @Override
         protected Boolean doInBackground(Integer... s) {
         	String source = "";
         	try 
         	{
+        		/* Create and execute the http request. */
 	        	HttpClient httpclient = new DefaultHttpClient();
 	        	HttpGet httpget = new HttpGet(url+app.getCurrentRoute()+"/stops/"+app.getCurrentStop());
 	            HttpResponse response = httpclient.execute(httpget);
 	            
+	            /* Create a buffered input stream reader to get the page source. */
 	            BufferedReader mReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+	            
+	            /* Read in the source line by line. */
 	            String line;
 	            while ((line = mReader.readLine()) != null)
 	            {
 	                source = source + line;
 	            }
+	            
+	            /* Set the retrieved source in the application object. */
 	            app.setArrivalSource(source);
 	        } 
 	        catch (IOException ex)
@@ -101,7 +147,11 @@ public class BusArrivalFragment extends SherlockFragment {
             super.onProgressUpdate(values);
             // Update percentage
         }
-
+        
+        /** In this method the display is updated if everything went well,
+         * otherwise the user is told that the
+         * arrival data could not be fetched.
+         */
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
@@ -120,6 +170,10 @@ public class BusArrivalFragment extends SherlockFragment {
         }
     }
 	
+	/** This method will pull the desired information from the 
+	 * Web page source. It is highly dependent on the source and
+	 * likely to break if the source changes.
+	 */
 	private void parseSource()
 	{
 		Document doc = Jsoup.parse(app.getArrivalSource());
@@ -127,12 +181,19 @@ public class BusArrivalFragment extends SherlockFragment {
 		arrivalString = allULs.get(1).children().get(0).text();
 	}
 	
+	/** Inflate the classes_menu options button, which contains a refresh
+	 * button.
+	 */
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     	inflater.inflate(R.menu.classes_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
+	/** When the refresh options button is pressed (the only one),
+	 * then execute updateThread again. This will also update the
+	 * display automatically.
+	 */
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
@@ -147,6 +208,10 @@ public class BusArrivalFragment extends SherlockFragment {
         return true;
     }
 	
+	/** When this fragment is detached, it should check if the 
+	 * updateThread object is being executed. If it is, then cancel
+	 * the AsyncTask and proceed with detach.
+	 */
 	@Override
 	public void onDetach() {
 		if (updateThread != null)
@@ -157,13 +222,25 @@ public class BusArrivalFragment extends SherlockFragment {
 		super.onDetach();
 	}
 	
+	/** This method should call the parse source method to extract the
+	 * deisred information, then update the Views that were inflated
+	 * in onCreateView.
+	 */
 	protected void updateDisplay() {
 		parseSource();
+		
+		/* If there was a TextView added to show that the fragment was updating,
+		 * then remove it at this point. */
     	if (tlc.getChildAt(0).getId() == R.id.updateTextView)
     		tlc.removeViewAt(0);
+    	
+    	/* Update the textView with the parsed string. */
     	arrivalTextView.setText(arrivalString);
     }
 	
+	/** This method will add a TextView at the beginning of the top level View
+	 * that indicates the information is updating. It also contains an animation.
+	 */
 	private void setStatusTextViewToUpdating() {
         final AnimationDrawable img = new AnimationDrawable();
         img.addFrame(getActivity().getResources().getDrawable(R.drawable.loading1), 150);
