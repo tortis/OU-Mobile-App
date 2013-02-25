@@ -110,6 +110,10 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         return scroll;
     }
 	
+	/**
+	 * When the user navigates to a different fragment we need to cancel the update
+	 * and download threads, otherwise the app may crash.
+	 */
 	@Override
 	public void onDetach() {
 		if (updateThread != null)
@@ -123,6 +127,23 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
 				downloadThread.cancel(false);
 		}
 		super.onDetach();
+	}
+	
+	/**
+	 * This method will be called when the user navigates away from the content fragment.
+	 * If a user opens one of the files, then a new activity will be launched. In this case the fragment
+	 * will not be detached. So here we need to cancel the updateThread if it is still running.
+	 * Eg. A user navigates to the content fragment and immediately clicks a link before it finishes updating.
+	 * If we do not cancel the updateTread, then it will crash when it tries to reutrn.
+	 */
+	public void onStop()
+	{
+		if (updateThread != null)
+		{
+			if (updateThread.getStatus() == AsyncTask.Status.RUNNING)
+				updateThread.cancel(false);
+		}
+		super.onStop();
 	}
 	
 	

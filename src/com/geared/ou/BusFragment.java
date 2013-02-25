@@ -64,7 +64,7 @@ public class BusFragment extends SherlockFragment implements View.OnClickListene
 	/** An AsyncTask object that will pull data from the Web when executed. */
 	private Load updateThread;
 	
-	/**i
+	/**i */
 	private static String url = "http://cartgps.com/simple/routes/";
 	private LinkedItemAdapter routeAdapter;
 	private ArrayList<ListItem> routeAList;
