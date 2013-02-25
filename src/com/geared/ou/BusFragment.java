@@ -39,14 +39,32 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
+/** The BusFragment displays a list of bus routes, and is the top level
+ * fragment for the bus tracking feature.
+ * @author david
+ *
+ */
 public class BusFragment extends SherlockFragment implements View.OnClickListener {
 	
+	/** A reference to the activity in which this fragment is displayed. */
 	private SlidingFragmentActivity a;
+	
+	/** A context for this fragment. Used to create new Views. */
 	private Context c;
+	
+	/** A reference to the application object for persistent data. */
 	private OUApplication app;
+	
+	/** The top level container view for the fragment. */
 	private LinearLayout tlc;
+	
+	/** The ListView in which the list of routes will be displayed. */
 	private ListView routeList;
+	
+	/** An AsyncTask object that will pull data from the Web when executed. */
 	private Load updateThread;
+	
+	/**i
 	private static String url = "http://cartgps.com/simple/routes/";
 	private LinkedItemAdapter routeAdapter;
 	private ArrayList<ListItem> routeAList;
