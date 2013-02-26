@@ -154,23 +154,65 @@ public class GradesData {
     }
     
     private Boolean pullGrades() {
+    	/* Parse the source. */
         Document doc = Jsoup.parse(gradesSource);
+        
+        /* Let the memory go. */
         gradesSource = null;
         
         /* *********************************************************************
          *                      START specialized code                         *
          ***********************************************************************/
+        
+        /* Fetch all the elements in the structure that contain the text "Grade Items".
+         * There should be only one, as this is the title of the grades list.
+         */
         Elements results = doc.getElementsContainingOwnText("Grade Items");
+        
+        /* If there was not exactily one element, then something is wrong. */
         if (results.size() != 1)
             return false;
-        /* ul that contains category li's. */
-        Element ulCategories = results.first().parent().nextElementSibling().child(0);
         
-        /* List of li's, one for each category. */
-        Elements lisCategories = ulCategories.children();
+        /* Grab this one element, it should be an <h2> tag. */
+        Element titleH2 = results.first();
+        
+        /* The title headings parent is the heading div. The next div after the heading div
+         * is the div containing the grades list. The list div's first child is an unordered list.
+         * Fetch this UL
+         */
+        Element gradeListUL = titleH2.parent().nextElementSibling().child(0);
+        
         categories.clear();
+        
+        /* Create a single dummy category for now. */
+        Category c = new Category("Grades", "");
+        
+        /* Grab all of the <a> elements that are children of the ul.*/
+        Elements gradeItemAs = gradeListUL.getElementsByTag("a");
+        
+        int count = 0;
+        for (Element a : gradeItemAs)
+        {
+        	String itemName = a.child(0).text();
+        	String itemGrade = a.child(1).text();
+        	
+        	/* If the a's parent is a div, then it is actually a category. */
+        	if (a.parent().tagName().equals("div"))
+        	{
+        		categories.add(c);
+        		c = new Category(itemName, itemGrade);
+        	}
+        	else
+        	{
+        		c.addGrade(new Grade(itemName, itemGrade,(course.getOuId()+count)));
+        	}
+        	++count;
+        }
+        categories.add(c);
+        
+        
         // Loop through each category
-        int counter = 0;
+        /*int counter = 0;
         for (Element liCategory : lisCategories) 
         {
             String categoryName = liCategory.children().first().children().first().children().first().text();
@@ -193,7 +235,7 @@ public class GradesData {
 	            }
             }
             categories.add(c);
-        }
+        }*/
         
         /* *********************************************************************
          *                       END specialized code                          *

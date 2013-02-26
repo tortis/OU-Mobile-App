@@ -183,6 +183,9 @@ public class GradesFragment extends SherlockFragment implements OnNavigationList
             return;
         
         for (Category cat : g) {
+        	if (cat.getGrades().isEmpty())
+        		continue;
+        	
             addSpacer(layoutContent, Color.BLACK, 2);
             TextView t = new TextView(c);
             t.setText(cat.getName()+": "+cat.getScore());
