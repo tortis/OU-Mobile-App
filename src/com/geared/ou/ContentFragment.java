@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.app.ProgressDialog;
@@ -66,6 +67,7 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
     private Download downloadThread;
     
     private ClipDrawable downloadingBackground;
+    private String htmlContent;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	a = (SlidingFragmentActivity)getActivity();
@@ -197,6 +199,13 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         private int dlSize;
         private double percent;
         private int id;
+        
+        Context context;
+        
+        private Download(Context context) {
+            this.context = context.getApplicationContext();
+        }
+        
         @Override
         protected Integer doInBackground(Integer... ids) {
             percent = 0.0D;
@@ -207,8 +216,14 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
             // Get direct link and extract the file name.
             String dLink = "";
             dLink = getDirectLink(ci);
+            Log.d("OU", dLink);
             if (dLink.equals("=-1")) {
-                return 1;
+            	if (htmlContent == null)
+            		return 1;
+            	else
+            	{
+            		return 3;
+            	}
             }
             String fileName = ci.getId()+getFileNameFromDirectLink(dLink);
 
@@ -260,7 +275,15 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
             else if (result == 2) {
                 Toast.makeText(c, R.string.downloadFailed, Toast.LENGTH_SHORT).show();
             }
-            else {
+            else if (result == 3)
+            {
+            	Intent displayHtml = new Intent(context, HtmlContentActivity.class);
+            	displayHtml.putExtra("html", htmlContent);
+            	displayHtml.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            	context.startActivity(displayHtml);
+            }
+            else
+            {
                 // Try to open the file!
                 try {
                     FileNameMap fileNameMap = URLConnection.getFileNameMap();
@@ -283,7 +306,7 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
             v.setBackgroundResource(R.drawable.download_progress);
             downloadingBackground = (ClipDrawable)v.getBackground();
             downloadingBackground.setLevel(1000);
-            downloadThread = new Download();
+            downloadThread = new Download(c);
             downloadThread.execute(v.getId());
             busy = true;
         }
@@ -327,15 +350,31 @@ public class ContentFragment extends SherlockFragment implements OnNavigationLis
         String src;
         String r = "=-1";
         SGError e = app.getSourceGetter().pullSource("http://learn.ou.edu/d2l/m/le/content/"+ci.getOuId()+"/topic/view/"+ci.getId());
+        Log.d("OU", "CID: "+ci.getId());
         if (e != SGError.NO_ERROR)
             Log.d("OU", "There was an error!");
         src = app.getSourceGetter().getPulledSource();
         Document doc = Jsoup.parse(src);
-        Elements finds = doc.getElementsByAttributeValueMatching("href", "/content/enforced/"); // Literal! =(
+        Elements finds = doc.getElementsByAttributeValueContaining("href", "/content/enforced/"); // Literal! =(
         if (finds.size()!=1) {
-            finds = doc.getElementsByAttributeValueMatching("src", "/content/enforced");
+            finds = doc.getElementsByAttributeValueContaining("src", "/content/enforced");
             if (finds.size() == 1) {
                 r = "http://learn.ou.edu"+finds.first().attr("src");
+            }
+            else
+            {
+            	htmlContent="";
+            	Element contentBody = doc.getElementsByTag("body").first();
+            	int count = 0;
+            	for (Element ele:contentBody.children())
+            	{
+            		if (count != 0 || count != 1)
+            		{
+            			htmlContent += ele.html();
+            		}
+            		
+            		++count;
+            	}
             }
         }
         else {

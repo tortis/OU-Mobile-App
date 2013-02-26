@@ -17,5 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name="CampusMapActivity"></activity>
+        <activity
+            android:name="HtmlContentActivity"
+            android:label="Html Content"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
     </application>
 </manifest>
