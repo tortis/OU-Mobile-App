@@ -60,6 +60,7 @@ public class LoginDialogFragment extends SherlockDialogFragment implements View.
 	    	mEditor.putString("password", "");
 	    	mEditor.commit();
 	    	
+	    	app.logout();
 	    	((NewsActivity)getActivity()).logout();
 	    	
 	    	NewsFragment newsFragment = new NewsFragment();

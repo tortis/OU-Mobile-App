@@ -95,6 +95,12 @@ public class OUApplication extends Application {
     	
 		super.onLowMemory();
 	}
+    
+    public void logout()
+    {
+    	onLowMemory();
+    	classes = new ClassesData(this);
+    }
 
 	public SQLiteDatabase getDb()
     {
