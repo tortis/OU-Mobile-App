@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">OU</string>
     <string name="textTestString">This text is centered</string>
     <string name="classesButton">Classes</string>
@@ -49,16 +50,15 @@
     <string name="aboutMainDesc">This android app was developed for free by David Findley for use by students at the University of Oklahoma.
 It lets users read OU Daily News, search for buildings on the campus map, and gives partial D2L access.  This is not
 an official University of Oklahoma application, nor is it sponsored by the University of Oklahoma.</string>
-	<string name="aboutThanksTitle">Special Thanks</string>
-	<string name="aboutThanksContent">Design input: Vincent Do, Hoai Nguyen\nArt asset contribution: John Dewberry\nTesting device: Vincent Do</string>
+    <string name="aboutThanksTitle">Special Thanks</string>
+    <string name="aboutThanksContent">Design input: Vincent Do, Hoai Nguyen\nArt asset contribution: John Dewberry\nTesting device: Vincent Do</string>
     <string name="aboutLicenseTitle">License</string>
-    <string name="aboutLicenseContent">The OU Mobile App by <a href='mailto:thefindley@gmail.com'>David findley</a> is licensed under a <a href='http://creativecommons.org/licenses/by-nc/3.0/'>Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.
-Based on work at <a href='https://github.com/ThinksInBits/OU-Mobile-App'>github.com</a>.</string>
-	<string name="aboutLibsTitle">Libraries Used</string>
-	<string name="aboutLibsContent">This application uses several third-party opensource libraries in order implement it\'s features.
+    <string name="aboutLicenseContent">The OU Mobile App by <a href="mailto:thefindley@gmail.com">David findley</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.
+Based on work at <a href="https://github.com/ThinksInBits/OU-Mobile-App">github.com</a>.</string>
+    <string name="aboutLibsTitle">Libraries Used</string>
+    <string name="aboutLibsContent">This application uses several third-party opensource libraries in order implement it\'s features.
 	\n\n<a href="http://hc.apache.org/httpcomponents-client-ga/">Apache HttpClient</a> is a library that lets developers interact with Web servers in a very robust way. OU Mobile App
-	uses this library to pull user specific Webpages from OU\'s D2L Website. This library is licensed under the
-	<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.
+	uses this library to pull user specific Webpages from OU\'s D2L Website. This library is licensed under the<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.
 	\n\n<a href="http://jsoup.org/">jsoup Html parser</a> is a library for reading and modifying html source files. OU Mobile App uses this 
 	library to extract user specific data from D2L Webpages. This library is licensed under the <a href="http://jsoup.org/license">MIT License</a>.
 	\n\n<a href="http://actionbarsherlock.com/">ActionBarSherlock</a> is a library that extends the compatibility library in order to facilitate use of 
@@ -66,17 +66,21 @@ Based on work at <a href='https://github.com/ThinksInBits/OU-Mobile-App'>github.
 	under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.
 	\n\n<a href="https://github.com/jfeinstein10/SlidingMenu">SlidingMenu</a> is a library that allows Android apps to easily implement the sliding menu design pattern.
 	This library is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</a>.</string>
-	<string name="oudaily">OU Daily</string>
-	<string name="bus_routes">Pick a Route</string>
-	<string name="bus_stops">Pick a Stop</string>
-	<string name="bus_arrival">Arrival In...</string>
-	<string name="buses_button">Buses</string>
-	
+    <string name="oudaily">OU Daily</string>
+    <string name="bus_routes">Pick a Route</string>
+    <string name="bus_stops">Pick a Stop</string>
+    <string name="bus_arrival">Arrival In...</string>
+    <string name="buses_button">Buses</string>
+
     <string-array name="class_nav">
         <item>Home</item>
         <item>Content</item>
         <item>Grades</item>
         <item>Roster</item>
     </string-array>
-</resources>
 
+    <string name="title_activity_html_content">HtmlContentActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
